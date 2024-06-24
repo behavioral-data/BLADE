@@ -1,0 +1,96 @@
+{
+  "research_questions": [
+    "Some toy research question"
+  ],
+  "data_desc": {
+    "dataset_description": "Some toy description",
+    "fields": [
+      {
+        "column": "Age",
+        "properties": {
+          "dtype": "number",
+          "std": 14.83310086347604,
+          "min": 18.0,
+          "max": 69.0,
+          "samples": [
+            47.0,
+            57.0,
+            29.0
+          ],
+          "num_unique_values": 48,
+          "semantic_type": "",
+          "description": "The age of the individual."
+        }
+      },
+      {
+        "column": "Income",
+        "properties": {
+          "dtype": "number",
+          "std": 21381.26345096068,
+          "min": 21291.0,
+          "max": 99661.0,
+          "samples": [
+            62275.0,
+            34910.0,
+            94675.0
+          ],
+          "num_unique_values": 145,
+          "semantic_type": "",
+          "description": "The income of the individual."
+        }
+      },
+      {
+        "column": "Education",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "High School",
+            "Master",
+            "Bachelor"
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "The level of education of the individual."
+        }
+      },
+      {
+        "column": "Has_Children",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            true,
+            false
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Whether the individual has children or not."
+        }
+      },
+      {
+        "column": "Last_Purchase_Date",
+        "properties": {
+          "dtype": "date",
+          "min": "2024-01-01 00:00:00",
+          "max": "2024-05-29 00:00:00",
+          "samples": [
+            "2024-03-11",
+            "2024-05-25",
+            "2024-01-29"
+          ],
+          "num_unique_values": 145,
+          "semantic_type": "",
+          "description": "The date of the individual's last purchase."
+        }
+      }
+    ],
+    "num_rows": 150,
+    "field_names": [
+      "Age",
+      "Income",
+      "Education",
+      "Has_Children",
+      "Last_Purchase_Date"
+    ]
+  },
+  "data_path": "/Users/qikungu/PythonProjects/Year3Research/AnalysisAgent/analysis_agent/annotation/data/toy/data.csv"
+}

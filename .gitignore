@@ -1,0 +1,7 @@
+**/__pycache__/**
+*.db
+.vscode
+saved_obj.pkl
+.env
+*.pkl
+blade_bench/conf/**
