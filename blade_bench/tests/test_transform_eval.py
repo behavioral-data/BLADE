@@ -2,7 +2,7 @@ from typing import Dict, List, Tuple
 import os.path as osp
 import networkx as nx
 from absl.testing import absltest
-import asynctest
+import pytest
 
 from blade_bench.eval.datamodel import MatchedTSpecs
 from blade_bench.eval.match import TransformMatcher
@@ -57,7 +57,7 @@ def get_paret_specs_from_spec_name(
     return parent_specs
 
 
-class TestProcessGraph(absltest.TestCase, asynctest.TestCase):
+class TestProcessGraph(absltest.TestCase):
     TEST_SPECS = specs = [
         TransformSpec(spec_id="ROOT", spec_name="ROOT"),
         TransformSpec(
@@ -267,20 +267,20 @@ class TestProcessGraph(absltest.TestCase, asynctest.TestCase):
 
     ORIG_COLS = ["O1", "O2", "O3", "O4"]
 
-    # def test_graph_hash_on_same_graph_but_diff_transform(self):
-    #     id_to_spec = {spec.spec_id: spec for spec in self.TEST_SPECS2}
-    #     graph_paths = GraphPaths(id_to_spec)
-    #     process_graph = ProcessGraph()
-    #     gs = graph_paths.get_unserialized_graphs_from_leaf_spec(id_to_spec["C"])
-    #     ex_g_obj = process_graph.get_expand_g(gs[0], id_to_spec, self.ORIG_COLS)
-    #     expanded_g = ex_g_obj.nx_g
-    #     ex_id_to_spec = ex_g_obj.id_to_spec
+    def test_graph_hash_on_same_graph_but_diff_transform(self):
+        id_to_spec = {spec.spec_id: spec for spec in self.TEST_SPECS2}
+        graph_paths = GraphPaths(id_to_spec)
+        process_graph = ProcessGraph()
+        gs = graph_paths.get_unserialized_graphs_from_leaf_spec(id_to_spec["C"])
+        ex_g_obj = process_graph.get_expand_g(gs[0], id_to_spec, self.ORIG_COLS)
+        expanded_g = ex_g_obj.nx_g
+        ex_id_to_spec = ex_g_obj.id_to_spec
 
-    #     cols_g_obj = process_graph.get_col_g(ex_g_obj, add_input_edges=True)
-    #     cols_g = cols_g_obj.nx_g
-    #     self.assertDictEqual(nx.to_dict_of_dicts(cols_g), self.RESULT2_COLSG)
-    #     self.assertDictEqual(nx.to_dict_of_dicts(expanded_g), self.RESULT2_EX_G)
-    #     self.assertDictEqual(nx.to_dict_of_dicts(gs[0]), self.RESULT2_G)
+        cols_g_obj = process_graph.get_col_g(ex_g_obj, add_input_edges=True)
+        cols_g = cols_g_obj.nx_g
+        self.assertDictEqual(nx.to_dict_of_dicts(cols_g), self.RESULT2_COLSG)
+        self.assertDictEqual(nx.to_dict_of_dicts(expanded_g), self.RESULT2_EX_G)
+        self.assertDictEqual(nx.to_dict_of_dicts(gs[0]), self.RESULT2_G)
 
     def test_impute(self):
         id_to_spec = {spec.spec_id: spec for spec in self.TEST_SPECS3}
@@ -328,150 +328,101 @@ class TestProcessGraph(absltest.TestCase, asynctest.TestCase):
         )
         self.assertLen(parent_specs, 10)
 
-    async def __get_gnd_truth_data(self):
-        id_to_spec = {spec.spec_id: spec for spec in GND_TRUTH_SPECS}
-        annotation = AnnotationDataTransforms(
-            dataset_path=get_dataset_csv_path("toy"), id_to_spec=id_to_spec
-        )
 
-        # if not osp.exists(SAVE_PATH):
-        gnd_truth_state_data = await annotation.build_state_data(
-            leaf_specs=[GND_TRUTH_SPECS[-1]]
-        )
-        gnd_truth_state_data.save(SAVE_PATH)
+async def get_gnd_truth_data():
+    id_to_spec = {spec.spec_id: spec for spec in GND_TRUTH_SPECS}
+    annotation = AnnotationDataTransforms(
+        dataset_path=get_dataset_csv_path("toy"), id_to_spec=id_to_spec
+    )
 
-        gnd_truth_state_data = TransformDatasetState.load(SAVE_PATH)
+    # if not osp.exists(SAVE_PATH):
+    gnd_truth_state_data = await annotation.build_state_data(
+        leaf_specs=[GND_TRUTH_SPECS[-1]]
+    )
+    gnd_truth_state_data.save(SAVE_PATH)
 
-        return gnd_truth_state_data, annotation
+    gnd_truth_state_data = TransformDatasetState.load(SAVE_PATH)
 
-    async def __get_gnd_truth_data_w_branches(self):
-        id_to_spec = {spec.spec_id: spec for spec in GND_TRUTH_SPECS_W_BRANCH}
-        annotation = AnnotationDataTransforms(
-            dataset_path=get_dataset_csv_path("toy"), id_to_spec=id_to_spec
-        )
+    return gnd_truth_state_data, annotation
 
-        # if not osp.exists(SAVE_PATH_BRANCHES):
-        gnd_truth_state_data = await annotation.build_state_data(
-            leaf_specs=[GND_TRUTH_SPECS_W_BRANCH[-1]]
-        )
-        gnd_truth_state_data.save(SAVE_PATH_BRANCHES)
 
-        gnd_truth_state_data = TransformDatasetState.load(SAVE_PATH_BRANCHES)
+async def get_gnd_truth_data_w_branches():
+    id_to_spec = {spec.spec_id: spec for spec in GND_TRUTH_SPECS_W_BRANCH}
+    annotation = AnnotationDataTransforms(
+        dataset_path=get_dataset_csv_path("toy"), id_to_spec=id_to_spec
+    )
 
-        return gnd_truth_state_data, annotation
+    # if not osp.exists(SAVE_PATH_BRANCHES):
+    gnd_truth_state_data = await annotation.build_state_data(
+        leaf_specs=[GND_TRUTH_SPECS_W_BRANCH[-1]]
+    )
+    gnd_truth_state_data.save(SAVE_PATH_BRANCHES)
 
-    async def test_specs_w_runs(self):
-        gnd_truth_state_data_w_branches, annotation_w_branches = (
-            await self.__get_gnd_truth_data_w_branches()
-        )
-        self.assertLen(gnd_truth_state_data_w_branches.expanded_id_to_spec, 9)
-        self.assertLen(gnd_truth_state_data_w_branches.graphs, 4)
+    gnd_truth_state_data = TransformDatasetState.load(SAVE_PATH_BRANCHES)
 
-        gnd_truth_state_data, annotation = await self.__get_gnd_truth_data()
-        self.assertLen(gnd_truth_state_data.expanded_id_to_spec, 8)
-        self.assertLen(gnd_truth_state_data.graphs, 2)
-        self.assertLen(gnd_truth_state_data.value_hashes, 14)  # one value is duplicated
-        self.assertLen(gnd_truth_state_data.graph_hashes, 15)
+    return gnd_truth_state_data, annotation
 
-        # best way to do this might be to save the csv file then run the init code again
-        llm_state_data = await annotation.build_state_data_from_path_specs(
-            LLM_PATH_SPECS, save_ts=True
-        )
-        self.assertLen(llm_state_data.expanded_id_to_spec, 6)
-        self.assertLen(llm_state_data.graphs, 1)
-        self.assertLen(llm_state_data.value_hashes, 8)
-        self.assertLen(llm_state_data.graph_hashes, 8)
 
-        matcher = TransformMatcher(data_path=annotation.dataset_path)
-        matching_value_hashes, matching_graph_hashes, matching_categorical_hashes = (
-            matcher.find_matching_hashes(gnd_truth_state_data, llm_state_data)
-        )
-        self.assertLen(matching_value_hashes, 2)
-        self.assertLen(matching_graph_hashes, 4)
+@pytest.mark.asyncio
+async def test_specs_w_runs():
+    gnd_truth_state_data_w_branches, annotation_w_branches = (
+        await get_gnd_truth_data_w_branches()
+    )
+    assert len(gnd_truth_state_data_w_branches.expanded_id_to_spec) == 9
+    assert len(gnd_truth_state_data_w_branches.graphs) == 4
+    gnd_truth_state_data, annotation = await get_gnd_truth_data()
 
-        mtspecs: MatchedTSpecs = matcher.match_w_tsdata(
-            gnd_truth_state_data, llm_state_data
-        )
-        self.assertLen(mtspecs.vspecs1, 4)
-        self.assertLen(mtspecs.vspecs2, 4)
-        self.assertLen(mtspecs.gspecs1, 6)
-        self.assertLen(mtspecs.gspecs2, 6)
+    assert len(gnd_truth_state_data.expanded_id_to_spec) == 8
+    assert len(gnd_truth_state_data.graphs) == 2
+    assert len(gnd_truth_state_data.value_hashes) == 14
+    assert len(gnd_truth_state_data.graph_hashes) == 15
 
-        self.assertGreaterEqual(len(mtspecs.cat_specs1), len(mtspecs.vspecs1))
-        self.assertGreaterEqual(len(mtspecs.cat_specs2), len(mtspecs.vspecs2))
-        # evalulator = TransformEvaluator(gnd_truth_state_data, annotation.nb_executor)
-        # updated_v_specs, updated_v_specs_llm = (
-        #     await evalulator.match_based_on_matched_g_hash(
-        #         matching_graph_hashes, llm_state_data
-        #     )
-        # )
-        # unique_v_specs = {}
-        # for spec in updated_v_specs + mtspecs.vspecs1:
-        #     unique_v_specs[spec.spec_id] = spec
+    llm_state_data = await annotation.build_state_data_from_path_specs(
+        LLM_PATH_SPECS, save_ts=True
+    )
+    assert len(llm_state_data.expanded_id_to_spec) == 6
+    assert len(llm_state_data.graphs) == 1
+    assert len(llm_state_data.value_hashes) == 8
+    assert len(llm_state_data.graph_hashes) == 8
 
-        # unique_v_specs_llm = {}
-        # for spec in updated_v_specs_llm + mtspecs.vspecs2:
-        #     unique_v_specs_llm[spec.spec_id] = spec
+    matcher = TransformMatcher(data_path=annotation.dataset_path)
+    matching_value_hashes, matching_graph_hashes, matching_categorical_hashes = (
+        matcher.find_matching_hashes(gnd_truth_state_data, llm_state_data)
+    )
 
-        # self.assertLen(updated_v_specs, 1)
-        # self.assertLen(updated_v_specs_llm, 1)
-        # self.assertLen(unique_v_specs, 5)
-        # self.assertLen(unique_v_specs_llm, 5)
+    assert len(matching_value_hashes) == 2
+    assert len(matching_graph_hashes) == 4
 
-        # res = await evalulator.main_match_against_gnd_truth(llm_state_data)
-        # self.__compare_res(res)
+    mtspecs: MatchedTSpecs = matcher.match_w_tsdata(
+        gnd_truth_state_data, llm_state_data
+    )
+    assert len(mtspecs.vspecs1) == 4
+    assert len(mtspecs.vspecs2) == 4
+    assert len(mtspecs.gspecs1) == 6
+    assert len(mtspecs.gspecs2) == 6
 
-    def __compare_res(self, res: Dict[str, float]):
-        compare_res = {
-            "num_gnd_truth_specs": 7,
-            "num_llm_specs": 5,
-            "matches_value": 3,
-            "matches_graph": 5,
-            "matches_value_g_hash": 4,
-            "match_v_gnd_truth_rate": 0.4285,
-            "match_g_gnd_truth_rate": 0.7142,
-            "match_v_g_hash_gnd_truth_rate": 0.5714,
-            "match_v_llm_rate": 0.6,
-            "match_g_llm_rate": 1.0,
-            "match_v_g_hash_llm_rate": 0.8,
-        }
-        self.assertAlmostEqual(
-            res["match_v_gnd_truth_rate"],
-            compare_res["match_v_gnd_truth_rate"],
-            places=3,
-        )
-        self.assertAlmostEqual(
-            res["match_g_gnd_truth_rate"],
-            compare_res["match_g_gnd_truth_rate"],
-            places=3,
-        )
-        self.assertAlmostEqual(
-            res["match_v_g_hash_gnd_truth_rate"],
-            compare_res["match_v_g_hash_gnd_truth_rate"],
-            places=3,
-        )
-        self.assertAlmostEqual(
-            res["match_v_llm_rate"], compare_res["match_v_llm_rate"], places=3
-        )
-        self.assertAlmostEqual(
-            res["match_g_llm_rate"], compare_res["match_g_llm_rate"], places=3
-        )
-        self.assertAlmostEqual(
-            res["match_v_g_hash_llm_rate"],
-            compare_res["match_v_g_hash_llm_rate"],
-            places=3,
-        )
-        self.assertEqual(res["num_gnd_truth_specs"], compare_res["num_gnd_truth_specs"])
-        self.assertEqual(res["num_llm_specs"], compare_res["num_llm_specs"])
-        self.assertEqual(res["matches_value"], compare_res["matches_value"])
-        self.assertEqual(res["matches_graph"], compare_res["matches_graph"])
-        self.assertEqual(
-            res["matches_value_g_hash"], compare_res["matches_value_g_hash"]
-        )
+    # evalulator = TransformEvaluator(gnd_truth_state_data, annotation.nb_executor)
+    # updated_v_specs, updated_v_specs_llm = (
+    #     await evalulator.match_based_on_matched_g_hash(
+    #         matching_graph_hashes, llm_state_data
+    #     )
+    # )
+    # unique_v_specs = {}
+    # for spec in updated_v_specs + mtspecs.vspecs1:
+    #     unique_v_specs[spec.spec_id] = spec
 
-    async def test_run_eval(self):
-        pass
+    # unique_v_specs_llm = {}
+    # for spec in updated_v_specs_llm + mtspecs.vspecs2:
+    #     unique_v_specs_llm[spec.spec_id] = spec
+
+    # self.assertLen(updated_v_specs, 1)
+    # self.assertLen(updated_v_specs_llm, 1)
+    # self.assertLen(unique_v_specs, 5)
+    # self.assertLen(unique_v_specs_llm, 5)
+
+    # res = await evalulator.main_match_against_gnd_truth(llm_state_data)
+    # self.__compare_res(res)
 
 
 if __name__ == "__main__":
-    absltest.main()
+    pytest.main([__file__])

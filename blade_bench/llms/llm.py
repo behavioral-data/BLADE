@@ -4,7 +4,7 @@ from typing import Any, Callable, Dict, List, Union
 from langchain.schema import BaseOutputParser
 from langchain.schema.output_parser import OutputParserException
 
-from blade_bench.config import get_llm_config
+from .config import get_llm_config
 
 from .datamodel import (
     AnthropicGenConfig,
@@ -48,7 +48,7 @@ class LLMBase:
 
     @classmethod
     def init_from_base_llm_config(cls):
-        llm_config = get_llm_config("gpt4o")
+        llm_config = get_llm_config("azureopenai", "gpt-4o-azure")
         return cls.init_from_llm_config(llm_config)
 
     @classmethod
@@ -112,10 +112,10 @@ class LLMBase:
         tags: List[str] = None,
         metadata: Dict[str, str] = None,
     ) -> str:
-        self.text_gen.config.stop_sequences = stop_sequences
+        self.text_gen.config.textgen_config.stop_sequences = stop_sequences
         chat_prompt = self.generate_chat_prompt(prompt_template, prompt_variables)
 
-        logger.bind(config=self.text_gen.config.model_dump()).log(
+        logger.bind(config=self.text_gen.config.textgen_config.model_dump()).log(
             PROMPT_LEVEL_NAME,
             f"Sending prompt from {self.__class__}",
             messages=chat_prompt,
@@ -123,7 +123,7 @@ class LLMBase:
         response = self.text_gen.generate(chat_prompt)
 
         logger.bind(
-            config=self.text_gen.config.model_dump(),
+            config=self.text_gen.config.textgen_config.model_dump(),
             message=response.text[0].content,
             from_cache=response.from_cache,
             usage=response.usage.model_dump(),
@@ -162,13 +162,14 @@ class LLMBase:
             )
             for propmt in chat_prompt:
                 f.write(f"=====[{propmt['role'].upper()}]=====:\n{propmt['content']}\n")
+            usage = response.usage.model_dump() if response.usage else {}
             f.write(
-                f"\n===================[{self.text_gen.config.model} RESPONSE ({response.usage.get('completion_tokens')})]=====================\n"
+                f"\n===================[{self.text_gen.config.model} RESPONSE ({usage.get('completion_tokens')})]=====================\n"
             )
             f.write(response.text[0].content)
             f.write("\n===================[TOKENS]=====================\n")
-            f.write(f"Number of prompt tokens: {response.usage.get('prompt_tokens')}\n")
-            f.write(f"Number of total tokens: {response.usage.get('total_tokens')}\n")
+            f.write(f"Number of prompt tokens: {usage.get('prompt_tokens')}\n")
+            f.write(f"Number of total tokens: {usage.get('total_tokens')}\n")
 
     def generate_with_pydantic_parser(
         self,
@@ -247,6 +248,16 @@ class LLMBase:
                 response,
                 retries=retries - 1,
             )
+
+    def _parse_reflection_and_code(self, raw_response: str, parse_str: str = "Result:"):
+        try:
+            reflection, code = raw_response.split(parse_str)
+            reflection = reflection.strip()
+            code = code.split("```python")[-1].split("```")[0].strip()
+        except ValueError:
+            reflection = ""
+            code = ""
+        return reflection, code
 
     def _parse_code(self, raw_response: str):
         code = raw_response.split("```python")[-1].split("```")[0].strip()

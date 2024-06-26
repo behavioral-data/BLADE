@@ -1,6 +1,6 @@
 from langchain.output_parsers import PydanticOutputParser
 from blade_bench.llms import LLMBase
-from blade_bench.baselines.datamodel import ModelAndColumns
+from blade_bench.eval.datamodel import ModelAndColumns
 
 SYSTEM_PROMPT = """You are an AI Python Data Science assistant \
 who is an expert at understanding statistical modeling code."""
@@ -156,11 +156,11 @@ class CodeToModelLLM(LLMBase):
         prompt_variables = {
             "code_snippet": code_snippet,
             "code_snippet_ex": code_snippet_ex,
-            "model_spec_ex": model_spec_ex.dict(),
+            "model_spec_ex": model_spec_ex.model_dump(),
             "code_snippet_2_ex": code_snippet_2_ex,
-            "model_spec_2_ex": model_spec_2_ex.dict(),
+            "model_spec_2_ex": model_spec_2_ex.model_dump(),
             "code_snippet_3_ex": code_snippet_3_ex,
-            "model_spec_3_ex": model_spec_3_ex.dict(),
+            "model_spec_3_ex": model_spec_3_ex.model_dump(),
             "format_instructions": parser.get_format_instructions(),
         }
         resp = self.generate_with_pydantic_parser(
@@ -174,18 +174,4 @@ class CodeToModelLLM(LLMBase):
 
 
 if __name__ == "__main__":
-    llm = CodeToModelLLM.init_from_base_llm_config()
-    code_snippet = """
-fm1 <- lm(score34 ~ stratio, data = MASchools)
-coeftest(fm1, vcov = vcovHC(fm1, type = "HC1"))
-    """
-    r1 = llm.code_to_model(code_snippet)
-    r1_obj = llm.code_to_model_obj(code_snippet)
-    code_snippet = """
-fm_probit2 <- glm(model, data = MurderRates , family = binomial (link = "probit"),
-control = list(epsilon = 1e-15, maxit = 50, trace = FALSE))
-summary(fm_probit2)
-    """
-    r2 = llm.code_to_model(code_snippet)
-    r2_obj = llm.code_to_model_obj(code_snippet)
-    print("Done!")
+    pass

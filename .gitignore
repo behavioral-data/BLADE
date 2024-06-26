@@ -1,7 +1,12 @@
 **/__pycache__/**
-*.db
+*.db*
 .vscode
 saved_obj.pkl
 .env
 *.pkl
+code_cache
 blade_bench/conf/**
+notebooks/**
+.pytest_cache/**
+outputs/**
+conf

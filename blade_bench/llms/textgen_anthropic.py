@@ -23,7 +23,7 @@ class AnthropicTextGenerator(TextGenerator):
         self.client = anthropic.Anthropic(
             api_key=self.api_key,
         )
-        self.max_tokens = 4096
+        self.max_tokens = config.max_tokens if config.max_tokens else 4096
 
     @backoff.on_exception(
         backoff.expo, (anthropic.RateLimitError, anthropic.APITimeoutError)
@@ -42,12 +42,12 @@ class AnthropicTextGenerator(TextGenerator):
             system=system_prompt,
             model=self.config.model,
             max_tokens=(
-                min(self.max_tokens, self.config.max_tokens)
-                if self.config.max_tokens
+                min(self.max_tokens, self.config.textgen_config.max_tokens)
+                if self.config.textgen_config.max_tokens
                 else self.max_tokens
             ),
-            temperature=self.config.temperature,
-            stop_sequences=self.config.stop_sequences or None,
+            temperature=self.config.textgen_config.temperature,
+            stop_sequences=self.config.textgen_config.stop_sequences or None,
         )
 
         usage = {
@@ -60,7 +60,7 @@ class AnthropicTextGenerator(TextGenerator):
             text=[
                 Message(content=x.text, role="assistant") for x in api_response.content
             ],
-            config=self.config,
+            config=self.config.textgen_config,
             usage=UsageData(**usage),
             response=api_response,
         )

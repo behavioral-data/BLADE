@@ -4,7 +4,7 @@ from typing import Dict, FrozenSet, List, Literal, Optional, Set, Tuple
 import networkx as nx
 
 import pandas as pd
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from blade_bench.data.datamodel import TransformSpec
 from .transform_graph import ColsGraph
@@ -12,6 +12,7 @@ from .transform_state import SingleColState, TransformState
 
 
 class PathInfo(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     path_graph: List[str]
     col_graph: ColsGraph
     col_graph_w_input: ColsGraph
@@ -19,11 +20,9 @@ class PathInfo(BaseModel):
     cols_gid: int = None
     spec_id_to_ts: Dict[str, TransformState] = {}
 
-    class Config:
-        arbitrary_types_allowed = True
-
 
 class TransformDatasetState(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     id_to_spec: Dict[str, TransformSpec]
     expanded_id_to_spec: Dict[str, TransformSpec]
     graph_hashes: Dict[
@@ -35,9 +34,6 @@ class TransformDatasetState(BaseModel):
     ]  # hash val to single col states
     graphs: Dict[int, PathInfo]  # graph id to path graphs
     converted_code: str = ""
-
-    class Config:
-        arbitrary_types_allowed = True
 
     def save(self, path: str):
         with open(path, "wb") as f:
@@ -59,6 +55,7 @@ class TransformDatasetState(BaseModel):
 
 
 class TransformDataReturn(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     df: pd.DataFrame
     column_mapping: Dict[FrozenSet[str], str]
     transform_verb: Literal[
@@ -66,6 +63,3 @@ class TransformDataReturn(BaseModel):
     ]
     groupby_cols: Optional[Set[str]] = set()  # only for groupby verb
     code: str = ""
-
-    class Config:
-        arbitrary_types_allowed = True

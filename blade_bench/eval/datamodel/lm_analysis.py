@@ -4,8 +4,11 @@ import pickle
 from pydantic import BaseModel, Field
 import networkx as nx
 
-from blade_bench.data.datamodel import ConceptualVarSpec, ModelSpec
-from blade_bench.eval.datamodel import TransformDatasetState
+from blade_bench.data.datamodel import (
+    ConceptualVarSpec,
+    ModelSpec,
+    TransformDatasetState,
+)
 from blade_bench.parse_code import (
     extract_code_inside_functions_and_func_names,
     get_function_arg_name,
@@ -211,7 +214,7 @@ class EntireAnalysis(BaseModel):
 class EntireAnalysisProcessed(BaseModel):
     cv_specs: Dict[str, ConceptualVarSpec]
     m_specs: Dict[str, ModelSpec]
-    transform_state: Union[TransformDatasetState]
+    transform_state: Union[TransformDatasetState, None]
     agent_cvars: AgentCVarsWithCol
     m_code_and_cols: ModelAndColumns
 

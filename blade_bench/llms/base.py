@@ -3,13 +3,18 @@ import os.path as osp
 import time
 from typing import List, Union
 from diskcache import Cache
-from .datamodel import TextGenConfig, TextGenResponse
+from .datamodel import ProviderModelConfig, TextGenConfig, TextGenResponse
 from .utils import cache_request, get_user_cache_dir
 from blade_bench.logger import API_LEVEL_NAME, logger
 
 
 class TextGenerator(ABC):
-    def __init__(self, config: TextGenConfig, cache_dir: str = None, **kwargs):
+    def __init__(
+        self,
+        config: ProviderModelConfig,
+        cache_dir: str = None,
+        **kwargs,
+    ):
         self.config = config
         cache_dir_default = get_user_cache_dir("blade_bench")
         cache_dir_based_on_model = osp.join(
@@ -44,7 +49,7 @@ class TextGenerator(ABC):
         pass
 
     def generate(self, messages: Union[List[dict], str], **kwargs):
-        params = self.config.model_dump() | {"messages": messages}
+        params = self.config.textgen_config.model_dump() | {"messages": messages}
         use_cache = True if self.config.use_cache is None else self.config.use_cache
         if use_cache:
             response: TextGenResponse = self.cache_request(params)

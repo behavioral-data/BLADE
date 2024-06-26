@@ -1,34 +1,49 @@
 from collections import defaultdict
+import json
 import pickle
-from typing import Dict, List, Literal, Optional, Set
+from typing import Any, Dict, List, Literal, Optional, Set, Union
 import networkx as nx
+import numpy as np
 import pandas as pd
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 from blade_bench.data.datamodel import (
     ROOT_SPEC_ID,
+    CONCEPTUAL_VAR_SPEC_COLUMN_NAME,
+    MODEL_SPEC_COLUMN_NAME,
+    TRANSFORM_SPEC_COLUMN_NAME,
     ConceptualVarSpec,
     ModelSpec,
     TransformSpec,
 )
+from blade_bench.data.datamodel.specs import BaseSpec, Branch
 from blade_bench.parse_code import process_groupby_code
 from .datamodel.transforms import TransformDatasetState
 from .process import AnnotationDataTransforms
 
 
+COL_NAME_TO_CLASS = {
+    TRANSFORM_SPEC_COLUMN_NAME: TransformSpec,
+    MODEL_SPEC_COLUMN_NAME: ModelSpec,
+    CONCEPTUAL_VAR_SPEC_COLUMN_NAME: ConceptualVarSpec,
+}
+
+
+# TODO pretty view the different specs
 class AnnotationDBData(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     transform_specs: Dict[str, TransformSpec]
     cv_specs: Dict[str, ConceptualVarSpec]
-    model_specs: Dict[str, ModelSpec]
-    nx_g: nx.DiGraph
+    m_specs: Dict[str, ModelSpec]
+    nx_g: nx.DiGraph = None
     df: Optional[pd.DataFrame] = None  # analysis dataset_df
     annotator: Optional[str] = None
     _state_data: Optional[TransformDatasetState] = None
 
-    class Config:
-        arbitrary_types_allowed = True
-        underscore_attrs_are_private = True
+    def model_post_init(self, __context: Any) -> None:
+        if self.nx_g is None:
+            self.nx_g = self.build_graph_from_specs()
 
     def save(self, path: str):
         with open(path, "wb") as f:
@@ -41,7 +56,7 @@ class AnnotationDBData(BaseModel):
 
     def get_model_associated_cvars(self) -> Dict[str, List[ConceptualVarSpec]]:
         mspec_id_to_cvars = defaultdict(list)
-        for model_spec in self.model_specs.values():
+        for model_spec in self.m_specs.values():
             for col in model_spec.associated_columns_orig:
                 for cvar in self.cv_specs.values():
                     if col in cvar.final_columns_orig:
@@ -118,5 +133,57 @@ class AnnotationDBData(BaseModel):
                 ]
             ),
             "num_cv_specs": len(self.cv_specs),
-            "num_model_specs": len(self.model_specs),
+            "num_model_specs": len(self.m_specs),
         }
+
+
+def get_saved_specs_from_df(
+    df: pd.DataFrame,
+    spec_col: Literal[
+        "transform_spec_json",
+        "model_spec_json",
+        "conceptual_spec_json",
+    ],
+):
+    if spec_col not in df.columns:
+        return []
+    df = df[df[spec_col].isna() == False]
+    specs: List[Union[TransformSpec, ModelSpec, ConceptualVarSpec]] = []
+    if "spec_id" in df.columns:
+        for spec_json_str, spec_id in zip(df[spec_col].values, df["spec_id"].values):
+            spec_kwargs = json.loads(spec_json_str)
+            if spec_id:
+                spec_kwargs["spec_id"] = spec_id
+            if spec_col == "transform_spec_json":
+                if "branches" in spec_kwargs and isinstance(
+                    spec_kwargs["branches"][0], list
+                ):
+                    spec_kwargs["branches"] = [
+                        Branch(dependencies=b).dict() for b in spec_kwargs["branches"]
+                    ]
+
+            specs.append(COL_NAME_TO_CLASS[spec_col](**spec_kwargs))
+    else:
+        for spec_json_str in df[spec_col].values:
+            specs.append(COL_NAME_TO_CLASS[spec_col](**json.loads(spec_json_str)))
+    return specs
+
+
+def get_annotation_data_from_df(df: pd.DataFrame) -> AnnotationDBData:
+    df = df.replace(r"^\s*$", np.nan, regex=True)
+    transform_specs = get_saved_specs_from_df(df, TRANSFORM_SPEC_COLUMN_NAME)
+    model_specs = get_saved_specs_from_df(df, MODEL_SPEC_COLUMN_NAME)
+    conceptual_specs = get_saved_specs_from_df(df, CONCEPTUAL_VAR_SPEC_COLUMN_NAME)
+
+    def specs_to_id_to_spec(specs: List[BaseSpec]):
+        return {spec.spec_id: spec for spec in specs}
+
+    transform_specs = specs_to_id_to_spec(transform_specs)
+    model_specs = specs_to_id_to_spec(model_specs)
+    conceptual_specs = specs_to_id_to_spec(conceptual_specs)
+
+    return AnnotationDBData(
+        transform_specs=transform_specs,
+        m_specs=model_specs,
+        cv_specs=conceptual_specs,
+    )

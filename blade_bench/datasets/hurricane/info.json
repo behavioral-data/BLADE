@@ -1,0 +1,259 @@
+{
+  "research_questions": [
+    "Hurricanes with more feminine names are perceived as less threatening and hence lead to fewer precautionary measures by the general public."
+  ],
+  "data_desc": {
+    "dataset_description": "The dataset is from the Simonsohn et al's [Specification curve analysis\n](https://www.nature.com/articles/s41562-020-0912-z) paper published in Nature. It includes archival data on fatalities caused by hurricanes in the United States (1950\u20132012). Ninety-four Atlantic hurricanes made landfall in the United States during this period.",
+    "fields": [
+      {
+        "column": "ind",
+        "properties": {
+          "dtype": "number",
+          "std": 27.279418371121235,
+          "min": 0,
+          "max": 93,
+          "samples": [
+            40,
+            22,
+            55
+          ],
+          "num_unique_values": 94,
+          "semantic_type": "",
+          "description": "Unique identifier for each row"
+        }
+      },
+      {
+        "column": "year",
+        "properties": {
+          "dtype": "number",
+          "std": 18.899171348187078,
+          "min": 1950,
+          "max": 2012,
+          "samples": [
+            1965,
+            1997,
+            1986
+          ],
+          "num_unique_values": 50,
+          "semantic_type": "",
+          "description": "Year the hurricane occurred"
+        }
+      },
+      {
+        "column": "name",
+        "properties": {
+          "dtype": "string",
+          "samples": [
+            "Wilma",
+            "Easy",
+            "Isabel"
+          ],
+          "num_unique_values": 85,
+          "semantic_type": "",
+          "description": "Name of the hurricane"
+        }
+      },
+      {
+        "column": "masfem",
+        "properties": {
+          "dtype": "number",
+          "std": 3.2096257809617947,
+          "min": 1.055556,
+          "max": 10.444445,
+          "samples": [
+            6.777778,
+            8.111111,
+            6.888889
+          ],
+          "num_unique_values": 57,
+          "semantic_type": "",
+          "description": "Nine independent coders who were blind to the hypothesis rated the masculinity vs. femininity of historical hurricane names on two items (1=very masculine, 11=veryfeminine, and 1=very man-like, 11=very woman-like), whichwere averaged to compute a masculinity-femininity index."
+        }
+      },
+      {
+        "column": "min",
+        "properties": {
+          "dtype": "number",
+          "std": 19.812493256564387,
+          "min": 909,
+          "max": 1002,
+          "samples": [
+            970,
+            954,
+            949
+          ],
+          "num_unique_values": 55,
+          "semantic_type": "",
+          "description": "Minimum pressure of the hurricane at the time of landfall in the United States from the NOAA"
+        }
+      },
+      {
+        "column": "gender_mf",
+        "properties": {
+          "dtype": "number",
+          "std": 0.46864632232523024,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            0,
+            1
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Binary gender indicator of the hurricane name (0 for male, 1 for female)"
+        }
+      },
+      {
+        "column": "category",
+        "properties": {
+          "dtype": "number",
+          "std": 1.066159654153443,
+          "min": 1,
+          "max": 5,
+          "samples": [
+            1,
+            5,
+            4
+          ],
+          "num_unique_values": 5,
+          "semantic_type": "",
+          "description": "Category of the hurricane on the Saffir-Simpson scale"
+        }
+      },
+      {
+        "column": "alldeaths",
+        "properties": {
+          "dtype": "number",
+          "std": 195.13742613000073,
+          "min": 0,
+          "max": 1833,
+          "samples": [
+            159,
+            46,
+            26
+          ],
+          "num_unique_values": 36,
+          "semantic_type": "",
+          "description": "Total number of deaths caused by the hurricane"
+        }
+      },
+      {
+        "column": "ndam",
+        "properties": {
+          "dtype": "number",
+          "std": 12934.08665590854,
+          "min": 1.0,
+          "max": 75000.0,
+          "samples": [
+            2650.0,
+            1590.0,
+            12620.0
+          ],
+          "num_unique_values": 86,
+          "semantic_type": "",
+          "description": "Raw dollar amounts of property damage caused by hurricanes  and the unadjusted dollar amounts were normalized to 2013 monetary values by adjusting them to inflation, wealth and population density."
+        }
+      },
+      {
+        "column": "elapsedyrs",
+        "properties": {
+          "dtype": "number",
+          "std": 18.81912379176711,
+          "min": 1.0,
+          "max": 63.0,
+          "samples": [
+            47.0,
+            6.0,
+            2.0
+          ],
+          "num_unique_values": 49,
+          "semantic_type": "",
+          "description": "Number of years elapsed since the hurricane"
+        }
+      },
+      {
+        "column": "source",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "uri",
+            "WIKI (http://en.wikipedia.org/wiki/Hurricane_Celia)",
+            "MWR"
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Source of the hurricane data"
+        }
+      },
+      {
+        "column": "masfem_mturk",
+        "properties": {
+          "dtype": "number",
+          "std": 2.8728614776385304,
+          "min": 1.5625,
+          "max": 10.0625,
+          "samples": [
+            10.0625,
+            9.46875,
+            5.40625
+          ],
+          "num_unique_values": 63,
+          "semantic_type": "",
+          "description": "An MTUrk survey with 32 participants asking them to rate all 94 storms using the same scale as 'masfem' column"
+        }
+      },
+      {
+        "column": "wind",
+        "properties": {
+          "dtype": "number",
+          "std": 22.47828714151257,
+          "min": 75,
+          "max": 190,
+          "samples": [
+            120,
+            130,
+            190
+          ],
+          "num_unique_values": 16,
+          "semantic_type": "",
+          "description": "Maximum wind speed of the hurricane at the time of landfall in the United States from the NOAA"
+        }
+      },
+      {
+        "column": "ndam15",
+        "properties": {
+          "dtype": "number",
+          "std": 15323.38259237852,
+          "min": 1,
+          "max": 88420,
+          "samples": [
+            3100,
+            3070,
+            22690
+          ],
+          "num_unique_values": 90,
+          "semantic_type": "",
+          "description": "Raw dollar amounts of property damage caused by hurricanes  and the unadjusted dollar amounts were normalized to 2015 monetary values by adjusting them to inflation, wealth and population density."
+        }
+      }
+    ],
+    "num_rows": 94,
+    "field_names": [
+      "ind",
+      "year",
+      "name",
+      "masfem",
+      "min",
+      "gender_mf",
+      "category",
+      "alldeaths",
+      "ndam",
+      "elapsedyrs",
+      "source",
+      "masfem_mturk",
+      "wind",
+      "ndam15"
+    ]
+  },
+  "data_path": "/projects/bdata/kenqgu/Year3Research/AnalysisAgent/analysis_agent/annotation/data/hurricane/data.csv"
+}

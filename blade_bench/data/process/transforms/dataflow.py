@@ -16,10 +16,6 @@ from blade_bench.data.datamodel import (
     TransformSpec,
     ROOT_SPEC_ID,
     ROOT_SPEC_NAME,
-)
-from ..load import get_saved_specs_from_df
-
-from ...datamodel import (
     TransformDataReturn,
     TransformDatasetState,
     SingleColState,
@@ -27,6 +23,8 @@ from ...datamodel import (
     PathInfo,
     ExpandedGraph,
 )
+from ..load import get_saved_specs_from_df
+
 from .expand_graph import ProcessGraph
 
 from blade_bench.nb.funcs import (
@@ -57,6 +55,8 @@ class AnnotationDataTransforms:
         self.dataset_path = dataset_path
 
     def build_graph_from_specs(self):
+        if self.id_to_spec is None:
+            return None
         nx_g = nx.DiGraph()
         for spec in self.id_to_spec.values():
             nx_g.add_node(spec.spec_id)

@@ -41,8 +41,8 @@ class GeminiTextGenerator(TextGenerator):
         prompt_tokens = num_tokens_from_messages(messages)
         max_tokens = max(
             (
-                self.config.max_tokens
-                if self.config.max_tokens
+                self.config.textgen_config.max_tokens
+                if self.config.textgen_config.max_tokens
                 else 4096 - prompt_tokens - 10
             ),
             200,
@@ -64,8 +64,8 @@ class GeminiTextGenerator(TextGenerator):
             contents=self.convert_messages_to_gemini(messages),
             generation_config=genai.types.GenerationConfig(
                 max_output_tokens=max_tokens,
-                temperature=self.config.temperature,
-                stop_sequences=self.config.stop_sequences or None,
+                temperature=self.config.textgen_config.temperature,
+                stop_sequences=self.config.textgen_config.stop_sequences or None,
             ),
         )
 
@@ -84,7 +84,7 @@ class GeminiTextGenerator(TextGenerator):
                 )
                 for x in api_response.candidates
             ],
-            config=self.config,
+            config=self.config.textgen_config,
             usage=usage,
             response=api_response,
         )

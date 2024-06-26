@@ -1,27 +1,25 @@
 from typing import Dict, Optional
 
 import networkx as nx
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from blade_bench.data.datamodel import TransformSpec, ROOT_SPEC_ID
 from .transform_state import SingleColState, TransformState
 
 
 class ExpandedGraph(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     nx_g: nx.DiGraph
     id_to_spec: Dict[str, TransformSpec]
     id_to_ts: Optional[Dict[str, TransformState]] = {}
 
-    class Config:
-        arbitrary_types_allowed = True
-
 
 class ColsGraph(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     nx_g: nx.DiGraph
     nid_to_state: Dict[str, SingleColState]
-
-    class Config:
-        arbitrary_types_allowed = True
 
     def get_parent_cols_of_col(
         self, col_name: str, exclude_og_cols: bool = False, derived_only: bool = False

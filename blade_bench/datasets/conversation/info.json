@@ -1,0 +1,1211 @@
+{
+  "research_questions": [
+    "Does a woman's tendency to participate actively in a conversation correlate positively with the number of females in the discussion?"
+  ],
+  "data_desc": {
+    "dataset_description": "Our dataset build started with collecting information from the Edge.org on all of the conversations and annual questions. We built a program that downloaded the information from the website, including the year, title, link to, and type of the conversation, as well as the text itself and who said it. Two independent coders then coded gender of the contributors based on their profile picture on Edge.org, or, if that was not available, pictures and pronouns on other reputable websites. We then manually collected information on the job title, workplace, and PhD by finding CVs, university webpages, news articles, personal websites, and Linkedin profiles. We wrote a program to collect the US News and World Report International Rankings and the Shanghai Rankings and manually gathered the rankings from the National US News and World Report Rankings. We then ran the text of the conversations and annual question responses through the LIWC program. Finally, we calculated the rest of the variables (such as number of female contributors to a conversation, previous contributions by the person to the Edge, etc.) based on the data we had already collected. ",
+    "fields": [
+      {
+        "column": "Year",
+        "properties": {
+          "dtype": "number",
+          "std": 5.298462304694585,
+          "min": 1996,
+          "max": 2014,
+          "samples": [
+            2014,
+            2009,
+            2003
+          ],
+          "num_unique_values": 19,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Title",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "The Evolution Of Cooperation: Edge Master Class 2011",
+            "Molecular Cut And Paste",
+            "2008 : What Have You Changed Your Mind About? Why?"
+          ],
+          "num_unique_values": 522,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Link",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "edge.org/conversation/the-technium",
+            "edge.org/conversation/art-and-human-reality",
+            "edge.org/annual-question/what-have-you-changed-your-mind-about-why"
+          ],
+          "num_unique_values": 523,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Type",
+        "properties": {
+          "dtype": "number",
+          "std": 0.4558102029984717,
+          "min": 1,
+          "max": 2,
+          "samples": [
+            2,
+            1
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "ThreadId",
+        "properties": {
+          "dtype": "number",
+          "std": 177.8358558120253,
+          "min": 1,
+          "max": 522,
+          "samples": [
+            435,
+            441,
+            7
+          ],
+          "num_unique_values": 522,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Male_Contributions",
+        "properties": {
+          "dtype": "number",
+          "std": 109.33837792429105,
+          "min": 0,
+          "max": 436,
+          "samples": [
+            3,
+            141,
+            22
+          ],
+          "num_unique_values": 71,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Female_Contributions",
+        "properties": {
+          "dtype": "number",
+          "std": 10.178358205631007,
+          "min": 0,
+          "max": 39,
+          "samples": [
+            8,
+            14,
+            36
+          ],
+          "num_unique_values": 24,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "FemaleParticipation",
+        "properties": {
+          "dtype": "number",
+          "std": 0.12441182434518697,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.138888888888889,
+            0.08,
+            0.203389830508475
+          ],
+          "num_unique_values": 64,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "NumberofAuthorContributions",
+        "properties": {
+          "dtype": "number",
+          "std": 116.53705482462912,
+          "min": 0,
+          "max": 431,
+          "samples": [
+            0,
+            26,
+            87
+          ],
+          "num_unique_values": 61,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "DebateSize",
+        "properties": {
+          "dtype": "number",
+          "std": 109.7696540371256,
+          "min": 1,
+          "max": 436,
+          "samples": [
+            46,
+            177,
+            9
+          ],
+          "num_unique_values": 81,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Live",
+        "properties": {
+          "dtype": "number",
+          "std": 0.498310843379948,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "UniqueContributors",
+        "properties": {
+          "dtype": "number",
+          "std": 63.44907903718097,
+          "min": 0,
+          "max": 194,
+          "samples": [
+            13,
+            109,
+            107
+          ],
+          "num_unique_values": 40,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "UniqueMaleContributors",
+        "properties": {
+          "dtype": "number",
+          "std": 54.342891240857846,
+          "min": 0,
+          "max": 165,
+          "samples": [
+            8,
+            50,
+            107
+          ],
+          "num_unique_values": 41,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "UniqueFemaleContributors",
+        "properties": {
+          "dtype": "number",
+          "std": 9.543688929109038,
+          "min": 0,
+          "max": 36,
+          "samples": [
+            36,
+            17,
+            12
+          ],
+          "num_unique_values": 19,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "UniqueFemaleParticipation",
+        "properties": {
+          "dtype": "number",
+          "std": 0.13080874016224325,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.153846153846154,
+            0.0740740740740741,
+            0.0932203389830508
+          ],
+          "num_unique_values": 41,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Id",
+        "properties": {
+          "dtype": "number",
+          "std": 194.17696750175534,
+          "min": 1,
+          "max": 728,
+          "samples": [
+            513,
+            429,
+            427
+          ],
+          "num_unique_values": 728,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Id_num",
+        "properties": {
+          "dtype": "number",
+          "std": 194.17696750175534,
+          "min": 1,
+          "max": 728,
+          "samples": [
+            513,
+            429,
+            427
+          ],
+          "num_unique_values": 728,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Role",
+        "properties": {
+          "dtype": "number",
+          "std": 0.4940776335696342,
+          "min": 1,
+          "max": 2,
+          "samples": [
+            1,
+            2
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "TwoAuthors",
+        "properties": {
+          "dtype": "number",
+          "std": 0.06886785032791742,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Name",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "[Redacted]"
+          ],
+          "num_unique_values": 1,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Male",
+        "properties": {
+          "dtype": "number",
+          "std": 0.28176481394059255,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.0,
+            1.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Female",
+        "properties": {
+          "dtype": "number",
+          "std": 0.28176481394059255,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            1.0,
+            0.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Academic",
+        "properties": {
+          "dtype": "number",
+          "std": 0.49573458164022693,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.0,
+            1.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Limited_Information",
+        "properties": {
+          "dtype": "number",
+          "std": 0.2689542045001627,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            1.0,
+            0.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Job_Title",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "[Redacted]"
+          ],
+          "num_unique_values": 1,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Job_Title_S",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Chaired Professor",
+            "Professor",
+            "Academic Leadership"
+          ],
+          "num_unique_values": 17,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Job_Title_S_num",
+        "properties": {
+          "dtype": "number",
+          "std": 6.294138528432053,
+          "min": 2.0,
+          "max": 24.0,
+          "samples": [
+            10.0,
+            19.0,
+            2.0
+          ],
+          "num_unique_values": 17,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Department",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Department of Chemistry",
+            "Mechanical Engineering",
+            "Linguistic and Education"
+          ],
+          "num_unique_values": 168,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Department_S",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Law",
+            "Sociology",
+            "Musics"
+          ],
+          "num_unique_values": 31,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Department_S_num",
+        "properties": {
+          "dtype": "number",
+          "std": 11.140985408562065,
+          "min": 1.0,
+          "max": 32.0,
+          "samples": [
+            32.0,
+            16.0,
+            24.0
+          ],
+          "num_unique_values": 32,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Discipline",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Social Sciences",
+            "Formal Sciences",
+            "Professions"
+          ],
+          "num_unique_values": 5,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Workplace",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "[Redacted]"
+          ],
+          "num_unique_values": 1,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "HavePhD",
+        "properties": {
+          "dtype": "number",
+          "std": 0.45300292057828095,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.0,
+            1.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Field",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Developmental & Evolutionary Psychology",
+            "Elementary Particle Physics",
+            "Neuroscience"
+          ],
+          "num_unique_values": 189,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Year",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Pending",
+            "2011",
+            "1979"
+          ],
+          "num_unique_values": 69,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PreviousContributions",
+        "properties": {
+          "dtype": "number",
+          "std": 68.67935311046622,
+          "min": 0,
+          "max": 488,
+          "samples": [
+            39,
+            194,
+            15
+          ],
+          "num_unique_values": 130,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "ContributionsThisYear",
+        "properties": {
+          "dtype": "number",
+          "std": 74.23874176620122,
+          "min": 1,
+          "max": 290,
+          "samples": [
+            26,
+            138,
+            127
+          ],
+          "num_unique_values": 54,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "ThreadsThisYear",
+        "properties": {
+          "dtype": "number",
+          "std": 3.1373633233588842,
+          "min": 1,
+          "max": 19,
+          "samples": [
+            10,
+            14,
+            1
+          ],
+          "num_unique_values": 14,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PreviousThreads",
+        "properties": {
+          "dtype": "number",
+          "std": 10.678319133130652,
+          "min": 0,
+          "max": 71,
+          "samples": [
+            1,
+            4,
+            47
+          ],
+          "num_unique_values": 58,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "AuthorAndCommenter",
+        "properties": {
+          "dtype": "number",
+          "std": 0.18375161703935813,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Institution",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "[Redacted]"
+          ],
+          "num_unique_values": 1,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Years_from_PhD",
+        "properties": {
+          "dtype": "number",
+          "std": 13.626391867929154,
+          "min": -14.0,
+          "max": 73.0,
+          "samples": [
+            23.0,
+            3.0,
+            5.0
+          ],
+          "num_unique_values": 79,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Institution_SR",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "47",
+            "67",
+            "88"
+          ],
+          "num_unique_values": 122,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Institution_SR_Bin",
+        "properties": {
+          "dtype": "number",
+          "std": 1.1024814067111655,
+          "min": 1.0,
+          "max": 7.0,
+          "samples": [
+            1.0,
+            4.0,
+            5.0
+          ],
+          "num_unique_values": 7,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Workplace_SR",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "50",
+            "5",
+            "35"
+          ],
+          "num_unique_values": 113,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Workplace_SR_Bin",
+        "properties": {
+          "dtype": "number",
+          "std": 1.3550151469884633,
+          "min": 1.0,
+          "max": 7.0,
+          "samples": [
+            1.0,
+            2.0,
+            5.0
+          ],
+          "num_unique_values": 7,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "SR_Ranking_Dif",
+        "properties": {
+          "dtype": "number",
+          "std": 1.4149227032378406,
+          "min": -6.0,
+          "max": 6.0,
+          "samples": [
+            -6.0,
+            -3.0,
+            1.0
+          ],
+          "num_unique_values": 13,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Institution_US_IR",
+        "properties": {
+          "dtype": "number",
+          "std": 76.11962685200577,
+          "min": 1.0,
+          "max": 473.0,
+          "samples": [
+            21.0,
+            64.0,
+            325.0
+          ],
+          "num_unique_values": 74,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Institution_US_IR_Bin",
+        "properties": {
+          "dtype": "number",
+          "std": 1.6484643015486606,
+          "min": 1.0,
+          "max": 10.0,
+          "samples": [
+            8.0,
+            4.0,
+            10.0
+          ],
+          "num_unique_values": 10,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Workplace_US_IR",
+        "properties": {
+          "dtype": "number",
+          "std": 83.12964015595841,
+          "min": 1.0,
+          "max": 481.0,
+          "samples": [
+            172.0,
+            41.0,
+            4.0
+          ],
+          "num_unique_values": 63,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Workplace_US_IR_Bin",
+        "properties": {
+          "dtype": "number",
+          "std": 1.844387695069295,
+          "min": 1.0,
+          "max": 10.0,
+          "samples": [
+            10.0,
+            4.0,
+            8.0
+          ],
+          "num_unique_values": 10,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "USA_I_Ranking_Dif",
+        "properties": {
+          "dtype": "number",
+          "std": 100.30932405546098,
+          "min": -396.0,
+          "max": 467.0,
+          "samples": [
+            -320.0,
+            -145.0,
+            1.0
+          ],
+          "num_unique_values": 92,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Institution_US",
+        "properties": {
+          "dtype": "number",
+          "std": 22.74314057527904,
+          "min": 1.0,
+          "max": 190.0,
+          "samples": [
+            63.0,
+            60.0,
+            112.0
+          ],
+          "num_unique_values": 96,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PhD_Institution_US_Bin",
+        "properties": {
+          "dtype": "number",
+          "std": 1.41249405921097,
+          "min": 1.0,
+          "max": 7.0,
+          "samples": [
+            7.0,
+            5.0,
+            3.0
+          ],
+          "num_unique_values": 7,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Workplace_US",
+        "properties": {
+          "dtype": "number",
+          "std": 31.6746786510312,
+          "min": 1.0,
+          "max": 181.0,
+          "samples": [
+            120.0,
+            86.0,
+            3.0
+          ],
+          "num_unique_values": 107,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Workplace_US_Bin",
+        "properties": {
+          "dtype": "number",
+          "std": 1.5717276221908694,
+          "min": 1.0,
+          "max": 7.0,
+          "samples": [
+            1.0,
+            4.0,
+            3.0
+          ],
+          "num_unique_values": 7,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "USA_Ranking_Dif",
+        "properties": {
+          "dtype": "number",
+          "std": 32.880738960762834,
+          "min": -184.0,
+          "max": 177.0,
+          "samples": [
+            -34.0,
+            57.0,
+            5.0
+          ],
+          "num_unique_values": 146,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Total_Citations",
+        "properties": {
+          "dtype": "number",
+          "std": 27055.132655014237,
+          "min": 80.0,
+          "max": 143833.0,
+          "samples": [
+            29608.0,
+            19520.0,
+            82.0
+          ],
+          "num_unique_values": 137,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "H_Index",
+        "properties": {
+          "dtype": "number",
+          "std": 27.171808909530917,
+          "min": 4.0,
+          "max": 136.0,
+          "samples": [
+            29.0,
+            24.0,
+            31.0
+          ],
+          "num_unique_values": 84,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "i10_Index",
+        "properties": {
+          "dtype": "number",
+          "std": 105.84580547307847,
+          "min": 2.0,
+          "max": 562.0,
+          "samples": [
+            245.0,
+            28.0,
+            147.0
+          ],
+          "num_unique_values": 113,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Citations_Year",
+        "properties": {
+          "dtype": "number",
+          "std": 1906.4792339415505,
+          "min": 2.0,
+          "max": 11231.0,
+          "samples": [
+            534.0,
+            1030.0,
+            1691.0
+          ],
+          "num_unique_values": 514,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Citations_Cumulative",
+        "properties": {
+          "dtype": "number",
+          "std": 16894.149063724868,
+          "min": 3.0,
+          "max": 125689.0,
+          "samples": [
+            1875.0,
+            312.0,
+            21933.0
+          ],
+          "num_unique_values": 547,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "AcademicHierarchyStrict",
+        "properties": {
+          "dtype": "number",
+          "std": 0.747316791887541,
+          "min": 1.0,
+          "max": 6.0,
+          "samples": [
+            6.0,
+            5.0,
+            2.0
+          ],
+          "num_unique_values": 6,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "PreviousCitations",
+        "properties": {
+          "dtype": "number",
+          "std": 15179.225219803207,
+          "min": 0.0,
+          "max": 119485.0,
+          "samples": [
+            618.0,
+            65539.0,
+            9551.0
+          ],
+          "num_unique_values": 551,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "ContributionsbyAuthor",
+        "properties": {
+          "dtype": "number",
+          "std": 39.17791637371067,
+          "min": 1,
+          "max": 214,
+          "samples": [
+            5,
+            51,
+            14
+          ],
+          "num_unique_values": 47,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Order",
+        "properties": {
+          "dtype": "number",
+          "std": 71.26338122109868,
+          "min": 1,
+          "max": 436,
+          "samples": [
+            396,
+            79,
+            279
+          ],
+          "num_unique_values": 436,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Text",
+        "properties": {
+          "dtype": "string",
+          "samples": [
+            "Do you have any notions about how these relationships with women affected his world view or changed his temperament?",
+            "They would say, \"Who owns her?\"",
+            "What has happened is that genetics has become a branch of information technology. It is pure information. It's digital information. It's precisely the kind of information that can be translated digit for digit, byte for byte, into any other kind of information and then translated back again. This is a major revolution. I suppose it's probably \"the\" major revolution in the whole history of our understanding of ourselves. It's something would have boggled the mind of Darwin, and Darwin would have loved it, I'm absolutely sure. Click here for the complete one hour video of the event. The following is the unedited transcript ... MARCEL REICHART (Hubert Burda Media/DLD): And here we're going to have one of the true highlights. Steffi... STEFFI CZERNY (Hubert Burda Media/DLD):  John Brockman is talking to Richard Dawkins and Craig Venter.  This is a very special thing, and we are very grateful, John, that you brought this panel together.  We have known John for a long time.  He always inspired us a lot.  He was the one who introduced me to the term \"digerati.\"  And now he's introducing all of you to the most essential issue of the new century."
+          ],
+          "num_unique_values": 7811,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "WC",
+        "properties": {
+          "dtype": "number",
+          "std": 1046.2823159311056,
+          "min": 1,
+          "max": 20274,
+          "samples": [
+            1129,
+            415,
+            605
+          ],
+          "num_unique_values": 1601,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "WPS",
+        "properties": {
+          "dtype": "number",
+          "std": 9.001566548058975,
+          "min": 1.0,
+          "max": 113.0,
+          "samples": [
+            30.32,
+            29.5,
+            23.41
+          ],
+          "num_unique_values": 1820,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "Number.Characters",
+        "properties": {
+          "dtype": "number",
+          "std": 6180.038938456993,
+          "min": 3,
+          "max": 118762,
+          "samples": [
+            7717,
+            226,
+            2369
+          ],
+          "num_unique_values": 3814,
+          "semantic_type": "",
+          "description": ""
+        }
+      }
+    ],
+    "num_rows": 7975,
+    "field_names": [
+      "Year",
+      "Title",
+      "Link",
+      "Type",
+      "ThreadId",
+      "Male_Contributions",
+      "Female_Contributions",
+      "FemaleParticipation",
+      "NumberofAuthorContributions",
+      "DebateSize",
+      "Live",
+      "UniqueContributors",
+      "UniqueMaleContributors",
+      "UniqueFemaleContributors",
+      "UniqueFemaleParticipation",
+      "Id",
+      "Id_num",
+      "Role",
+      "TwoAuthors",
+      "Name",
+      "Male",
+      "Female",
+      "Academic",
+      "Limited_Information",
+      "Job_Title",
+      "Job_Title_S",
+      "Job_Title_S_num",
+      "Department",
+      "Department_S",
+      "Department_S_num",
+      "Discipline",
+      "Workplace",
+      "HavePhD",
+      "PhD_Field",
+      "PhD_Year",
+      "PreviousContributions",
+      "ContributionsThisYear",
+      "ThreadsThisYear",
+      "PreviousThreads",
+      "AuthorAndCommenter",
+      "PhD_Institution",
+      "Years_from_PhD",
+      "PhD_Institution_SR",
+      "PhD_Institution_SR_Bin",
+      "Workplace_SR",
+      "Workplace_SR_Bin",
+      "SR_Ranking_Dif",
+      "PhD_Institution_US_IR",
+      "PhD_Institution_US_IR_Bin",
+      "Workplace_US_IR",
+      "Workplace_US_IR_Bin",
+      "USA_I_Ranking_Dif",
+      "PhD_Institution_US",
+      "PhD_Institution_US_Bin",
+      "Workplace_US",
+      "Workplace_US_Bin",
+      "USA_Ranking_Dif",
+      "Total_Citations",
+      "H_Index",
+      "i10_Index",
+      "Citations_Year",
+      "Citations_Cumulative",
+      "AcademicHierarchyStrict",
+      "PreviousCitations",
+      "ContributionsbyAuthor",
+      "Order",
+      "Text",
+      "WC",
+      "WPS",
+      "Number.Characters"
+    ]
+  },
+  "data_path": "/Users/qikungu/PythonProjects/Year3Research/AnalysisAgent/analysis_agent/annotation/data/conversation/data.csv"
+}

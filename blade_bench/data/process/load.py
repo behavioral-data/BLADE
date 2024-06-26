@@ -50,7 +50,8 @@ def get_saved_specs_from_df(
                     spec_kwargs["branches"][0], list
                 ):
                     spec_kwargs["branches"] = [
-                        Branch(dependencies=b).dict() for b in spec_kwargs["branches"]
+                        Branch(dependencies=b).model_dump()
+                        for b in spec_kwargs["branches"]
                     ]
 
             specs.append(COL_NAME_TO_CLASS[spec_col](**spec_kwargs))

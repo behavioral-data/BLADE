@@ -89,8 +89,8 @@ class RunResults(BaseModel):
     info: str
     res_type: RunResultModes
     res_type2: Optional[RunResultModes] = None
-    lm_history: Optional[List[LLMHistory]] = []
-    eval_history: Optional[List[LLMHistory]] = []
+    lm_history: Optional[LLMHistory] = None
+    eval_history: Optional[LLMHistory] = None
     agent_steps: Optional[int] = 0
     eval_metrics: Optional[AllMetrics] = None
 

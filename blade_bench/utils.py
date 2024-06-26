@@ -31,3 +31,7 @@ def get_dataset_csv_path(dataset_name):
 
 def get_dataset_info_path(dataset_name):
     return os.path.join(get_datasets_dir(), dataset_name, "info.json")
+
+
+def get_dataset_annotations_path(dataset_name):
+    return os.path.join(get_datasets_dir(), dataset_name, "annotations.csv")

@@ -1,9 +1,10 @@
 from typing import Dict, FrozenSet, List, Literal, Optional, Set, Tuple, Union
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 import pandas as pd
 
 
 class SingleColState(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     col: str
     spec_id: str
     expanded_spec_id: str = ""
@@ -15,15 +16,13 @@ class SingleColState(BaseModel):
     cols_nid: str = ""  # nid in the cols graph
     code: Optional[str] = None
 
-    class Config:
-        arbitrary_types_allowed = True
-
 
 class TransformState(BaseModel):
     """
     All permutations of the path that lead to an equivalent state in terms of the df vale
     """
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     spec_id: str
     expanded_spec_id: str = ""
     df_value_hash: Dict[str, str] = {}
@@ -31,9 +30,6 @@ class TransformState(BaseModel):
     df: Union[pd.DataFrame, pd.Series, None] = None
     columns: List[str] = []
     spec_name: Optional[str] = None
-
-    class Config:
-        arbitrary_types_allowed = True
 
     def get_transform_state_from_cols(
         self,

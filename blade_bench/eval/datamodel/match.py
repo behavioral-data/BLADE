@@ -6,8 +6,8 @@ from blade_bench.data.datamodel import (
     ConceptualVarSpec,
     ModelSpec,
     TransformSpec,
+    TransformDatasetState,
 )
-from ...data.datamodel.transforms import TransformDatasetState
 
 
 class MatchCvar(BaseModel):

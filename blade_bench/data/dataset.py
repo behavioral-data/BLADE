@@ -1,8 +1,9 @@
 import json
+import os
 import os.path as osp
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
-from blade_bench.utils import get_dataset_info_path
+from blade_bench.utils import get_dataset_info_path, get_datasets_dir
 
 
 class DatasetInfo(BaseModel):
@@ -39,6 +40,11 @@ class DatasetInfo(BaseModel):
         for f in ret["fields"]:
             f["properties"].pop("semantic_type", None)
         return ret
+
+
+def list_datasets():
+    datasets_dir = get_datasets_dir()
+    return [d for d in os.listdir(datasets_dir) if osp.isdir(osp.join(datasets_dir, d))]
 
 
 def get_dataset_info(dataset: str):

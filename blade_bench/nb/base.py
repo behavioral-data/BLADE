@@ -31,9 +31,7 @@ from blade_bench.logger import logger
 class ExecuteNbCode(BaseModel):
     """execute notebook code block, return result to llm, and display it."""
 
-    class Config:
-        arbitrary_types_allowed = True
-
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     nb: NotebookNode
     nb_client: NotebookClient
     console: Console

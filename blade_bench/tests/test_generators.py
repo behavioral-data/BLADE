@@ -4,11 +4,13 @@ from dotenv import load_dotenv
 from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel
 
+from blade_bench.llms.config import get_llm_config
 from blade_bench.llms import (
     AnthropicGenConfig,
     GeminiGenConfig,
     OpenAIGenConfig,
     LLMHistory,
+    TextGenConfig,
     OpenAITextGenerator,
     AnthropicTextGenerator,
     GeminiTextGenerator,
@@ -20,34 +22,30 @@ from blade_bench.logger import logger
 
 load_dotenv()
 
+textgen_config = TextGenConfig(n=2, temperature=0.4, max_tokens=100, use_cache=True)
+
 
 OAI_CONFIG = OpenAIGenConfig(
-    n=2,
-    temperature=0.4,
-    max_tokens=100,
-    top_p=1.0,
-    top_k=50,
-    frequency_penalty=0.0,
-    presence_penalty=0.0,
-    use_cache=True,
+    provider="azureopenai",
     api_key_env_name="OPENAI_AZURE_AGENTBENCH_EVAL_KEY",
     api_base="https://aagenteval.openai.azure.com/",
     api_version="2024-05-01-preview",
     deployment="gpt-4o-eval",
     model="gpt-4o",
+    textgen_config=textgen_config,
 )
 
+textgen_config = TextGenConfig(n=1, temperature=0.4, max_tokens=100, use_cache=True)
+
+
 ANTHROPIC_CONFIG = AnthropicGenConfig(
-    temperature=0.4,
-    max_tokens=100,
-    use_cache=True,
     api_key_env_name="ANTHROPIC_API_KEY",
+    model="claude-3-opus-20240229",
+    textgen_config=textgen_config,
 )
 
 GEMINI_CONFIG = GeminiGenConfig(
-    temperature=0.4,
-    max_tokens=100,
-    use_cache=True,
+    textgen_config=textgen_config,
     api_key_env_name="GEMINI_API_KEY",
     model="gemini-1.5-pro-latest",
 )
@@ -76,6 +74,20 @@ some other text
 
 
 class TestGenerators(absltest.TestCase):
+
+    def test_load_config(self):
+        textgen_config = TextGenConfig(
+            n=2, temperature=0.4, max_tokens=100, use_cache=True
+        )
+        llm_config = get_llm_config(
+            provider="azureopenai", model="gpt-4o-azure", textgen_config=textgen_config
+        )
+        oai_gen = OpenAITextGenerator(llm_config)
+        oai_response = oai_gen.generate(messages=MESSAGES)
+        answer = oai_response.text[0].content
+        logger.debug(f"Answer: {answer}")
+        self.assertIn("paris", answer.lower())
+        self.assertLen(oai_response.text, 2)
 
     def test_openai(self):
         oai_gen = OpenAITextGenerator(OAI_CONFIG)
