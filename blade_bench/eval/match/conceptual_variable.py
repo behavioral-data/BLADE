@@ -7,6 +7,8 @@ from blade_bench.llms import (
     AnthropicGenConfig,
 )
 from blade_bench.data.annotation import AnnotationDBData
+from blade_bench.llms.base import TextGenerator
+from blade_bench.llms.datamodel.gen_config import GenConfig, LLMHistory
 from ..llm.conceptual_var_similarity import ConceptualVarSimilarity
 from .base import BaseMatcher
 from ..datamodel import MatchedCvars, AgentCVarsWithCol
@@ -19,13 +21,19 @@ class CVarMatcher(BaseMatcher):
     def __init__(
         self,
         dataset_name: str,
-        llm_config: Union[OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig] = None,
+        llm_config: GenConfig = None,
+        llm_history: LLMHistory = None,
+        text_gen: TextGenerator = None,
     ):
         super().__init__(dataset_name)
         self.dinfo_path = get_dataset_info_path(dataset_name)
         self.dinfo: DatasetInfo = get_dataset_info(dataset_name)
-        if llm_config is None:
-            self.cvar_compare_llm = ConceptualVarSimilarity.init_from_base_llm_config()
+        if llm_config is None and text_gen is None:
+            raise ValueError("llm_config or text_gen must be provided")
+        if text_gen is not None:
+            self.cvar_compare_llm = ConceptualVarSimilarity(
+                text_gen, history=llm_history
+            )
         else:
             self.cvar_compare_llm = ConceptualVarSimilarity.init_from_llm_config(
                 llm_config

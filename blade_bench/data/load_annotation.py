@@ -12,7 +12,7 @@ from blade_bench.utils import (
 GROUND_TRUTH_FNAME = "annotations.pkl"
 
 
-def load_ground_truth(
+def load_ground_truth_data(
     dataset_name: str, execute_output_dir: str, load_from_pkl: bool = True
 ) -> AnnotationDBData:
     adata_path = osp.join(get_dataset_dir(dataset_name), GROUND_TRUTH_FNAME)
@@ -32,5 +32,5 @@ def load_ground_truth(
 
 
 if __name__ == "__main__":
-    adata = load_ground_truth("hurricane", ".", load_from_pkl=False)
+    adata = load_ground_truth_data("hurricane", ".", load_from_pkl=False)
     print("here")

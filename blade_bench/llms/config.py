@@ -4,12 +4,38 @@ from dotenv import load_dotenv
 import yaml
 
 
-from blade_bench.llms.datamodel import TextGenConfig
+from blade_bench.llms.datamodel.gen_config import (
+    GenConfig,
+    OpenAIGenConfig,
+    AnthropicGenConfig,
+    GeminiGenConfig,
+    HuggingFaceGenConfig,
+    TextGenConfig,
+)
 from blade_bench.logger import logger
-from blade_bench.llms import OpenAIGenConfig, AnthropicGenConfig, GeminiGenConfig
+from blade_bench.llms.textgen_huggingface import HuggingFaceTextGenerator
+from blade_bench.llms.textgen_openai import OpenAITextGenerator
+from blade_bench.llms.textgen_gemini import GeminiTextGenerator
+from blade_bench.llms.textgen_anthropic import AnthropicTextGenerator
+from blade_bench.llms.base import TextGenerator
+
 from blade_bench.utils import get_conf_dir
 
 load_dotenv()
+
+
+def get_text_gen(llm_config: GenConfig, cache_dir: str = None) -> TextGenerator:
+    if isinstance(llm_config, OpenAIGenConfig):
+        text_gen = OpenAITextGenerator(llm_config, cache_dir=cache_dir)
+    elif isinstance(llm_config, GeminiGenConfig):
+        text_gen = GeminiTextGenerator(llm_config, cache_dir=cache_dir)
+    elif isinstance(llm_config, AnthropicGenConfig):
+        text_gen = AnthropicTextGenerator(llm_config, cache_dir=cache_dir)
+    elif isinstance(llm_config, HuggingFaceGenConfig):
+        text_gen = HuggingFaceTextGenerator(llm_config, cache_dir=cache_dir)
+    else:
+        raise ValueError(f"Unknown LLM config type: {llm_config}")
+    return text_gen
 
 
 def get_llm_config_from_conf_dict(conf_dict: dict):
@@ -22,6 +48,8 @@ def get_llm_config_from_conf_dict(conf_dict: dict):
         return AnthropicGenConfig(**conf_dict)
     elif conf_dict.get("provider") == "gemini":
         return GeminiGenConfig(**conf_dict)
+    elif conf_dict.get("provider") == "huggingface":
+        return HuggingFaceGenConfig(**conf_dict)
     else:
         raise ValueError(f"Unknown provider {conf_dict.get('provider')}")
 
@@ -35,6 +63,8 @@ def sanitize_provider(provider: str):
         return "gemini"
     elif provider.lower() == "anthropic":
         return "anthropic"
+    elif provider.lower() == "huggingface":
+        return "huggingface"
     else:
         raise ValueError(
             f"Invalid provider '{provider}'.  Supported providers are 'gemini', 'openai', 'anthropic', 'azureopenai'."

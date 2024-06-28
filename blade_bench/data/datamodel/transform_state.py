@@ -1,5 +1,5 @@
 from typing import Dict, FrozenSet, List, Literal, Optional, Set, Tuple, Union
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 import pandas as pd
 
 
@@ -11,7 +11,7 @@ class SingleColState(BaseModel):
     value_hash: str = ""
     categorical_value_hash: str = ""
     graph_hash: str = ""
-    df_col: pd.Series = None
+    df_col: pd.Series = Field(default=None, exclude=True)
     cols_graph_id: int = None
     cols_nid: str = ""  # nid in the cols graph
     code: Optional[str] = None
@@ -27,7 +27,7 @@ class TransformState(BaseModel):
     expanded_spec_id: str = ""
     df_value_hash: Dict[str, str] = {}
     df_categorical_value_hash: Dict[str, str] = {}
-    df: Union[pd.DataFrame, pd.Series, None] = None
+    df: Union[pd.DataFrame, pd.Series, None] = Field(default=None, exclude=True)
     columns: List[str] = []
     spec_name: Optional[str] = None
 
@@ -81,3 +81,19 @@ class TransformState(BaseModel):
             )
             for col in self.columns
         ]
+
+
+if __name__ == "__main__":
+    state_instance = SingleColState(
+        col="example_column",
+        spec_id="spec_001",
+        expanded_spec_id="exp_spec_001",
+        value_hash="hash_value",
+        categorical_value_hash="cat_hash_value",
+        graph_hash="graph_hash_value",
+        df_col=pd.Series([1, 2, 3]),
+        cols_graph_id=123,
+        cols_nid="nid_001",
+        code="example_code",
+    )
+    print(state_instance)

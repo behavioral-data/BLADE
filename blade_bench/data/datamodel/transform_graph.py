@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 
 import networkx as nx
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from blade_bench.data.datamodel import TransformSpec, ROOT_SPEC_ID
 from .transform_state import SingleColState, TransformState
@@ -10,15 +10,15 @@ from .transform_state import SingleColState, TransformState
 class ExpandedGraph(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    nx_g: nx.DiGraph
     id_to_spec: Dict[str, TransformSpec]
+    nx_g: nx.DiGraph = Field(default=None, exclude=True)
     id_to_ts: Optional[Dict[str, TransformState]] = {}
 
 
 class ColsGraph(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    nx_g: nx.DiGraph
+    nx_g: nx.DiGraph = Field(default=None, exclude=True)
     nid_to_state: Dict[str, SingleColState]
 
     def get_parent_cols_of_col(

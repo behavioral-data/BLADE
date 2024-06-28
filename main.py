@@ -7,7 +7,7 @@ from hydra.core.hydra_config import HydraConf, HydraConfig
 from omegaconf import DictConfig, OmegaConf
 
 from blade_bench.baselines.config import BenchmarkConfig
-from blade_bench.baselines.main import RunLLMAndEval, run_main
+from blade_bench.baselines.run import RunLLMAndEval, run_main
 from blade_bench.data.datamodel.transforms import (
     TransformDataReturn,
 )  # ❗️ this import needs to be kept here

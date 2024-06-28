@@ -120,6 +120,9 @@ class NotebookExecutorBasic(BaseModel):
         if success:
             with open(save_path, "rb") as f:
                 myvar = pickle.load(f)
+        # remove the file
+        if osp.exists(save_path):
+            os.remove(save_path)
         return output, success, myvar
 
 

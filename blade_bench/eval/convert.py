@@ -6,21 +6,28 @@ import os.path as osp
 
 from typing import List, Literal, Tuple, Union
 
-from blade_bench.baselines.config import BenchmarkConfig
 from blade_bench.data.dataset import DatasetInfo
 from blade_bench.eval.datamodel import (
     ModelAndColumns,
     EntireAnalysis,
     EntireAnalysisProcessed,
+    RunResultModes,
+    EvalRunResults,
+)
+from blade_bench.eval.exceptions import (
+    LMSubmissionExecutionError,
+    LMSubmissionEmptyError,
+    LMSubmissionExecutionError,
+    RunError,
 )
 from blade_bench.eval.llm.code_to_model import CodeToModelLLM
 from blade_bench.eval.llm.code_to_transforms import CodeToTransformsLLM
+
+from blade_bench.llms.base import TextGenerator
+from blade_bench.llms.datamodel.gen_config import GenConfig, LLMHistory
 from blade_bench.llms.utils import cache_request
 from blade_bench.nb.simple_code_executor import ExecutorReturn
-from blade_bench.baselines.datamodel import (
-    RunResultModes,
-    RunResults,
-)
+
 
 from blade_bench.nb import TransformCodeExecutor, TransformObjExecutor
 from blade_bench.data.datamodel import TransformDataReturn, TransformDatasetState
@@ -41,56 +48,78 @@ from diskcache import Cache
 
 
 class Convert:
-    def __init__(self, config: BenchmarkConfig, llm_config=None):
-        self.config = config
-        self.data_path = get_dataset_csv_path(config.run_dataset)
+    def __init__(
+        self,
+        run_dataset: str,
+        llm_config: GenConfig = None,
+        llm_history: LLMHistory = None,
+        text_gen: TextGenerator = None,
+        use_code_cache: bool = True,
+        output_dir: str = ".",
+    ):
+        self.data_path = get_dataset_csv_path(run_dataset)
+        self.run_dataset = run_dataset
+        self.use_code_cache = use_code_cache
         assert osp.exists(
             self.data_path
         ), f"Dataset path {self.data_path} does not exist"
-        self.dinfo: DatasetInfo = get_dataset_info(config.run_dataset)
-
-        if llm_config is None:
-            llm_config = config.llm_eval
-        self.code_to_transform_llm = CodeToTransformsLLM.init_from_llm_config(
-            llm_config
-        )
-        self.code_to_model_llm = CodeToModelLLM.init_from_llm_config(llm_config)
-        self.debug_llm: DebugCodeLM = DebugCodeLM.init_from_llm_config(llm_config)
+        self.dinfo: DatasetInfo = get_dataset_info(run_dataset)
+        self.__init_llms(llm_config, llm_history, text_gen)
         self.annotation = AnnotationDataTransforms(
-            dataset_path=self.data_path, save_path=self.config.output_dir, run_nb=False
+            dataset_path=self.data_path, save_path=output_dir, run_nb=False
         )
         self.transform_executor = TransformObjExecutor(
             data_path=self.data_path,
-            save_path=self.config.output_dir,
+            save_path=output_dir,
             run_init_once=True,
         )
         self.code_executor = TransformCodeExecutor(
             data_path=self.data_path,
-            save_path=self.config.output_dir,
+            save_path=output_dir,
             run_init_once=True,
         )
 
         self.cache_dir = osp.join(osp.dirname(osp.abspath(__file__)), "code_cache")
         self.cache = Cache(self.cache_dir, size_limit=2**38)
 
+    def __init_llms(
+        self, llm_config: GenConfig, llm_history: LLMHistory, text_gen: TextGenerator
+    ):
+        if llm_config is None and text_gen is None:
+            raise ValueError("llm_config or text_gen must be provided")
+        if text_gen is not None:
+            self.code_to_transform_llm = CodeToTransformsLLM(
+                text_gen, history=llm_history
+            )
+            self.code_to_model_llm = CodeToModelLLM(text_gen, history=llm_history)
+            self.debug_llm = DebugCodeLM(text_gen, history=llm_history)
+        else:
+            self.code_to_transform_llm = CodeToTransformsLLM.init_from_llm_config(
+                llm_config, history=llm_history
+            )
+            self.code_to_model_llm = CodeToModelLLM.init_from_llm_config(
+                llm_config, history=llm_history
+            )
+            self.debug_llm: DebugCodeLM = DebugCodeLM.init_from_llm_config(
+                llm_config, history=llm_history
+            )
+
     async def convert_entire_analysis(
         self, entire_analysis: EntireAnalysis
-    ) -> Tuple[EntireAnalysisProcessed, Union[None, RunResults]]:
-        state_data_or_run_results: Union[TransformDatasetState, RunResults] = (
-            await self.get_state_data_from_code(
-                entire_analysis.transform_code_inside_func
+    ) -> Tuple[EntireAnalysisProcessed, Union[None, EvalRunResults]]:
+        try:
+            state_data: Union[TransformDatasetState] = (
+                await self.get_state_data_from_code(
+                    entire_analysis.transform_code_inside_func
+                )
             )
-        )
-        llm_state_data = (
-            state_data_or_run_results
-            if isinstance(state_data_or_run_results, TransformDatasetState)
-            else None
-        )
-        run_results = (
-            state_data_or_run_results
-            if isinstance(state_data_or_run_results, RunResults)
-            else None
-        )
+            run_results = None
+        except RunError as e:
+            state_data = None
+            run_results = EvalRunResults(
+                info=e.message,
+                res_type=e.res_type,
+            )
 
         model_code: ModelAndColumns = self.code_to_model_llm.code_to_model_obj(
             entire_analysis.model_code_inside_func
@@ -101,7 +130,7 @@ class Convert:
         analysis = EntireAnalysisProcessed(
             cv_specs=cvar_specs,
             m_specs={model_spec.spec_id: model_spec},
-            transform_state=llm_state_data,
+            transform_state=state_data,
             agent_cvars=entire_analysis.cvars,
             m_code_and_cols=model_code,
         )
@@ -123,13 +152,13 @@ class Convert:
             "groupby_cols": [
                 str(tuple(sorted(ts.groupby_cols))) for ts in transform_ret
             ],
-            "dataset": self.config.run_dataset,
+            "dataset": self.run_dataset,
         }
 
         logger.bind(message=json.dumps(inp, indent=2)).log(
             TS_STATE_QUERY, "Getting transform state"
         )
-        if self.config.use_code_cache:
+        if self.use_code_cache:
             start_time = time.time()
             state_data: TransformDatasetState = cache_request(self.cache, params=inp)
             if state_data:
@@ -159,10 +188,10 @@ class Convert:
         inp = {
             "executor": executor,
             "code": code,
-            "dataset": self.config.run_dataset,
+            "dataset": self.run_dataset,
         }
         logger.bind(message=code).log(CODE_ENV_QUERY, f"Running code with {executor}")
-        if self.config.use_code_cache:
+        if self.use_code_cache:
             start_time = time.time()
             code_res: ExecutorReturn = cache_request(self.cache, params=inp)
             if code_res:
@@ -197,25 +226,26 @@ class Convert:
 
     async def get_state_data_from_code(
         self, code, max_retries: int = 3
-    ) -> Union[TransformDatasetState, RunResults]:
+    ) -> Union[TransformDatasetState, EvalRunResults]:
         try:
             ast.parse(code)
         except Exception as e:
-            return RunResults(
+            raise LMSubmissionExecutionError(
+                message=f"Code has syntax error, cannot parse with AST: {e}",
                 res_type=RunResultModes.LM_SUBMISSION_EXECUTION_FAILED,
-                info=f"Code has syntax error, cannot parse with AST: {e}",
             )
 
         code_res: ExecutorReturn = await self.run_code_with_cache(code, "code_executor")
         if not code_res.success:
-            return RunResults(
-                info=code_res.output,
+            raise LMSubmissionExecutionError(
+                message=code_res.output,
                 res_type=RunResultModes.LM_SUBMISSION_EXECUTION_FAILED,
             )
+
         if not astor.to_source(ast.parse(code)):
-            return RunResults(
+            raise LMSubmissionEmptyError(
+                message="Code is empty after parsing",
                 res_type=RunResultModes.LM_SUBMISSION_TRANSFORM_CODE_EMPTY,
-                info=f"No code in transform code: {code}",
             )
 
         retries = 0
@@ -250,9 +280,9 @@ class Convert:
                 else:
                     logger.error(f"Code conversion failed after {max_retries} retries")
         if not code_res.success:
-            return RunResults(
+            raise LMSubmissionExecutionError(
+                message=f"Code conversion failed after {max_retries} retries\n{code_res.output}",
                 res_type=RunResultModes.LM_SUBMISSION_CONVERSION_FAILED,
-                info=f"Code conversion failed after {max_retries} retries\n{code_res.output}",
             )
 
         transform_ret: List[TransformDataReturn] = code_res.value
@@ -260,16 +290,18 @@ class Convert:
         for i, ts in enumerate(transform_ret):
             ts.code = codes[i]
         if not transform_ret:
-            return RunResults(
+            raise LMSubmissionExecutionError(
+                message="No transforms were returned",
                 res_type=RunResultModes.LM_SUBMISSION_CONVERSION_FAILED,
-                info="No transforms were returned",
             )
+
         try:
             llm_state_data = await self.get_transform_state_with_cache(transform_ret)
         except Exception as e:
-            return RunResults(
+            raise LMSubmissionExecutionError(
+                message=f"Error getting transform state: {e}",
                 res_type=RunResultModes.LM_SUBMISSION_CONVERSION_FAILED,
-                info=f"Error getting transform state: {e}",
             )
+
         llm_state_data.converted_code = converted_code
         return llm_state_data

@@ -6,7 +6,6 @@ from blade_bench.eval.datamodel import EntireAnalysis
 from blade_bench.eval.llm.examples.fertility import FERTILITY_ANALYSIS, FERTILITY_DINFO
 from blade_bench.llms import LLMBase
 from blade_bench.data.dataset import DatasetInfo
-from blade_bench.baselines.utils import normalize_code_string
 
 
 SYSTEM_PROMPT = """You are an AI Data Analysis Assistant who is an expert at \

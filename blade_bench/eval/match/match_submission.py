@@ -1,6 +1,8 @@
 from typing import Dict, Literal, Union
 
 from blade_bench.data.annotation import AnnotationDBData
+from blade_bench.llms.base import TextGenerator
+from blade_bench.llms.datamodel.gen_config import LLMHistory
 from ..datamodel import (
     MatchedModels,
     MatchModel,
@@ -27,14 +29,26 @@ class SubmissionMatch:
         self,
         dataset_name: str,
         llm_config: Union[OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig] = None,
+        llm_history: LLMHistory = None,
+        text_gen: TextGenerator = None,
         gnd_truth: AnnotationDBData = None,
         submission: EntireAnalysisProcessed = None,
     ):
         self.gnd_truth = gnd_truth
         self.submission: EntireAnalysisProcessed = submission
         self.transform_matcher = TransformMatcher(dataset_name=dataset_name)
-        self.cvar_matcher = CVarMatcher(dataset_name, llm_config=llm_config)
-        self.smodel_matcher = StatsModelMatcher(dataset_name, llm_config=llm_config)
+        self.cvar_matcher = CVarMatcher(
+            dataset_name,
+            llm_config=llm_config,
+            llm_history=llm_history,
+            text_gen=text_gen,
+        )
+        self.smodel_matcher = StatsModelMatcher(
+            dataset_name,
+            llm_config=llm_config,
+            llm_history=llm_history,
+            text_gen=text_gen,
+        )
 
     async def match_transforms(
         self,

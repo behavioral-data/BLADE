@@ -4,7 +4,8 @@ from typing import Any, Callable, Dict, List, Union
 from langchain.schema import BaseOutputParser
 from langchain.schema.output_parser import OutputParserException
 
-from .config import get_llm_config
+
+from .config import get_llm_config, get_text_gen
 
 from .datamodel import (
     AnthropicGenConfig,
@@ -15,9 +16,7 @@ from .datamodel import (
     TextGenResponse,
 )
 from .base import TextGenerator
-from .textgen_openai import OpenAITextGenerator
-from .textgen_gemini import GeminiTextGenerator
-from .textgen_anthropic import AnthropicTextGenerator
+
 
 from blade_bench.logger import LLM_LEVEL_NAME, PROMPT_LEVEL_NAME, logger
 
@@ -61,15 +60,7 @@ class LLMBase:
         """
         Initialize the class from the LLM config
         """
-        if isinstance(llm_config, OpenAIGenConfig):
-            text_gen = OpenAITextGenerator(llm_config, cache_dir=cache_dir)
-        elif isinstance(llm_config, GeminiGenConfig):
-            text_gen = GeminiTextGenerator(llm_config, cache_dir=cache_dir)
-        elif isinstance(llm_config, AnthropicGenConfig):
-            text_gen = AnthropicTextGenerator(llm_config, cache_dir=cache_dir)
-        else:
-            raise ValueError(f"Unknown LLM config type: {llm_config}")
-
+        text_gen = get_text_gen(llm_config, cache_dir=cache_dir)
         return cls(text_gen, **kwargs)
 
     def __init__(self, text_gen: TextGenerator, history: LLMHistory = None):

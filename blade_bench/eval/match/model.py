@@ -9,6 +9,8 @@ from blade_bench.llms import (
     GeminiGenConfig,
     AnthropicGenConfig,
 )
+from blade_bench.llms.base import TextGenerator
+from blade_bench.llms.datamodel.gen_config import GenConfig, LLMHistory
 from ..llm import ConceptualVarSimilarity, StatsModelSimilarity
 from ..llm.model_similarity import StatsModelSimilarity
 from .base import BaseMatcher
@@ -22,20 +24,33 @@ class StatsModelMatcher(BaseMatcher):
     def __init__(
         self,
         dataset_name: str,
-        llm_config: Union[OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig] = None,
+        llm_config: GenConfig = None,
+        llm_history: LLMHistory = None,
+        text_gen: TextGenerator = None,
     ):
         super().__init__(dataset_name)
         self.dinfo_path = get_dataset_info_path(dataset_name)
         self.dinfo: DatasetInfo = get_dataset_info(dataset_name)
-        if llm_config is None:
-            self.smodel_compare_llm = StatsModelSimilarity.init_from_base_llm_config()
-            self.cvar_compare_llm = ConceptualVarSimilarity.init_from_base_llm_config()
+        self.__init_llms(llm_config, llm_history, text_gen)
+
+    def __init_llms(
+        self, llm_config: GenConfig, llm_history: LLMHistory, text_gen: TextGenerator
+    ):
+        if llm_config is None and text_gen is None:
+            raise ValueError("llm_config or text_gen must be provided")
+        if text_gen is not None:
+            self.smodel_compare_llm = StatsModelSimilarity(
+                text_gen, history=llm_history
+            )
+            self.cvar_compare_llm = ConceptualVarSimilarity(
+                text_gen, history=llm_history
+            )
         else:
             self.smodel_compare_llm = StatsModelSimilarity.init_from_llm_config(
-                llm_config
+                llm_config, history=llm_history
             )
             self.cvar_compare_llm = ConceptualVarSimilarity.init_from_llm_config(
-                llm_config
+                llm_config, history=llm_history
             )
 
     def match_annotator_data(

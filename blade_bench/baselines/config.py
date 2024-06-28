@@ -5,12 +5,17 @@ from blade_bench.llms.datamodel import (
     AnthropicGenConfig,
     GeminiGenConfig,
     OpenAIGenConfig,
+    HuggingFaceGenConfig,
 )
 
 
 class BenchmarkConfig(BaseModel):
-    llm: Union[OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig]
-    llm_eval: Union[OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig]
+    llm: Union[
+        OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig, HuggingFaceGenConfig
+    ]
+    llm_eval: Union[
+        OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig, HuggingFaceGenConfig
+    ]
     output_dir: str
     run_dataset: str
     use_agent: bool = False

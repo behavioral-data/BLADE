@@ -2,6 +2,9 @@ from typing import Any, Dict, List, Literal, Optional, Union
 from pydantic import BaseModel, Field
 from pathlib import Path
 
+from blade_bench.llms.datamodel.usage import UsageData
+from blade_bench.llms.local.local_client import LocalLLMClient
+
 
 class Message(BaseModel):
     role: str
@@ -23,8 +26,8 @@ class TextGenConfig(BaseModel):
 
 class ProviderModelConfig(BaseModel):
     provider: str
+    model: str
     max_tokens: Optional[int] = None
-    model: Optional[str] = None
     api_key_env_name: Optional[str] = Field(None, exclude=True)
     use_cache: bool = Field(default=True, exclude=True)
     textgen_config: Optional[TextGenConfig] = None
@@ -57,10 +60,10 @@ class GeminiGenConfig(ProviderModelConfig):
     provider: Literal["gemini"] = "gemini"
 
 
-class UsageData(BaseModel):
-    prompt_tokens: Optional[int] = None
-    completion_tokens: Optional[int] = None
-    total_tokens: Optional[int] = None
+class HuggingFaceGenConfig(ProviderModelConfig):
+    llm_client: Literal["default"] = "default"
+    provider: Literal["huggingface"] = "huggingface"
+    api_base: Optional[str] = Field(None, exclude=True)
 
 
 class TextGenResponse(BaseModel):
@@ -80,4 +83,27 @@ class PromptHistoryEntry(BaseModel):
 
 class LLMHistory(BaseModel):
     token_usage_history: Optional[List[UsageData]] = []
-    prompt_history: Optional[List[PromptHistoryEntry]] = []
+    prompt_history: Optional[List[PromptHistoryEntry]] = Field(
+        default_factory=list, exclude=True
+    )
+
+    @property
+    def total_calls(self):
+        return len(self.token_usage_history)
+
+    @property
+    def total_tokens_used(self):
+        return sum([x.total_tokens for x in self.token_usage_history])
+
+    @property
+    def total_prompt_tokens_used(self):
+        return sum([x.prompt_tokens for x in self.token_usage_history])
+
+    @property
+    def total_completion_tokens_used(self):
+        return sum([x.completion_tokens for x in self.token_usage_history])
+
+
+GenConfig = Union[
+    OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig, HuggingFaceGenConfig
+]
