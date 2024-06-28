@@ -141,8 +141,8 @@ class RunLLMAndEval:
             logger.error(f"Error: {e.message}")
 
             return RunResults(
-                e.res_type,
-                e.message,
+                res_type=e.res_type,
+                info=e.message,
                 is_error=True,
                 lm_history=self.llm_history,
                 agent_steps=self.agent.steps if self.agent is not None else 0,
