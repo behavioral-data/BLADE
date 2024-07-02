@@ -14,7 +14,6 @@ from blade_bench.eval.evaluator import Evaluator
 from blade_bench.eval.exceptions import (
     LMGenerationError,
 )
-from blade_bench.llms.config import get_text_gen
 from blade_bench.llms.datamodel import LLMHistory
 from blade_bench.llms.llm import LLMBase
 from blade_bench.logger import logger, formatter
@@ -49,18 +48,13 @@ class RunLLMAndEval:
 
     def __init__(self, config: BenchmarkConfig):
         self.config = config
-
         self.dinfo = get_dataset_info(config.run_dataset)
-
-        config.llm.log_file = osp.join(config.output_dir, "llm.log")
-        config.llm_eval.log_file = osp.join(config.output_dir, "llm.log")
-        self.llm_config = config.llm
         self.llm_history = LLMHistory()
-        self.eval_text_gen = get_text_gen(config.llm_eval)
-        self.gen_analysis_lm = GenAnalysisLM.init_from_llm_config(
-            self.llm_config, history=self.llm_history
+        self.eval_text_gen = config.llm_eval.texgt_gen
+        self.gen_analysis_lm = GenAnalysisLM(
+            config.llm.texgt_gen, history=self.llm_history
         )
-        self.format_lm = LLMBase(self.eval_text_gen)
+        self.format_lm = LLMBase(config.llm_eval.texgt_gen)
         if config.use_agent:
             self.agent = ReActAgent(
                 self.gen_analysis_lm,

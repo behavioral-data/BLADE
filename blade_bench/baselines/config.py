@@ -1,44 +1,40 @@
-from typing import Union
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field, model_validator
+import os.path as osp
+from blade_bench.llms import llm, TextGenerator, TextGenConfig
+from functools import cached_property
 
-from blade_bench.llms.datamodel import (
-    AnthropicGenConfig,
-    GeminiGenConfig,
-    OpenAIGenConfig,
-    HuggingFaceGenConfig,
-)
+
+class LLMConfig(BaseModel):
+    provider: str
+    model: str
+    textgen_config: TextGenConfig = None
+    log_file: str = None
+    use_cache: bool = True
+
+    @cached_property
+    def texgt_gen(self) -> TextGenerator:
+        return llm(
+            provider=self.provider,
+            model=self.model,
+            textgen_config=self.textgen_config,
+            log_file=self.log_file,
+            use_cache=self.use_cache,
+        )
 
 
 class BenchmarkConfig(BaseModel):
-    llm: Union[
-        OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig, HuggingFaceGenConfig
-    ]
-    llm_eval: Union[
-        OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig, HuggingFaceGenConfig
-    ]
+    llm: LLMConfig
+    llm_eval: LLMConfig
     output_dir: str
     run_dataset: str
     use_agent: bool = False
     use_data_desc: bool = False
     use_code_cache: bool = True
 
-
-def load_config(llm_dict: dict):
-    if llm_dict.get("provider") == "openai":
-        return OpenAIGenConfig(**llm_dict)
-    elif llm_dict.get("provider") == "gemini":
-        return GeminiGenConfig(**llm_dict)
-    elif llm_dict.get("provider") == "anthropic":
-        return AnthropicGenConfig(**llm_dict)
-
-    raise ValueError(f"Invalid LLM provider: {llm_dict.get('provider')}")
-
-
-def load_benchmark_config(config_dict: dict):
-    llm = load_config(config_dict["llm"])
-    llm_eval = load_config(config_dict["llm_eval"])
-
-    config_dict["llm"] = llm
-    config_dict["llm_eval"] = llm_eval
-
-    return BenchmarkConfig(**config_dict)
+    @model_validator(mode="before")
+    def add_log_file(cls, data):
+        data["llm"] = dict(data["llm"])
+        data["llm_eval"] = dict(data["llm_eval"])
+        data["llm"]["log_file"] = osp.join(data["output_dir"], "llm.log")
+        data["llm_eval"]["log_file"] = osp.join(data["output_dir"], "llm.log")
+        return data

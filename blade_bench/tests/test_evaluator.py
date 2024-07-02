@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock, Mock, patch, AsyncMock
 import pytest
 
+from blade_bench.eval.datamodel.result import EvalResults
 from blade_bench.eval.evaluator import Evaluator
 from blade_bench.eval.exceptions import (
     LMSubmissionConversionError,
@@ -13,7 +14,10 @@ from blade_bench.eval.convert import Convert
 from blade_bench.eval.match.match_submission import SubmissionMatch
 from blade_bench.llms.datamodel.gen_config import OpenAIGenConfig, TextGenConfig
 from blade_bench.llms.textgen_openai import OpenAITextGenerator
-from blade_bench.tests.mock_data.hurricane_analysis import HURRICANE_ANALYSIS
+from blade_bench.tests.mock_data.hurricane_analysis import (
+    HURRICANE_ANALYSIS,
+    HURRICANE_ANALYSES_SUBMISSION,
+)
 
 from blade_bench.eval.datamodel import (
     EvalResult,
@@ -25,6 +29,7 @@ from blade_bench.eval.datamodel import (
 
 
 analysis = EntireAnalysis(**HURRICANE_ANALYSIS)
+dataset_submission = DatasetSubmission(**HURRICANE_ANALYSES_SUBMISSION)
 
 
 # used to load these objets in Pydantic for EvalResult
@@ -53,9 +58,6 @@ def textgen():
 
 @pytest.fixture
 def evaluator(textgen):
-    dataset_submission = DatasetSubmission(
-        dataset_name="hurricane", analyses=[analysis]
-    )
     return Evaluator(submission=dataset_submission, text_gen=textgen)
 
 
@@ -140,6 +142,16 @@ async def test_run_eval_handle_error(evaluator):
                     result.eval_run_result.res_type
                     == RunResultModes.MATCHING_FAILED.value
                 )
+
+
+@pytest.mark.asyncio
+async def test_evaluator_on_analyses(evaluator):
+    result: EvalResults = await evaluator.run_eval_on_analyses()
+    assert len(result.results) == len(dataset_submission.analyses)
+    for res in result.results:
+        assert res.analysis_processed is not None
+        assert res.matched_annotations is not None
+        assert res.metrics is not None
 
 
 if __name__ == "__main__":

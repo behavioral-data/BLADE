@@ -11,7 +11,7 @@ class SingleColState(BaseModel):
     value_hash: str = ""
     categorical_value_hash: str = ""
     graph_hash: str = ""
-    df_col: pd.Series = Field(default=None, exclude=True)
+    df_col: Optional[pd.Series] = Field(default=None, exclude=True)
     cols_graph_id: int = None
     cols_nid: str = ""  # nid in the cols graph
     code: Optional[str] = None
@@ -27,7 +27,9 @@ class TransformState(BaseModel):
     expanded_spec_id: str = ""
     df_value_hash: Dict[str, str] = {}
     df_categorical_value_hash: Dict[str, str] = {}
-    df: Union[pd.DataFrame, pd.Series, None] = Field(default=None, exclude=True)
+    df: Optional[Union[pd.DataFrame, pd.Series, None]] = Field(
+        default=None, exclude=True
+    )
     columns: List[str] = []
     spec_name: Optional[str] = None
 

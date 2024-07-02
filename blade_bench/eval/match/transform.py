@@ -163,10 +163,12 @@ class TransformMatcher(BaseMatcher):
             graph_states1 = ts1.graph_hashes[graph_hash]
             graph_states2 = ts2.graph_hashes[graph_hash]
             matched = False
-            for sub_g1, col_states1 in graph_states1:
+            for gstate in graph_states1:
+                sub_g1, col_states1 = gstate.graph, gstate.col_states
                 if matched:
                     break
-                for sub_g2, col_states2 in graph_states2:
+                for gstate2 in graph_states2:
+                    sub_g2, col_states2 = gstate2.graph, gstate2.col_states
                     if matched:
                         break
                     if nx.is_isomorphic(

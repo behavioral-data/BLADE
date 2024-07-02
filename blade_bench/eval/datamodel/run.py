@@ -1,8 +1,9 @@
 from enum import Enum
 from typing import List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
+from blade_bench.eval.datamodel.lm_analysis import EntireAnalysis
 from blade_bench.llms.datamodel import LLMHistory
 from blade_bench.eval.metrics import AllMetrics
 
@@ -18,30 +19,69 @@ class RunResultModes(Enum):
     GETTING_METRICS_FAILED = 7
 
 
+class SingleRunMetrics(BaseModel):
+    status: RunResultModes
+    num_model_match: int
+    num_model_match_cvar: int
+    num_match_vspec: int
+    num_match_gspec: int
+    num_match_vspec2: int
+    num_match_gspec2: int
+    num_match_cvar: int
+    num_tspecs2: int
+    num_cvars2: int
+    analysis: Optional[EntireAnalysis] = None
+    converted_code: Optional[str] = None
+
+
 class MetricsAcrossRuns(BaseModel):
     model_config = ConfigDict(use_enum_values=True)
-    all_models_match: Set[str]
-    all_models_match_cvar: Set[str]
-    all_transforms_match_vspecs: Set[str]
-    all_transforms_match_gspecs: Set[str]
-    all_transforms_match_vspecs2: Set[str]
-    all_transforms_match_gspecs2: Set[str]
-    all_cvars_match: Set[str]
-    status: List[RunResultModes]
-    # value for each run
-    num_match_model: List[int]
-    num_match_model_cvar: List[int]
-    num_match_vspec: List[int]
-    num_match_gspec: List[int]
-    num_match_vspec2: List[int]
-    num_match_gspec2: List[int]
-    num_match_cvar: List[int]
-    num_tspec2: List[int]
-    num_cvars2: List[int]
+    all_models_match: Set[str] = Field(default_factory=set)
+    all_models_match_cvar: Set[str] = Field(default_factory=set)
+    all_transforms_match_vspecs: Set[str] = Field(default_factory=set)
+    all_transforms_match_gspecs: Set[str] = Field(default_factory=set)
+    all_transforms_match_vspecs2: Set[str] = Field(default_factory=set)
+    all_transforms_match_gspecs2: Set[str] = Field(default_factory=set)
+    all_cvars_match: Set[str] = Field(default_factory=set)
+    status: List[RunResultModes] = Field(default_factory=list)
+    num_match_model: List[int] = Field(default_factory=list)
+    num_match_model_cvar: List[int] = Field(default_factory=list)
+    num_match_vspec: List[int] = Field(default_factory=list)
+    num_match_gspec: List[int] = Field(default_factory=list)
+    num_match_vspec2: List[int] = Field(default_factory=list)
+    num_match_gspec2: List[int] = Field(default_factory=list)
+    num_match_cvar: List[int] = Field(default_factory=list)
+    num_tspecs2: List[int] = Field(default_factory=list)
+    num_cvars2: List[int] = Field(default_factory=list)
     num_tspecs1: int = -1
     num_mspecs1: int = -1
     num_mspecs1_unique: int = -1
     num_cvars1: int = -1
+    analyses: Optional[List[EntireAnalysis]] = Field(default_factory=list)
+    converted_code: Optional[List[str]] = Field(default_factory=list)
+
+    def __getitem__(self, n: int):
+        return SingleRunMetrics(
+            status=self.status[n],
+            num_model_match=self.num_match_model[n],
+            num_model_match_cvar=self.num_match_model_cvar[n],
+            num_match_vspec=self.num_match_vspec[n],
+            num_match_gspec=self.num_match_gspec[n],
+            num_match_vspec2=self.num_match_vspec2[n],
+            num_match_gspec2=self.num_match_gspec2[n],
+            num_match_cvar=self.num_match_cvar[n],
+            num_tspecs2=self.num_tspecs2[n],
+            num_cvars2=self.num_cvars2[n],
+            analysis=self.analyses[n] if self.analyses else None,
+            converted_code=self.converted_code[n] if self.converted_code else None,
+        )
+
+    def __len__(self):
+        return len(self.status)
+
+    def get_nth_analysis(self, n: int):
+        # TODO
+        return self.analyses[n], self.converted_code[n]
 
     @property
     def coverage_num_models_matched(self):
@@ -73,11 +113,11 @@ class MetricsAcrossRuns(BaseModel):
 
     @property
     def average_transforms_matched_vspecs(self):
-        return sum(self.num_match_vspec) / max(sum(self.num_tspec2), 1)
+        return sum(self.num_match_vspec) / max(sum(self.num_tspecs2), 1)
 
     @property
     def average_transforms_matched_gspecs(self):
-        return sum(self.num_match_gspec) / max(sum(self.num_tspec2), 1)
+        return sum(self.num_match_gspec) / max(sum(self.num_tspecs2), 1)
 
     @property
     def average_cvars_matched(self):

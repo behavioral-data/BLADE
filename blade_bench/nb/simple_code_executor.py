@@ -10,7 +10,6 @@ INIT_CODE = """from pydantic import BaseModel
 from typing import List, Optional, Callable, Union, Dict, FrozenSet, Set, Literal, Optional, Any
 from pydantic import BaseModel, validator
 import pandas as pd
-import pandas as pd
 import sklearn
 import scipy
 import statsmodels.api as sm

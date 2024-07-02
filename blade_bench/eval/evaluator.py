@@ -1,7 +1,8 @@
+import json
 import os
 import traceback
 import os.path as osp
-from typing import Union
+from typing import List, Union
 from blade_bench.data.annotation import AnnotationDBData
 from blade_bench.data.datamodel.transforms import TransformDatasetState
 from blade_bench.data.load_annotation import load_ground_truth_data
@@ -18,7 +19,7 @@ from blade_bench.eval.exceptions import (
     GetMetricsError,
 )
 from blade_bench.eval.datamodel.match import MatchedAnnotations
-from blade_bench.eval.datamodel.result import EvalResult
+from blade_bench.eval.datamodel.result import EvalResult, EvalResults
 from blade_bench.eval.match.match_submission import SubmissionMatch
 from blade_bench.eval.metrics.all_metrics import get_metrics_from_match_obj
 from blade_bench.eval.utils import SAVE_CONVERTED_CODE_TEMPLATE
@@ -70,10 +71,10 @@ class Evaluator:
         else:
             logger.info(info)
 
-        await self.convert.transform_executor.nb_executor.terminate()
-        await self.convert.code_executor.nb_executor.terminate()
+        await self.convert.transform_executor.terminate()
+        await self.convert.code_executor.terminate()
         if self.convert.annotation.nb_executor is not None:
-            await self.convert.annotation.nb_executor.nb_executor.terminate()
+            await self.convert.annotation.nb_executor.terminate()
 
         return EvalRunResults(
             res_type=res_type,
@@ -165,4 +166,18 @@ class Evaluator:
             matched_annotations=matched_annotations,
             metrics=match_metrics,
             eval_run_result=run_results,
+            eval_lm_history=self.llm_history,
+        )
+
+    async def run_eval_on_analyses(self) -> EvalResults:
+        res_l = []
+        for i, analysis in enumerate(self.submission.analyses):
+            logger.info(f"Running evaluation for analysis {i+1}")
+            res = await self.run_eval(analysis)
+            res_l.append(
+                EvalResult(**json.loads(res.model_dump_json(exclude_none=True)))
+            )
+        return EvalResults(
+            dataset_name=self.submission.dataset_name,
+            results=res_l,
         )

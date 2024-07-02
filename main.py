@@ -26,12 +26,12 @@ def my_app(cfg: DictConfig) -> None:
     OmegaConf.resolve(cfg)
     cfg_agent = dict(cfg)
     cfg_agent["output_dir"] = output_dir
-    agent_config = BenchmarkConfig(**cfg_agent)
+    config = BenchmarkConfig(**cfg_agent)
     log_file = f"{hydra_cfg.help.app_name}.log"
     log_file_jsonl = f"{hydra_cfg.help.app_name}.jsonl"
     i1 = logger.add(osp.join(output_dir, log_file), format=formatter.format)
     i2 = logger.add(osp.join(output_dir, log_file_jsonl), format="{extra[serialized]}")
-    agent = RunLLMAndEval(agent_config)
+    agent = RunLLMAndEval(config)
     asyncio.run(run_main(agent, hydra_cfg.mode, cfg_agent.get("run_name", "default")))
     logger.remove(i1)
     logger.remove(i2)

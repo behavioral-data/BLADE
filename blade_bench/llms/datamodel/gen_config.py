@@ -1,5 +1,5 @@
 from typing import Any, Dict, List, Literal, Optional, Union
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from pathlib import Path
 
 from blade_bench.llms.datamodel.usage import UsageData
@@ -27,8 +27,8 @@ class TextGenConfig(BaseModel):
 class ProviderModelConfig(BaseModel):
     provider: str
     model: str
+    api_key_env_name: str
     max_tokens: Optional[int] = None
-    api_key_env_name: Optional[str] = Field(None, exclude=True)
     use_cache: bool = Field(default=True, exclude=True)
     textgen_config: Optional[TextGenConfig] = None
     log_file: Optional[str] = None
@@ -51,6 +51,18 @@ class OpenAIGenConfig(ProviderModelConfig):
     api_base: Optional[str] = Field(None, exclude=True)
     api_version: Optional[str] = Field(None, exclude=True)
 
+    @model_validator(mode="before")
+    def validate_deployment(cls, data):
+        deployment = data.get("deployment")
+        model = data.get("model")
+        if data.get("provider") == "azureopenai":
+            if deployment and model is None:
+                data["model"] = deployment
+            elif model and deployment is None:
+                data["deployment"] = model
+
+        return data
+
 
 class AnthropicGenConfig(ProviderModelConfig):
     provider: Literal["anthropic"] = "anthropic"
@@ -64,6 +76,7 @@ class HuggingFaceGenConfig(ProviderModelConfig):
     llm_client: Literal["default"] = "default"
     provider: Literal["huggingface"] = "huggingface"
     api_base: Optional[str] = Field(None, exclude=True)
+    api_key_env_name: Optional[str] = Field(None, exclude=True)
 
 
 class TextGenResponse(BaseModel):
@@ -107,3 +120,12 @@ class LLMHistory(BaseModel):
 GenConfig = Union[
     OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig, HuggingFaceGenConfig
 ]
+
+
+if __name__ == "__main__":
+    conf = OpenAIGenConfig(
+        provider="azureopenai",
+        api_key_env_name="OPENAI_API",
+        deployment="text-davinci-003",
+    )
+    print(conf)

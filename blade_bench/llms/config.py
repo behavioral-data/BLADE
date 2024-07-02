@@ -38,7 +38,21 @@ def get_text_gen(llm_config: GenConfig, cache_dir: str = None) -> TextGenerator:
     return text_gen
 
 
-def get_llm_config_from_conf_dict(conf_dict: dict):
+def llm(
+    provider: str = None,
+    model: str = None,
+    textgen_config: TextGenConfig = None,
+    cache_dir: str = None,
+    **kwargs,
+):
+    config = get_llm_config(
+        provider=provider, model=model, textgen_config=textgen_config, **kwargs
+    )
+    return get_text_gen(config, cache_dir=cache_dir)
+
+
+def get_llm_config_from_conf_dict(conf_dict: dict, **kwargs):
+    conf_dict.update(kwargs)
     if (
         conf_dict.get("provider") == "openai"
         or conf_dict.get("provider") == "azureopenai"
@@ -72,7 +86,10 @@ def sanitize_provider(provider: str):
 
 
 def get_llm_config(
-    provider: str = None, model: str = None, textgen_config: TextGenConfig = None
+    provider: str = None,
+    model: str = None,
+    textgen_config: TextGenConfig = None,
+    **kwargs,
 ):
     config = load_config()
     if provider is None:
@@ -104,7 +121,7 @@ def get_llm_config(
                 f"Model '{model_name}' not found in config file. Options are: {[m['name']for m in models]}"
             )
     model_conf["textgen_config"] = textgen_config
-    config = get_llm_config_from_conf_dict(model_conf)
+    config = get_llm_config_from_conf_dict(model_conf, **kwargs)
     return config
 
 
@@ -114,14 +131,13 @@ def load_config():
         if config_path is None or os.path.exists(config_path) is False:
             config_path = os.path.join(get_conf_dir(), "config.default.yml")
             logger.info(
-                "Info: LLM_CONFIG_PATH environment variable is not set to a valid config file. Using default config file at '%s'.",
-                config_path,
+                f"Info: LLM_CONFIG_PATH environment variable is not set to a valid config file. Using default config file at '{config_path}'."
             )
         if config_path is not None:
             try:
                 with open(config_path, "r", encoding="utf-8") as f:
                     config = yaml.safe_load(f)
-                    logger.info("Loaded config from '%s'.", config_path)
+                    logger.info(f"Loaded config from '{config_path}'.")
                     return config
             except FileNotFoundError as file_not_found:
                 logger.info(
@@ -148,3 +164,10 @@ def load_config():
     except Exception as error:
         logger.info("Error: An unexpected error occurred: %s", str(error))
     return None
+
+
+if __name__ == "__main__":
+    from blade_bench.llms import get_llm_config
+
+    gen = llm(provider="azureopenai", model="gpt-4o-azure")
+    print("here")

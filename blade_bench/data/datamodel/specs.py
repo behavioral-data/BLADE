@@ -82,8 +82,8 @@ class SpecWithSpecName(SpecWithTags):
 
     @field_validator("spec_name")
     def get_spec_name(cls, spec_name: str, values: Dict[str, Any]) -> str:
-        if spec_name == "" and "specification" in values:
-            return replace_spaces_with_underscore(values["specification"])
+        if spec_name == "" and "specification" in values.data:
+            return replace_spaces_with_underscore(values.data["specification"])
         return spec_name
 
 

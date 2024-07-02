@@ -86,6 +86,10 @@ class NotebookExecutorBasic(BaseModel):
             self.data_path = data_path
         await self.run_init_code()
 
+    async def terminate(self):
+        await self.nb_executor.terminate()
+        self.ran_init_code = False
+
     @property
     def cur_code(self):
         return self.nb_executor.nb.cells[-1].source

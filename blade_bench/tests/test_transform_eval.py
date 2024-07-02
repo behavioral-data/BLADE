@@ -202,11 +202,21 @@ class TestProcessGraph(absltest.TestCase):
         "O2__GROUPBY": {"col2__POST_GROUPBY__post_groupby_col2": {"type": "data"}},
         "O4__GROUPBY": {"col4__POST_GROUPBY__post_groupby_col4": {"type": "data"}},
         "col1__POST_GROUPBY__post_groupby_col1": {"col1__F2": {"type": "data"}},
-        "col2__POST_GROUPBY__post_groupby_col2": {"col2__F2": {"type": "input + data"}},
+        "col2__POST_GROUPBY__post_groupby_col2": {
+            "col2__F2": {"type": "input + data"},
+            "col1__F2": {"type": "input"},
+            "col3__F2": {"type": "input"},
+            "col4__F2": {"type": "input"},
+        },
         "col3__POST_GROUPBY__post_groupby_col3": {"col3__F2": {"type": "data"}},
         "col4__POST_GROUPBY__post_groupby_col4": {"col4__F2": {"type": "data"}},
         "col4__F2": {"col4__F1": {"type": "data"}},
-        "col2__F2": {"col2__F1": {"type": "input + data"}},
+        "col2__F2": {
+            "col2__F1": {"type": "input + data"},
+            "col1__F1": {"type": "input"},
+            "col3__F1": {"type": "input"},
+            "col4__F1": {"type": "input"},
+        },
         "col3__F2": {"col3__F1": {"type": "data"}},
         "col1__F2": {"col1__F1": {"type": "data"}},
         "col4__F1": {},
@@ -252,7 +262,12 @@ class TestProcessGraph(absltest.TestCase):
 
     RESULT3_COLSG = {
         "O4__ROOT": {"O4__F1": {"type": "data"}},
-        "O1__ROOT": {"O1__F1": {"type": "input + data"}},
+        "O1__ROOT": {
+            "O1__F1": {"type": "input + data"},
+            "O2__F1": {"type": "input"},
+            "O3__F1": {"type": "input"},
+            "O4__F1": {"type": "input"},
+        },
         "O2__ROOT": {"O2__F1": {"type": "data"}},
         "O3__ROOT": {"O3__F1": {"type": "data"}},
         "O4__F1": {},

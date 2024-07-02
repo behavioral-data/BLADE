@@ -1,6 +1,6 @@
 import pickle
 from typing import Dict, List, Literal, Optional, Tuple, Union
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 from blade_bench.data.datamodel import (
     ConceptualVarSpec,
@@ -17,7 +17,20 @@ class MatchCvar(BaseModel):
     similarity: Optional[int]
 
 
-class MatchedCvars(BaseModel):
+class MatchBase(BaseModel):
+    @field_validator("matched", "matched_unique", check_fields=False, mode="before")
+    def convert_keys_to_tuple(cls, value):
+        if isinstance(value, dict):
+            new_value = {}
+            for k, v in value.items():
+                if isinstance(k, str) and "," in k:
+                    k = tuple(map(int, k.split(",")))
+                new_value[k] = v
+            return new_value
+        return value
+
+
+class MatchedCvars(MatchBase):
     input_vars1: Union[List[ConceptualVarSpec], List[str]]
     input_vars2: Union[List[ConceptualVarSpec], List[str]]
     matched: Dict[Tuple[int, int], MatchCvar]
@@ -58,7 +71,7 @@ class MatchModel(BaseModel):
         return True
 
 
-class MatchedModels(BaseModel):
+class MatchedModels(MatchBase):
     input_models1: Union[List[ModelSpec], List[str]]
     input_models2: Union[List[ModelSpec], List[str]]
     mspec_id_to_cvars1: Dict[str, Union[List[ConceptualVarSpec], List[str]]]
@@ -122,3 +135,13 @@ class MatchedAnnotations(BaseModel):
         for cvar in self.matched_cvars.values():
             ret.extend(cvar.input_vars2)
         return ret
+
+
+if __name__ == "__main__":
+    import json
+
+    class Test(MatchBase):
+        matched: Dict[Tuple[int, int], str]
+
+    test_instance = Test(matched={(0, 1): "Match detail 1", (1, 0): "Match detail 2"})
+    a = Test(**json.loads(test_instance.model_dump_json()))

@@ -4,6 +4,7 @@ from typing import Dict, List, Tuple
 import pandas as pd
 import networkx as nx
 from blade_bench.data.datamodel.specs import POST_GROUPBY_TRANS_VERB
+from blade_bench.data.datamodel.transforms import GraphHashInfo
 from blade_bench.parse_code import process_groupby_code
 from .graph_paths import GraphPaths
 
@@ -36,14 +37,21 @@ from blade_bench.nb.funcs import (
 class AnnotationDataTransforms:
     def __init__(
         self,
-        dataset_path: str,
+        dataset_path: str = None,
         id_to_spec: Dict[str, TransformSpec] = None,
         nx_g: nx.DiGraph = None,
         run_nb: bool = True,
         save_path: str = ".",
+        data_columns: List[str] = None,
     ):
-        self.df = pd.read_csv(dataset_path)
-        self.data_columns = list(self.df.columns)
+        if dataset_path is not None:
+            df = pd.read_csv(dataset_path)
+            self.data_columns = list(df.columns)
+        elif data_columns is not None:
+            self.data_columns = data_columns
+        else:
+            raise ValueError("Either dataset_path or data_columns must be provided")
+
         self.id_to_spec = id_to_spec
         self.nx_g = nx_g if nx_g is not None else self.build_graph_from_specs()
         if run_nb:
@@ -113,10 +121,16 @@ class AnnotationDataTransforms:
             path_info.cols_gid = ind
             col_graphs[ind] = path_info
 
+        graph_hashes = {
+            k: [GraphHashInfo(col_states=s[1], graph=s[0])]
+            for k, v in all_graph_hashes.items()
+            for s in v
+        }
+
         return TransformDatasetState(
             id_to_spec=id_to_spec,
             expanded_id_to_spec=all_expanded_id_to_spec,
-            graph_hashes=all_graph_hashes,
+            graph_hashes=graph_hashes,
             value_hashes=all_value_hashes,
             categorical_value_hashes=all_categorical_hashes,
             graphs=col_graphs,

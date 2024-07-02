@@ -8,6 +8,7 @@ from blade_bench.utils import (
     get_dataset_annotations_path,
     get_dataset_csv_path,
 )
+import nest_asyncio
 
 GROUND_TRUTH_FNAME = "annotations.pkl"
 
@@ -20,6 +21,7 @@ def load_ground_truth_data(
         gnd_truth_path = get_dataset_annotations_path(dataset_name)
         df = pd.read_csv(gnd_truth_path)
         adata = get_annotation_data_from_df(df)
+        nest_asyncio.apply()
         asyncio.run(
             adata.get_state_data(
                 get_dataset_csv_path(dataset_name),

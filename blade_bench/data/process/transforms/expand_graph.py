@@ -287,21 +287,30 @@ class ProcessGraph:
                         data_col,
                     )
                 if add_input_edges:
-                    for col in spec.input_cols:
-                        for parent in parents:
-                            if col in ex_g_to_cols_g_nodes[parent]:
-                                nid = ex_g_to_cols_g_nodes[parent][col]
-                                if (nid, f"{col}__{spec.spec_id}") not in cols_g.edges:
-                                    cols_g.add_edge(
-                                        nid, f"{col}__{spec.spec_id}", type="input"
-                                    )
-                                else:
-                                    cols_g.add_edge(
+                    all_cols = {
+                        col
+                        for parent in ex_g.nx_g.predecessors(n)
+                        for col in ex_g_to_cols_g_nodes[parent]
+                    }
+                    for parent in ex_g.nx_g.predecessors(n):
+                        for col, nid in ex_g_to_cols_g_nodes[parent].items():
+                            if col in spec.input_cols:
+                                for out_col in all_cols:
+                                    if (
                                         nid,
-                                        f"{col}__{spec.spec_id}",
-                                        type="input + data",
-                                    )
-                                break
+                                        f"{out_col}__{spec.spec_id}",
+                                    ) not in cols_g.edges:
+                                        cols_g.add_edge(
+                                            nid,
+                                            f"{out_col}__{spec.spec_id}",
+                                            type="input",
+                                        )
+                                    else:
+                                        cols_g.add_edge(
+                                            nid,
+                                            f"{out_col}__{spec.spec_id}",
+                                            type="input + data",
+                                        )
             else:
                 inp_cols, output_col = spec.input_cols_to_output_col_mapping[0]
                 nid = f"{output_col}__{spec.spec_id}"
