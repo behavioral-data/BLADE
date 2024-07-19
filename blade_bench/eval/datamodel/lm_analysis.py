@@ -214,7 +214,7 @@ class EntireAnalysis(BaseModel):
 class EntireAnalysisProcessed(BaseModel):
     cv_specs: Dict[str, ConceptualVarSpec]
     m_specs: Dict[str, ModelSpec]
-    transform_state: Union[TransformDatasetState, None]
+    transform_state: Union[TransformDatasetState, None] = None
     agent_cvars: AgentCVarsWithCol
     m_code_and_cols: ModelAndColumns
 
@@ -232,16 +232,19 @@ class EntireAnalysisProcessed(BaseModel):
             for col in model_spec.associated_columns_derived:
                 for cvar in self.cv_specs.values():
                     if col in cvar.final_columns_derived and col not in added:
-                        mspec_id_to_cvars[model_spec.spec_id].append(cvar)
                         added.add(col)
+                        if cvar not in mspec_id_to_cvars[model_spec.spec_id]:
+                            mspec_id_to_cvars[model_spec.spec_id].append(cvar)
+
                 # if cvar is og cols and model is derived cols
                 if col in col_associated_og_cols:
                     og_cols = set(col_associated_og_cols[col])
                     for cvar in self.cv_specs.values():
                         cvar_cols = set(cvar.final_columns_derived)
                         if cvar_cols.issubset(og_cols) and col not in added:
-                            mspec_id_to_cvars[model_spec.spec_id].append(cvar)
                             added.add(col)
+                            if cvar not in mspec_id_to_cvars[model_spec.spec_id]:
+                                mspec_id_to_cvars[model_spec.spec_id].append(cvar)
                 # if cvar is derived cols and model is og cols
                 if col_associated_og_cols:
                     for cvar in self.cv_specs.values():
@@ -254,8 +257,14 @@ class EntireAnalysisProcessed(BaseModel):
                                     and col in cols_cv
                                     and col not in added
                                 ):
-                                    mspec_id_to_cvars[model_spec.spec_id].append(cvar)
                                     added.add(col)
+                                    if (
+                                        cvar
+                                        not in mspec_id_to_cvars[model_spec.spec_id]
+                                    ):
+                                        mspec_id_to_cvars[model_spec.spec_id].append(
+                                            cvar
+                                        )
 
         return mspec_id_to_cvars
 

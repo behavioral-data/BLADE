@@ -59,11 +59,17 @@ class AnnotationDBData(BaseModel):
         for model_spec in self.m_specs.values():
             for col in model_spec.associated_columns_orig:
                 for cvar in self.cv_specs.values():
-                    if col in cvar.final_columns_orig:
+                    if (
+                        col in cvar.final_columns_orig
+                        and cvar not in mspec_id_to_cvars[model_spec.spec_id]
+                    ):
                         mspec_id_to_cvars[model_spec.spec_id].append(cvar)
             for col in model_spec.associated_columns_derived:
                 for cvar in self.cv_specs.values():
-                    if col in cvar.final_columns_derived:
+                    if (
+                        col in cvar.final_columns_derived
+                        and cvar not in mspec_id_to_cvars[model_spec.spec_id]
+                    ):
                         mspec_id_to_cvars[model_spec.spec_id].append(cvar)
         return mspec_id_to_cvars
 
