@@ -138,6 +138,7 @@ class LLMBase:
             prompt_entry = PromptHistoryEntry(
                 messages=chat_prompt,
                 response=response,
+                tags=tags,
             )
             self.history.prompt_history.append(prompt_entry)
 

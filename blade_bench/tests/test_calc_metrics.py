@@ -20,6 +20,7 @@ def eval_results():
 
 def test_calc_metrics(eval_results):
     calc = CalcSubmissionMetrics(submission=eval_results)
+    diversity = calc.calculate_diversity(ks=[5, 8, 10], num_samples=100)
     metrics: MetricsAcrossRuns = calc.calculate_metrics()
     assert metrics is not None
     assert len(metrics.num_cvars2) == len(eval_results.results)

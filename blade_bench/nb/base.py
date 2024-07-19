@@ -60,7 +60,8 @@ class ExecuteNbCode(BaseModel):
     async def terminate(self):
         """kill NotebookClient"""
         try:
-            await self.nb_client._async_cleanup_kernel()
+            if self.nb_client.kc is not None:
+                await self.nb_client._async_cleanup_kernel()
         except Exception as e:
             logger.error(f"Error occurred while terminating the notebook client. {e}")
 

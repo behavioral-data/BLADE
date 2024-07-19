@@ -93,16 +93,6 @@ class Convert:
             )
             self.code_to_model_llm = CodeToModelLLM(text_gen, history=llm_history)
             self.debug_llm = DebugCodeLM(text_gen, history=llm_history)
-        else:
-            self.code_to_transform_llm = CodeToTransformsLLM.init_from_llm_config(
-                llm_config, history=llm_history
-            )
-            self.code_to_model_llm = CodeToModelLLM.init_from_llm_config(
-                llm_config, history=llm_history
-            )
-            self.debug_llm: DebugCodeLM = DebugCodeLM.init_from_llm_config(
-                llm_config, history=llm_history
-            )
 
     async def convert_entire_analysis(
         self, entire_analysis: EntireAnalysis

@@ -110,8 +110,8 @@ class StatsModelSimilarity(LLMBase):
         models_a: List[ModelSpec],
         models_b: List[ModelSpec],
     ) -> Dict[Tuple[int, int], MatchModel]:
-        model_specs_a = [m.specification for m in models_a]
-        model_specs_b = [m.specification for m in models_b]
+        model_specs_a = [m.specification.strip().lower() for m in models_a]
+        model_specs_b = [m.specification.strip().lower() for m in models_b]
 
         json_resp = self.match_models_str(model_specs_a, model_specs_b)
         matched = {}

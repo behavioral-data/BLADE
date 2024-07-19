@@ -5,19 +5,14 @@ import os.path as osp
 import traceback
 from typing import Union
 
-from hydra.types import RunMode
 from langchain.output_parsers import PydanticOutputParser
 
-from blade_bench.eval.datamodel.result import EvalResult
-from blade_bench.eval.datamodel.submission import DatasetSubmission
-from blade_bench.eval.evaluator import Evaluator
 from blade_bench.eval.exceptions import (
     LMGenerationError,
 )
 from blade_bench.llms.datamodel import LLMHistory
 from blade_bench.llms.llm import LLMBase
-from blade_bench.logger import logger, formatter
-from blade_bench.baselines.config import BenchmarkConfig
+from blade_bench.baselines.config import SingleRunConfig
 
 from blade_bench.eval.utils import (
     normalize_code_string,
@@ -38,23 +33,18 @@ from blade_bench.utils import (
 )
 
 
-class RunLLMAndEval:
-    GND_TRUTH_FNAME = "gnd_truth.pkl"
+class SingleRunExperiment:
     GEN_ANALYSIS_FNAME = "llm_analysis.json"
-    GEN_ANALYSIS_PROCESSED_FNAME = "llm_analysis_processed.pkl"
-    MATCHED_ANNOTATIONS_FNAME = "matched_annotations.pkl"
-    MATCH_METRICS_FNAME = "match_metrics.json"
-    EVAL_RESULTS_FNAME = "eval_results.json"
 
-    def __init__(self, config: BenchmarkConfig):
+    def __init__(self, config: SingleRunConfig):
         self.config = config
         self.dinfo = get_dataset_info(config.run_dataset)
         self.llm_history = LLMHistory()
+        self.format_lm = LLMBase(config.llm_eval.texgt_gen)
         self.eval_text_gen = config.llm_eval.texgt_gen
         self.gen_analysis_lm = GenAnalysisLM(
             config.llm.texgt_gen, history=self.llm_history
         )
-        self.format_lm = LLMBase(config.llm_eval.texgt_gen)
         if config.use_agent:
             self.agent = ReActAgent(
                 self.gen_analysis_lm,
@@ -92,7 +82,7 @@ class RunLLMAndEval:
             resp.m_code = normalize_code_string(resp.m_code)
         return resp
 
-    def __save_lm_analysis(self, analysis: EntireAnalysis):
+    def save_lm_analysis(self, analysis: EntireAnalysis):
         python_path = osp.join(self.config.output_dir, "python_scripts")
         os.makedirs(python_path, exist_ok=True)
         save_transform_path = osp.join(python_path, "lm_analysis.py")
@@ -106,7 +96,12 @@ class RunLLMAndEval:
 
     async def get_lm_analysis(self) -> Union[EntireAnalysis, RunResults]:
         if self.config.use_agent:
-            resp = self.agent.run()
+            try:
+                resp = self.agent.run()
+            except Exception as e:
+                raise LMGenerationError(
+                    f"Failed to run agent: {traceback.format_exc()}"
+                )
         else:
             resp = self.gen_analysis_lm.gen_analysis_example(
                 self.dinfo, use_data_desc=self.config.use_data_desc
@@ -117,66 +112,3 @@ class RunLLMAndEval:
             resp,
         )
         return analysis
-
-    async def run(self):
-        try:
-            analysis = await self.get_lm_analysis()
-            self.__save_lm_analysis(analysis)
-            evaluator = Evaluator(
-                submission=DatasetSubmission(
-                    dataset_name=self.config.run_dataset, analyses=[analysis]
-                ),
-                text_gen=self.eval_text_gen,
-                use_code_cache=self.config.use_code_cache,
-                output_dir=self.config.output_dir,
-            )
-            eval_result: EvalResult = await evaluator.run_eval(analysis)
-        except LMGenerationError as e:
-            logger.error(f"Error: {e.message}")
-
-            return RunResults(
-                res_type=e.res_type,
-                info=e.message,
-                is_error=True,
-                lm_history=self.llm_history,
-                agent_steps=self.agent.steps if self.agent is not None else 0,
-            )
-        finally:
-            if self.agent is not None:
-                await self.agent.code_executor.nb_executor.terminate()
-
-        path = osp.join(self.config.output_dir, self.GEN_ANALYSIS_PROCESSED_FNAME)
-        eval_result.save_analysis_processed(path)
-
-        path = osp.join(self.config.output_dir, self.MATCHED_ANNOTATIONS_FNAME)
-        eval_result.save_matched_annotations(path)
-
-        python_path = osp.join(self.config.output_dir, "python_scripts")
-        eval_result.save_converted_code(python_path)
-
-        path = osp.join(self.config.output_dir, self.MATCH_METRICS_FNAME)
-        eval_result.save_metrics(path)
-
-        with open(osp.join(self.config.output_dir, self.EVAL_RESULTS_FNAME), "w") as f:
-            f.write(eval_result.model_dump_json(indent=2))
-
-        return RunResults(
-            res_type=eval_result.eval_run_result.res_type,
-            res_type_transform=eval_result.eval_run_result.res_type_transform,
-            info=eval_result.eval_run_result.info,
-            eval_lm_history=eval_result.eval_run_result.eval_lm_history,
-            lm_history=self.llm_history,
-            agent_steps=self.agent.steps if self.agent is not None else 0,
-        )
-
-
-async def run_main(agent: RunLLMAndEval, run_mode: RunMode, run_name: str):
-    res: RunResults = await agent.run()
-    with open(osp.join(agent.config.output_dir, "run_report.json"), "w") as f:
-        f.write(res.model_dump_json())
-    if res.res_type == RunResultModes.FINISHED_SUCCESSFULLY.value:
-        logger.success("Completed, everything is logged at: " + agent.config.output_dir)
-    else:
-        logger.error(
-            "Failed to complete, everything is logged at: " + agent.config.output_dir
-        )

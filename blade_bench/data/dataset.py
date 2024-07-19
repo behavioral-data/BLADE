@@ -44,7 +44,12 @@ class DatasetInfo(BaseModel):
 
 def list_datasets():
     datasets_dir = get_datasets_dir()
-    return [d for d in os.listdir(datasets_dir) if osp.isdir(osp.join(datasets_dir, d))]
+    return [
+        d
+        for d in os.listdir(datasets_dir)
+        if osp.isdir(osp.join(datasets_dir, d))
+        if d != "toy"
+    ]
 
 
 def get_dataset_info(dataset: str):

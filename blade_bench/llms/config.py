@@ -1,9 +1,7 @@
-import os
-import os.path as osp
 from dotenv import load_dotenv
-import yaml
 
 
+from blade_bench.llms.config_load import load_config
 from blade_bench.llms.datamodel.gen_config import (
     GenConfig,
     OpenAIGenConfig,
@@ -51,8 +49,9 @@ def llm(
     return get_text_gen(config, cache_dir=cache_dir)
 
 
-def get_llm_config_from_conf_dict(conf_dict: dict, **kwargs):
+def get_llm_config_from_conf_dict(conf_dict: dict, provider: str, **kwargs):
     conf_dict.update(kwargs)
+    conf_dict["provider"] = provider
     if (
         conf_dict.get("provider") == "openai"
         or conf_dict.get("provider") == "azureopenai"
@@ -81,7 +80,7 @@ def sanitize_provider(provider: str):
         return "huggingface"
     else:
         raise ValueError(
-            f"Invalid provider '{provider}'.  Supported providers are 'gemini', 'openai', 'anthropic', 'azureopenai'."
+            f"Invalid provider '{provider}'.  Supported providers are 'gemini', 'openai', 'anthropic', 'azureopenai', 'huggingface'."
         )
 
 
@@ -121,49 +120,8 @@ def get_llm_config(
                 f"Model '{model_name}' not found in config file. Options are: {[m['name']for m in models]}"
             )
     model_conf["textgen_config"] = textgen_config
-    config = get_llm_config_from_conf_dict(model_conf, **kwargs)
+    config = get_llm_config_from_conf_dict(model_conf, provider, **kwargs)
     return config
-
-
-def load_config():
-    try:
-        config_path = os.environ.get("LLM_CONFIG_PATH", None)
-        if config_path is None or os.path.exists(config_path) is False:
-            config_path = os.path.join(get_conf_dir(), "config.default.yml")
-            logger.info(
-                f"Info: LLM_CONFIG_PATH environment variable is not set to a valid config file. Using default config file at '{config_path}'."
-            )
-        if config_path is not None:
-            try:
-                with open(config_path, "r", encoding="utf-8") as f:
-                    config = yaml.safe_load(f)
-                    logger.info(f"Loaded config from '{config_path}'.")
-                    return config
-            except FileNotFoundError as file_not_found:
-                logger.info(
-                    "Error: Config file not found at '%s'. Please check the LLMX_CONFIG_PATH environment variable. %s",
-                    config_path,
-                    str(file_not_found),
-                )
-            except IOError as io_error:
-                logger.info(
-                    "Error: Could not read the config file at '%s'. %s",
-                    config_path,
-                    str(io_error),
-                )
-            except yaml.YAMLError as yaml_error:
-                logger.info(
-                    "Error: Malformed YAML in config file at '%s'. %s",
-                    config_path,
-                    str(yaml_error),
-                )
-        else:
-            logger.info(
-                "Info:LLM_CONFIG_PATH environment variable is not set. Please set it to the path of your config file to setup your default model."
-            )
-    except Exception as error:
-        logger.info("Error: An unexpected error occurred: %s", str(error))
-    return None
 
 
 if __name__ == "__main__":

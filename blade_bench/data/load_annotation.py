@@ -14,7 +14,7 @@ GROUND_TRUTH_FNAME = "annotations.pkl"
 
 
 def load_ground_truth_data(
-    dataset_name: str, execute_output_dir: str, load_from_pkl: bool = True
+    dataset_name: str, execute_output_dir: str = ".", load_from_pkl: bool = True
 ) -> AnnotationDBData:
     adata_path = osp.join(get_dataset_dir(dataset_name), GROUND_TRUTH_FNAME)
     if not osp.exists(adata_path) or not load_from_pkl:

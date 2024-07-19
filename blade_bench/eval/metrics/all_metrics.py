@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 from blade_bench.eval.datamodel.match import MatchedAnnotations
@@ -21,3 +22,20 @@ def get_metrics_from_match_obj(matched_annotations: MatchedAnnotations):
         cv_match=cv_metrics,
         transform_match=transform_metrics,
     )
+
+
+class DiversityMetric(BaseModel):
+    k: Optional[int] = None
+    transforms_value: float
+    transforms_graph: float
+    cvars: float
+    models: float
+
+    def get_metrics(self):
+        post_fix = "" if self.k is None else f"_k={self.k:02}"
+        return {
+            f"div_transforms_value{post_fix}": self.transforms_value,
+            f"div_transforms_graph{post_fix}": self.transforms_graph,
+            f"div_cvars{post_fix}": self.cvars,
+            f"div_models{post_fix}": self.models,
+        }

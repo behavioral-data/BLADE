@@ -30,7 +30,7 @@ class AnthropicTextGenerator(TextGenerator):
     )
     def generate_core(self, messages: List[dict], **kwargs) -> TextGenResponse:
 
-        if isinstance(messages, dict) and messages[0]["role"] == "system":
+        if isinstance(messages, list) and messages[0]["role"] == "system":
             system_prompt = messages[0]["content"]
             messages = messages[1:]
         else:

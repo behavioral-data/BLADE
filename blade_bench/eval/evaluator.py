@@ -1,8 +1,10 @@
+import asyncio
 import json
 import os
 import traceback
 import os.path as osp
 from typing import List, Union
+from blade_bench.baselines.config import EvalConfig
 from blade_bench.data.annotation import AnnotationDBData
 from blade_bench.data.datamodel.transforms import TransformDatasetState
 from blade_bench.data.load_annotation import load_ground_truth_data
@@ -22,14 +24,17 @@ from blade_bench.eval.datamodel.match import MatchedAnnotations
 from blade_bench.eval.datamodel.result import EvalResult, EvalResults
 from blade_bench.eval.match.match_submission import SubmissionMatch
 from blade_bench.eval.metrics.all_metrics import get_metrics_from_match_obj
-from blade_bench.eval.utils import SAVE_CONVERTED_CODE_TEMPLATE
+from blade_bench.eval.metrics.calc_metrics import CalcSubmissionMetrics
+from blade_bench.eval.results_loader.load_lm_analyses import load_lm_analyses_glob
 from blade_bench.llms.base import TextGenerator
 from blade_bench.llms.datamodel.gen_config import LLMHistory
 from blade_bench.logger import logger
-from blade_bench.eval.datamodel.run import RunResultModes, EvalRunResults
+from blade_bench.eval.datamodel.run import (
+    MultiRunResults,
+    RunResultModes,
+    EvalRunResults,
+)
 from blade_bench.eval.datamodel.submission import DatasetSubmission
-
-from blade_bench.utils import get_dataset_csv_path
 
 
 class Evaluator:
@@ -84,6 +89,11 @@ class Evaluator:
                 else None
             ),
             info=info,
+            info_transform=(
+                self.transform_run_result.info
+                if self.transform_run_result is not None
+                else None
+            ),
             eval_lm_history=self.llm_history,
             eval_metrics=eval_res,
         )
@@ -173,6 +183,7 @@ class Evaluator:
         res_l = []
         for i, analysis in enumerate(self.submission.analyses):
             logger.info(f"Running evaluation for analysis {i+1}")
+            self.transform_run_result: EvalRunResults = None
             res = await self.run_eval(analysis)
             res_l.append(
                 EvalResult(**json.loads(res.model_dump_json(exclude_none=True)))
@@ -181,3 +192,60 @@ class Evaluator:
             dataset_name=self.submission.dataset_name,
             results=res_l,
         )
+
+
+def run_eval_on_analyses(eval_config: EvalConfig):
+    text_gen = eval_config.llm_eval.texgt_gen
+    if eval_config.glob_str is not None:
+        submission = load_lm_analyses_glob(
+            eval_config.glob_str, eval_config.run_dataset
+        )
+        multirun_results = None
+    else:
+        with open(eval_config.multirun_load_path, "r") as f:
+            multirun_results = MultiRunResults(**json.load(f))
+        submission = multirun_results.to_dataset_submission()
+
+    evaluator = Evaluator(
+        submission,
+        text_gen,
+        use_code_cache=eval_config.use_code_cache,
+        output_dir=eval_config.output_dir,
+    )
+    res: EvalResults = asyncio.run(evaluator.run_eval_on_analyses())
+    calc_metrics = CalcSubmissionMetrics(
+        res,
+        ks=eval_config.diversity_ks,
+        num_samples=eval_config.diversity_n_samples,
+    )
+
+    metrics_across_runs = calc_metrics.calculate_metrics()
+    if multirun_results is not None:
+        metrics_across_runs.status.extend(
+            [
+                a[0]
+                for a in multirun_results.analyses.values()
+                if not isinstance(a, EntireAnalysis)
+            ]
+        )
+
+    with open(osp.join(eval_config.output_dir, "eval_results.json"), "w") as f:
+        f.write(res.model_dump_json(indent=2))
+
+    with open(osp.join(eval_config.output_dir, "eval_metrics.json"), "w") as f:
+        f.write(metrics_across_runs.model_dump_json(indent=2))
+
+    with open(osp.join(eval_config.output_dir, "llm_history.json"), "w") as f:
+        f.write(
+            json.dumps(
+                {
+                    "history": [
+                        hist.model_dump()
+                        for hist in evaluator.llm_history.prompt_history
+                    ]
+                },
+                indent=2,
+            )
+        )
+
+    logger.success(f"Saved evaluation results to {eval_config.output_dir}")

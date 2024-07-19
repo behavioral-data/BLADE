@@ -221,6 +221,12 @@ class ReActAgent:
 
         self.python_tool = python
 
+    def reset(self):
+        self.steps = 0
+        self.memory = ""
+        self.code_and_observation_history = ""
+        asyncio.run(self.code_executor.reset_nb_executor())
+
     def get_prompt_and_vars(self, add_thought_tag: bool = True):
         # Combine memory and the instructions to create a prompt for the LLM
         data_desc = (
@@ -268,7 +274,10 @@ class ReActAgent:
                 line_w_action = i
 
         tool_call = lines[line_w_action + 1 :]
-        tool = tool_call[0]
+        if tool_call:
+            tool = tool_call[0]
+        else:
+            return "Tool not found"
         tool_args = "\n".join(tool_call[1:-1])
         if "python" in tool:
 
@@ -295,13 +304,15 @@ class ReActAgent:
         return model_response.strip()
 
     def run(self, query: Optional[str] = "", max_turns: int = 10):
-
+        self.reset()
         self.memory = query
         count_no_tag = 0
         while self.steps < max_turns:
             response = self.take_step(add_thought_tag=True)
-
-            self.memory += "\n" + response
+            if THOUGHT_TAG in response:
+                self.memory += "\n" + response
+            else:
+                self.memory += "\n" + THOUGHT_TAG + "\n" + response
 
             if FINISH_TAG in response:
                 final_answer = response.split(FINISH_TAG)[-1]
@@ -329,21 +340,7 @@ class ReActAgent:
             count_no_tag += 1
             if count_no_tag > 2:
                 return response
-        return response
 
-
-if __name__ == "__main__":
-    from blade_bench.utils import get_dataset_csv_path
-    from blade_bench.data.dataset import get_dataset_info
-    from blade_bench.baselines.lm.format import process_generated_analysis
-
-    dinfo = get_dataset_info("hurricane")
-    csv_path = get_dataset_csv_path("hurricane")
-    llm = LLMBase.init_from_base_llm_config()
-    agent = ReActAgent(llm=llm, dinfo=dinfo, data_path=csv_path)
-    response = agent.run()
-
-    parser = PydanticOutputParser(pydantic_object=EntireAnalysis)
-    resp = process_generated_analysis(llm, parser, response)
-
-    print(response)
+        if self.steps >= max_turns:
+            self.memory += "\nWe have reached the maximum number of steps. Please finish the analysis based on the final format instructions.\n[Finish]:\n"
+            return self.take_step(add_thought_tag=False)

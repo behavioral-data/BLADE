@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Any, Dict, List, Literal, Optional, Union
 from pydantic import BaseModel, Field, model_validator
 from pathlib import Path
@@ -92,6 +93,7 @@ class TextGenResponse(BaseModel):
 class PromptHistoryEntry(BaseModel):
     messages: List[dict]
     response: TextGenResponse
+    tags: List[str] = []
 
 
 class LLMHistory(BaseModel):
@@ -99,6 +101,14 @@ class LLMHistory(BaseModel):
     prompt_history: Optional[List[PromptHistoryEntry]] = Field(
         default_factory=list, exclude=True
     )
+
+    @property
+    def prompts_by_tags(self) -> Dict[str, List[PromptHistoryEntry]]:
+        prompts_by_tags = defaultdict(list)
+        for entry in self.prompt_history:
+            for tag in entry.tags:
+                prompts_by_tags[tag].append(entry)
+        return prompts_by_tags
 
     @property
     def total_calls(self):
