@@ -71,3 +71,10 @@ class EvalConfig(BaseModel):
 class MultiRunConfig(SingleRunConfig):
     num_runs: int = 10
     save_results: bool = True
+
+
+class BenchmarkMCQConfig(BaseModel):
+    llm: LLMConfig
+    llm_eval: LLMConfig
+    run_dataset: str
+    use_data_desc: bool = False

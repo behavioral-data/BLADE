@@ -52,6 +52,16 @@ def list_datasets():
     ]
 
 
+def list_datasets_mcq():
+    datasets_dir = get_datasets_dir()
+    return [
+        d
+        for d in os.listdir(datasets_dir)
+        if osp.isdir(osp.join(datasets_dir, d))
+        if osp.exists(osp.join(datasets_dir, d, "mcq_dataset.json"))
+    ]
+
+
 def get_dataset_info(dataset: str):
     data_info_path = get_dataset_info_path(dataset)
     if not osp.exists(data_info_path):

@@ -37,6 +37,10 @@ def get_dataset_annotations_path(dataset_name):
     return os.path.join(get_datasets_dir(), dataset_name, "annotations.csv")
 
 
+def get_dataset_mcq_path(dataset_name: str):
+    return os.path.join(get_datasets_dir(), dataset_name, "mcq_dataset.json")
+
+
 def get_absolute_dir(directory_path):
     if not os.path.isabs(directory_path):
         return os.path.abspath(directory_path)
