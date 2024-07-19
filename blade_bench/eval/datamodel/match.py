@@ -64,6 +64,24 @@ class MatchModel(BaseModel):
     rationale: str
     matched_cvars: Optional[Dict[str, MatchedCvars]] = None
 
+    @property
+    def cvars1(self):
+        if self.matched_cvars is None:
+            return []
+        cvars = []
+        for cvar in self.matched_cvars.values():
+            cvars.extend(cvar.input_vars1)
+        return list(sorted(str(s) for s in cvars))
+
+    @property
+    def cvars2(self):
+        if self.matched_cvars is None:
+            return []
+        cvars = []
+        for cvar in self.matched_cvars.values():
+            cvars.extend(cvar.input_vars2)
+        return list(sorted(str(s) for s in cvars))
+
     def is_cvar_all_matched(self, score_threshold: int = 8):
         for cvar in self.matched_cvars.values():
             if not cvar.is_cvar_all_matched(score_threshold):
@@ -91,8 +109,8 @@ class MatchedTSpecs(BaseModel):
 
 
 class MatchTransforms(BaseModel):
-    transform_state1: Union[TransformDatasetState, None]
-    transform_state2: Union[TransformDatasetState, None]
+    transform_state1: Union[TransformDatasetState, None] = None
+    transform_state2: Union[TransformDatasetState, None] = None
     matched_tspecs: MatchedTSpecs
 
 
