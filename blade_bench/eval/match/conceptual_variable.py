@@ -69,7 +69,7 @@ class CVarMatcher(BaseMatcher):
             elif vtype == "DV":
                 v_llm = [str(llm.dv)]
             if not v_llm:
-                continue
+                v_llm = []
             res[vtype] = self.cvar_compare_llm.match_variables_str(
                 dataset_info=self.dinfo,
                 var_list1=v_gnd,

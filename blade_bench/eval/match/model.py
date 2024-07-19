@@ -136,7 +136,7 @@ class StatsModelMatcher(BaseMatcher):
 
         mname_to_mspecs = defaultdict(list)
         for mspec in m1:
-            mname_to_mspecs[mspec.specification].append(mspec)
+            mname_to_mspecs[mspec.specification.strip().lower()].append(mspec)
         m1_unique = [mname_to_mspecs[mname][0] for mname in mname_to_mspecs]
         m2 = list(model_specs2.values())
 
@@ -145,7 +145,9 @@ class StatsModelMatcher(BaseMatcher):
         for k, v in llm_compare.items():
             m1_spec = m1_unique[k[0] - 1]
             all_matched[k] = v
-            for other_m1_spec in mname_to_mspecs[m1_spec.specification][1:]:
+            for other_m1_spec in mname_to_mspecs[m1_spec.specification.strip().lower()][
+                1:
+            ]:
                 all_matched[(m1.index(other_m1_spec) + 1, k[1])] = MatchModel(
                     model1=m1_spec,
                     model2=v.model2,
