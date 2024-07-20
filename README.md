@@ -125,7 +125,11 @@ print(len(gnd_truth.cv_specs))
 More details about the structure of the ground truth is available in the paper.
 
 ## 🎯 Evaluating a Submission on BLADE
-To evalute your own submission to BLADE, the LM agent must generate a `json` file that conforms to the folloing schema. An example shown in [example/submission_analyses.json](example/submission_analyses.json). Then just specify --submission_load_path when running `run_get-eval.py`.
+To evalute your own submission to BLADE, the LM agent must generate a `json` file that conforms to the schema in [example/submission_schema.json](example/submission_schema.json). An example shown in [example/submission_analyses.json](example/submission_analyses.json). Then specify --submission_load_path when running `run_get_eval.py`.
+
+```bash
+python run_get_eval.py --submission_load_path ./example/submission_analyses.json
+```
 
 ## Contributing
 
