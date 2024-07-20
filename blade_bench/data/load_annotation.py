@@ -13,9 +13,14 @@ import nest_asyncio
 GROUND_TRUTH_FNAME = "annotations.pkl"
 
 
-def load_ground_truth_data(
+def load_ground_truth(
     dataset_name: str, execute_output_dir: str = ".", load_from_pkl: bool = True
 ) -> AnnotationDBData:
+    """
+    Executes code in the local environment based on ground truth annotations to get
+    all intermediate transform states.
+    """
+
     adata_path = osp.join(get_dataset_dir(dataset_name), GROUND_TRUTH_FNAME)
     if not osp.exists(adata_path) or not load_from_pkl:
         gnd_truth_path = get_dataset_annotations_path(dataset_name)
@@ -34,5 +39,5 @@ def load_ground_truth_data(
 
 
 if __name__ == "__main__":
-    adata = load_ground_truth_data("hurricane", ".", load_from_pkl=False)
+    adata = load_ground_truth("hurricane", ".", load_from_pkl=False)
     print("here")

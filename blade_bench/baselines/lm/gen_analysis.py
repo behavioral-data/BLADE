@@ -126,13 +126,3 @@ class GenAnalysisLM(LLMBase):
             metadata={"prompt_name": "gen_entire_analysis_1shot"},
         )
         return response
-
-
-if __name__ == "__main__":
-    from blade_bench.data.dataset import get_dataset_info
-
-    dinfo = get_dataset_info("hurricane")
-    llm = GenAnalysisLM.init_from_base_llm_config()
-    format_llm = LLMBase.init_from_base_llm_config()
-    resp_ex = llm.gen_analysis_example(dinfo, format_llm=format_llm)
-    print("Done!")

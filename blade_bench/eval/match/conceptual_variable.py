@@ -14,7 +14,7 @@ from .base import BaseMatcher
 from ..datamodel import MatchedCvars, AgentCVarsWithCol
 
 from blade_bench.utils import get_dataset_info_path
-from blade_bench.data.dataset import get_dataset_info, DatasetInfo
+from blade_bench.data.dataset import load_dataset_info, DatasetInfo
 
 
 class CVarMatcher(BaseMatcher):
@@ -27,7 +27,7 @@ class CVarMatcher(BaseMatcher):
     ):
         super().__init__(dataset_name)
         self.dinfo_path = get_dataset_info_path(dataset_name)
-        self.dinfo: DatasetInfo = get_dataset_info(dataset_name)
+        self.dinfo: DatasetInfo = load_dataset_info(dataset_name)
         if llm_config is None and text_gen is None:
             raise ValueError("llm_config or text_gen must be provided")
         if text_gen is not None:

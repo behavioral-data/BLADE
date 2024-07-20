@@ -7,7 +7,7 @@ from langchain.output_parsers import PydanticOutputParser
 
 from blade_bench.baselines.lm.mcq import AnsMCQLM
 from blade_bench.data.datamodel.mcq import MCQDatasetSimple, MCQResponse
-from blade_bench.data.dataset import get_dataset_info
+from blade_bench.data.dataset import load_dataset_info
 from blade_bench.llms.datamodel.gen_config import LLMHistory
 from blade_bench.llms.llm import LLMBase
 from blade_bench.utils import get_dataset_mcq_path
@@ -19,7 +19,7 @@ class RunMCQ:
         self.llm_history = LLMHistory()
         self.format_lm = LLMBase(config.llm_eval.texgt_gen)
         self.mcq_llm = AnsMCQLM(config.llm.texgt_gen, history=self.llm_history)
-        self.dinfo = get_dataset_info(config.run_dataset)
+        self.dinfo = load_dataset_info(config.run_dataset)
         mcq_path = get_dataset_mcq_path(config.run_dataset)
         self.dataset_mcq = MCQDatasetSimple(**json.load(open(mcq_path)))
 

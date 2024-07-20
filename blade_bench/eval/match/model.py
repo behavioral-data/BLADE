@@ -17,7 +17,7 @@ from .base import BaseMatcher
 from ..datamodel import MatchedModels, MatchModel, MatchedCvars, EntireAnalysisProcessed
 
 from blade_bench.utils import get_dataset_info_path
-from blade_bench.data.dataset import get_dataset_info, DatasetInfo
+from blade_bench.data.dataset import load_dataset_info, DatasetInfo
 
 
 class StatsModelMatcher(BaseMatcher):
@@ -30,7 +30,7 @@ class StatsModelMatcher(BaseMatcher):
     ):
         super().__init__(dataset_name)
         self.dinfo_path = get_dataset_info_path(dataset_name)
-        self.dinfo: DatasetInfo = get_dataset_info(dataset_name)
+        self.dinfo: DatasetInfo = load_dataset_info(dataset_name)
         self.__init_llms(llm_config, llm_history, text_gen)
 
     def __init_llms(

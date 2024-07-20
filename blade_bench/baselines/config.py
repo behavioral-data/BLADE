@@ -54,6 +54,7 @@ class SingleRunConfig(BaseModel):
 class EvalConfig(BaseModel):
     glob_str: Optional[str] = None
     multirun_load_path: Optional[str] = None
+    dataset_submission_path: Optional[str] = None
     llm_eval: LLMConfig
     output_dir: str
     run_dataset: Optional[str] = None
@@ -63,7 +64,11 @@ class EvalConfig(BaseModel):
 
     @model_validator(mode="before")
     def glob_or_save_path_is_not_none(cls, data):
-        if data.get("glob_str") is None and data.get("multirun_load_path") is None:
+        if (
+            data.get("glob_str") is None
+            and data.get("multirun_load_path") is None
+            and data.get("dataset_submission_path") is None
+        ):
             raise ValueError("Either glob_str or multirun_load_path must be provided")
         return data
 

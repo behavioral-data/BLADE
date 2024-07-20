@@ -134,9 +134,9 @@ def run_agent(
 )
 @click.option(
     "--llm_config_path",
-    type=click.Path(exists=True, file_okay=True),
+    type=click.Path(exists=True, file_okay=True, dir_okay=False),
     default="./conf/llm.yaml",
-    help="Path to the LLM config file",
+    help="Path to the LLM config file, used to specify the provider, model, and text generation config such as the temperature.",
     show_default=True,
 )
 @click.option(
@@ -149,13 +149,13 @@ def run_agent(
     "--llm_model",
     type=str,
     default=None,
-    help=f"Model for the LLM to override the config file at llm_config_path. Options are {get_models()}",
+    help=f"Model for the LLM to override the config file at llm_config_path. Default options are {get_models()}",
 )
 @click.option(
     "--llm_eval_config_path",
-    type=click.Path(exists=True, file_okay=True),
+    type=click.Path(exists=True, file_okay=True, dir_okay=False),
     default="./conf/llm_eval.yaml",
-    help="Path to the LLM eval config file",
+    help="Path to the LLM eval config file, used to specify the provider, model, and text generation config such as the temperature.",
     show_default=True,
 )
 @click.option(

@@ -7,7 +7,8 @@ import os.path as osp
 from blade_bench.baselines.config import MultiRunConfig
 from blade_bench.baselines.run import SingleRunExperiment
 from blade_bench.eval.datamodel.lm_analysis import EntireAnalysis
-from blade_bench.eval.datamodel.run import MultiRunResults, RunResultModes
+from blade_bench.eval.datamodel.run import RunResultModes
+from blade_bench.eval.datamodel.multirun import MultiRunResults
 from blade_bench.eval.exceptions import LMGenerationError
 from blade_bench.utils import get_dataset_csv_path
 

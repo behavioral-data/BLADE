@@ -27,7 +27,7 @@ from blade_bench.eval.datamodel import (
 from blade_bench.baselines.agent import ReActAgent
 from blade_bench.baselines.lm import GenAnalysisLM
 
-from blade_bench.data.dataset import get_dataset_info
+from blade_bench.data.dataset import load_dataset_info
 from blade_bench.utils import (
     get_dataset_csv_path,
 )
@@ -38,7 +38,7 @@ class SingleRunExperiment:
 
     def __init__(self, config: SingleRunConfig):
         self.config = config
-        self.dinfo = get_dataset_info(config.run_dataset)
+        self.dinfo = load_dataset_info(config.run_dataset)
         self.llm_history = LLMHistory()
         self.format_lm = LLMBase(config.llm_eval.texgt_gen)
         self.eval_text_gen = config.llm_eval.texgt_gen

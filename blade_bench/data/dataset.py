@@ -2,13 +2,20 @@ import json
 import os
 import os.path as osp
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel
-from blade_bench.utils import get_dataset_info_path, get_datasets_dir
+import pandas as pd
+from pydantic import BaseModel, ConfigDict
+from blade_bench.utils import (
+    get_dataset_info_path,
+    get_datasets_dir,
+    get_dataset_csv_path,
+)
 
 
 class DatasetInfo(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     research_questions: List[str]
     data_desc: Optional[Dict[str, Any]] = None
+    df: Optional[pd.DataFrame] = None
 
     @property
     def research_question(self):
@@ -62,8 +69,13 @@ def list_datasets_mcq():
     ]
 
 
-def get_dataset_info(dataset: str):
+def load_dataset_info(dataset: str, load_df=False):
     data_info_path = get_dataset_info_path(dataset)
     if not osp.exists(data_info_path):
         raise FileNotFoundError(f"Dataset info file not found: {data_info_path}")
-    return DatasetInfo(**json.load(open(data_info_path)))
+    dinfo = DatasetInfo(**json.load(open(data_info_path)))
+    if load_df:
+        df_path = get_dataset_csv_path(dataset)
+        df = pd.read_csv(df_path)
+        dinfo.df = df
+    return dinfo

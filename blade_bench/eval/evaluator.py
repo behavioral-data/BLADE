@@ -7,7 +7,7 @@ from typing import List, Union
 from blade_bench.baselines.config import EvalConfig
 from blade_bench.data.annotation import AnnotationDBData
 from blade_bench.data.datamodel.transforms import TransformDatasetState
-from blade_bench.data.load_annotation import load_ground_truth_data
+from blade_bench.data.load_annotation import load_ground_truth
 from blade_bench.eval.convert import Convert
 from blade_bench.eval.datamodel.lm_analysis import (
     EntireAnalysis,
@@ -30,10 +30,10 @@ from blade_bench.llms.base import TextGenerator
 from blade_bench.llms.datamodel.gen_config import LLMHistory
 from blade_bench.logger import logger
 from blade_bench.eval.datamodel.run import (
-    MultiRunResults,
     RunResultModes,
     EvalRunResults,
 )
+from blade_bench.eval.datamodel.multirun import MultiRunResults
 from blade_bench.eval.datamodel.submission import DatasetSubmission
 
 
@@ -117,9 +117,7 @@ class Evaluator:
 
     async def load_ground_truth(self) -> Union[AnnotationDBData, EvalRunResults]:
         try:
-            gnd_truth = load_ground_truth_data(
-                self.submission.dataset_name, self.output_dir
-            )
+            gnd_truth = load_ground_truth(self.submission.dataset_name, self.output_dir)
         except Exception as e:
             raise LoadGroundTruthError(
                 f"Failed to load ground truth: {traceback.format_exc()}"
@@ -196,11 +194,14 @@ class Evaluator:
 
 def run_eval_on_analyses(eval_config: EvalConfig):
     text_gen = eval_config.llm_eval.texgt_gen
+    multirun_results = None
     if eval_config.glob_str is not None:
         submission = load_lm_analyses_glob(
             eval_config.glob_str, eval_config.run_dataset
         )
-        multirun_results = None
+    elif eval_config.dataset_submission_path is not None:
+        with open(eval_config.dataset_submission_path, "r") as f:
+            submission = DatasetSubmission(**json.load(f))
     else:
         with open(eval_config.multirun_load_path, "r") as f:
             multirun_results = MultiRunResults(**json.load(f))

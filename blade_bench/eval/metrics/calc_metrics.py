@@ -256,7 +256,6 @@ class CalcSubmissionMetrics:
                 metrics.num_tspecs1 = matched_annotations.tspecs1
                 metrics.num_mspecs1 = matched_annotations.mspecs1
                 metrics.num_mspecs1_unique = matched_annotations.mspecs_unique
-                metrics.num_cvars1 = len(matched_annotations.cvars1)
                 metrics.converted_code.append(
                     submission_res.analysis_processed.transform_state.converted_code
                 )
@@ -268,6 +267,8 @@ class CalcSubmissionMetrics:
                 metrics.matched_gspecs2.append([])
                 metrics.converted_code.append("")
                 metrics.num_tspecs2.append(0)
+
+            metrics.num_cvars1 = len(matched_annotations.cvars1)
 
             self.__update_model_match_cvar_metrics_from_matched(
                 matched_annotations, metrics

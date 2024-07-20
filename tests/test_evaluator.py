@@ -14,17 +14,17 @@ from blade_bench.eval.convert import Convert
 from blade_bench.eval.match.match_submission import SubmissionMatch
 from blade_bench.llms.datamodel.gen_config import OpenAIGenConfig, TextGenConfig
 from blade_bench.llms.textgen_openai import OpenAITextGenerator
-from blade_bench.tests.mock_data.hurricane_analysis import (
-    HURRICANE_ANALYSIS,
-    HURRICANE_ANALYSES_SUBMISSION,
-)
-
 from blade_bench.eval.datamodel import (
     EvalResult,
     RunResultModes,
     EntireAnalysis,
     EntireAnalysisProcessed,
     DatasetSubmission,
+)
+
+from .mock_data.hurricane_analysis import (
+    HURRICANE_ANALYSIS,
+    HURRICANE_ANALYSES_SUBMISSION,
 )
 
 
@@ -86,7 +86,7 @@ async def test_process_analysis_error(evaluator):
 @pytest.mark.asyncio
 async def test_load_ground_truth_error(evaluator):
     with patch(
-        "blade_bench.eval.evaluator.load_ground_truth_data",
+        "blade_bench.eval.evaluator.load_ground_truth",
     ) as mock_method:
         mock_method.side_effect = Exception("Error")
         with pytest.raises(LoadGroundTruthError):

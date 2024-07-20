@@ -17,7 +17,18 @@ BLADE consists of X dataset and research question pairs with high-quality ground
 ## 🚀 Getting Started
 To get started with BLADE, follow the steps below:
 ### 1. Installation
-TODO
+Clone the repository:
+```bash
+git clone https://github.com/behavioral-data/BLADE.git
+cd BLADE
+```
+Install locally (developed in python=3.10.14)
+```bash
+# recommended to do this inside another environment
+conda create --name blade python=3.10 -y    
+conda activate blade
+pip install -e .
+```
 
 ### 2. LM Setup
 Next, set the API keys for different LM services. BLADE both not only evalutes Language Models but needs one for evaluation.
@@ -32,6 +43,13 @@ export GEMINI_API_KEY=<your key>
 export ANTHROPIC_API_KEY=<your key>
 ```
 Some default model configurations (e.g., environment variable for the api key) are specified in [llm_config.yml](blade_bench/conf/config.default.yml). You can also set your own configurations by creating your own yaml file folloing the format in `llm_config.yml` and setting the environment variable `LLM_CONFIG_PATH` to the file.
+
+Here's a minimal example to test that the llm is working.
+```python
+from blade_bench.llms import llm
+gen = llm(provider="anthropic", model="claude-3.5-sonnet")
+response = gen.generate([{"role": "user", "content": "Hello world"}])
+```
 
 ### 3. Running LMs and Agent
 We provide a starter script to run a basic one shot LM or ReACT agent for our benchmark.
@@ -117,15 +135,15 @@ To explore the ground truth annotations, we can
 ```python
 from blade_bench.data import load_ground_truth, AnnotationDBData
 
-gnd_truth: AnnotationDBData = load_ground_truth('soccer')
-# see AnnotationDBData object for details 
+# each dataset annotations will be prepared when it is run the first time
+gnd_truth: AnnotationDBData = load_ground_truth('soccer') 
 print(len(gnd_truth.transform_specs))
 print(len(gnd_truth.cv_specs))
 ```
 More details about the structure of the ground truth is available in the paper.
 
 ## 🎯 Evaluating a Submission on BLADE
-To evalute your own submission to BLADE, the LM agent must generate a `json` file that conforms to the schema in [example/submission_schema.json](example/submission_schema.json). An example shown in [example/submission_analyses.json](example/submission_analyses.json). Then specify --submission_load_path when running `run_get_eval.py`.
+To evalute your own agent analysis submission for a dataset in BLADE, the LM agent must generate a `json` file that conforms to the schema in [example/submission_schema.json](example/submission_schema.json). An example shown in [example/submission_analyses.json](example/submission_analyses.json). Then specify --submission_load_path when running `run_get_eval.py`.
 
 ```bash
 python run_get_eval.py --submission_load_path ./example/submission_analyses.json

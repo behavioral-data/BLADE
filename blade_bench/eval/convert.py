@@ -35,7 +35,7 @@ from blade_bench.data.annotation import AnnotationDataTransforms
 from blade_bench.eval.llm import DebugCodeLM
 from blade_bench.parse_code import extract_code_inside_functions_and_func_names
 from blade_bench.utils import get_dataset_csv_path
-from blade_bench.data.dataset import get_dataset_info
+from blade_bench.data.dataset import load_dataset_info
 
 from blade_bench.logger import (
     CODE_ENV_QUERY,
@@ -63,7 +63,7 @@ class Convert:
         assert osp.exists(
             self.data_path
         ), f"Dataset path {self.data_path} does not exist"
-        self.dinfo: DatasetInfo = get_dataset_info(run_dataset)
+        self.dinfo: DatasetInfo = load_dataset_info(run_dataset)
         self.__init_llms(llm_config, llm_history, text_gen)
         self.annotation = AnnotationDataTransforms(
             dataset_path=self.data_path, save_path=output_dir, run_nb=False

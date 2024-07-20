@@ -8,7 +8,7 @@ from diskcache import Cache
 from langchain.output_parsers import PydanticOutputParser
 from langchain.tools import tool
 
-from blade_bench.data.dataset import DatasetInfo, get_dataset_info
+from blade_bench.data.dataset import DatasetInfo
 from blade_bench.llms.utils import cache_request
 from blade_bench.llms.llm import LLMBase
 from blade_bench.eval.datamodel import EntireAnalysis

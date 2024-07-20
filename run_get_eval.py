@@ -6,9 +6,10 @@ import os.path as osp
 from typing import List
 import click
 import yaml
+from blade_bench.eval.datamodel.submission import DatasetSubmission
 from blade_bench.logger import logger, formatter
 from blade_bench.baselines.config import EvalConfig
-from blade_bench.eval.datamodel.run import MultiRunResults
+from blade_bench.eval.datamodel.multirun import MultiRunResults
 from blade_bench.eval.evaluator import run_eval_on_analyses
 from blade_bench.data.datamodel.transforms import (
     TransformDataReturn,
@@ -26,6 +27,7 @@ def load_list_int(value: str) -> List[int]:
 
 def run_eval(
     multirun_load_path: str,
+    submission_load_path: str,
     llm_eval_config_path: str,
     cache_code_results: bool,
     output_dir: str,
@@ -34,12 +36,25 @@ def run_eval(
 ):
     diversity_ks = load_list_int(diversity_ks)
     llm_eval_config = yaml.safe_load(open(llm_eval_config_path))
-    with open(multirun_load_path, "r") as f:
-        multirun_results = MultiRunResults(**json.load(f))
+    if multirun_load_path:
+        with open(multirun_load_path, "r") as f:
+            multirun_results = MultiRunResults(**json.load(f))
+        dataset_name = multirun_results.dataset_name
+        n = multirun_results.n
+        logger.info(f"Loaded multirun results from: {multirun_load_path}")
+    else:
+
+        dataset_submission = DatasetSubmission(
+            **json.load(open(submission_load_path, "r"))
+        )
+        dataset_name = dataset_submission.dataset_name
+        n = len(dataset_submission.analyses)
+        logger.info(f"Loaded dataset submission from: {submission_load_path}")
+
     if not output_dir:
         current_time = datetime.datetime.now()
         time_str = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-        output_dir = f"./outputs/eval/{multirun_results.dataset_name}_nruns={multirun_results.n}_{time_str}"
+        output_dir = f"./outputs/eval/{dataset_name}_nruns={n}_{time_str}"
     if not osp.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -49,9 +64,15 @@ def run_eval(
     logger.add(osp.join(output_dir, f"run_eval.log"), format=formatter.format)
 
     command_string = f"python {__file__} "
-    command_string += (
-        f"\\\n\t--multirun_load_path {get_absolute_dir(multirun_load_path)} "
-    )
+    if multirun_load_path:
+        command_string += (
+            f"\\\n\t--multirun_load_path {get_absolute_dir(multirun_load_path)} "
+        )
+    else:
+        command_string += (
+            f"\\\n\t--submission_load_path {get_absolute_dir(submission_load_path)} "
+        )
+
     command_string += (
         f"\\\n\t--llm_eval_config_path {get_absolute_dir(llm_eval_config_path)} "
     )
@@ -65,13 +86,11 @@ def run_eval(
         f.write("""#!/bin/bash\n""")
         f.write(command_string)
 
-    logger.info(f"Loaded multirun results from: {multirun_load_path}")
-    logger.info(
-        f"Running evaluation for dataset {multirun_results.dataset_name} with nruns={multirun_results.n}"
-    )
+    logger.info(f"Running evaluation for dataset {dataset_name} with nruns={n}")
 
     eval_config = EvalConfig(
         multirun_load_path=multirun_load_path,
+        dataset_submission_path=submission_load_path,
         llm_eval=llm_eval_config,
         output_dir=output_dir,
         use_code_cache=cache_code_results,
@@ -82,29 +101,35 @@ def run_eval(
     logger.info(
         f"Running evaluation with config: {eval_config.model_dump_json(indent=2)}"
     )
-    # run_eval_on_analyses(eval_config)
+    run_eval_on_analyses(eval_config)
 
 
 @click.command()
 @click.option(
     "--multirun_load_path",
-    type=str,
-    required=True,
-    default="./example/multirun_analyses.json",
-    help="Path to load the multirun analyses",
+    type=click.Path(exists=True, file_okay=True, dir_okay=False),
+    default=None,
+    # default="./example/multirun_analyses.json",
+    help="[EITHER multirun_load_path or submission_load_path is REQUIRED] Path to load the multirun analyses.",
+)
+@click.option(
+    "--submission_load_path",
+    type=click.Path(exists=True, file_okay=True, dir_okay=False),
+    default=None,
+    help="[EITHER multirun_load_path or submission_load_path is REQUIRED]",
 )
 @click.option(
     "--llm_eval_config_path",
-    type=click.Path(exists=True, file_okay=True),
+    type=click.Path(exists=True, file_okay=True, dir_okay=False),
     default="./conf/llm_eval.yaml",
     help="Path to the LLM eval config file",
 )
 @click.option(
-    "--no_cache_code_reuslts",
+    "--no_cache_code_results",
     "cache_code_results",
     is_flag=True,
     default=True,
-    help="Whether to cache code results when running code for the evaluation",
+    help="Whether to not cache code results when running code for the evaluation",
 )
 @click.option(
     "--output_dir",
@@ -127,14 +152,20 @@ def run_eval(
 )
 def run_eval_click(
     multirun_load_path: str,
+    submission_load_path: str,
     llm_eval_config_path: str,
     cache_code_results: bool,
     output_dir: str,
     diversity_ks: str,
     diversity_n_samples: int,
 ):
+    assert (
+        multirun_load_path or submission_load_path
+    ), "Either multirun_load_path or submission_load_path is required."
+
     run_eval(
         multirun_load_path=multirun_load_path,
+        submission_load_path=submission_load_path,
         llm_eval_config_path=llm_eval_config_path,
         cache_code_results=cache_code_results,
         output_dir=output_dir,

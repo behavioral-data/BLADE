@@ -23,7 +23,7 @@ def load_config():
     try:
         config_path = os.environ.get("LLM_CONFIG_PATH", None)
         if config_path is None or os.path.exists(config_path) is False:
-            config_path = os.path.join(get_conf_dir(), "config.default.yml")
+            config_path = os.path.join(get_conf_dir(), "llm_config.yml")
             logger.info(
                 f"Info: LLM_CONFIG_PATH environment variable is not set to a valid config file. Using default config file at '{config_path}'."
             )

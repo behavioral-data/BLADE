@@ -17,7 +17,7 @@ from blade_bench.data.datamodel import (
 from blade_bench.data.process import GraphPaths, ProcessGraph, AnnotationDataTransforms
 
 
-from blade_bench.tests.mock_data import (
+from .mock_data import (
     GND_TRUTH_SPECS,
     GND_TRUTH_SPECS_W_BRANCH,
     LLM_PATH_SPECS,

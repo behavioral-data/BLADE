@@ -1,0 +1,163 @@
+{
+    "$defs": {
+        "AgentCVarsWithCol": {
+            "properties": {
+                "ivs": {
+                    "items": {
+                        "$ref": "#/$defs/IVarWithCol"
+                    },
+                    "title": "Independent variables",
+                    "type": "array"
+                },
+                "dv": {
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/DVarWithCol"
+                        }
+                    ],
+                    "title": "Dependent variable"
+                },
+                "controls": {
+                    "items": {
+                        "$ref": "#/$defs/ControlVarWithCol"
+                    },
+                    "title": "Control variables",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "ivs",
+                "dv",
+                "controls"
+            ],
+            "title": "AgentCVarsWithCol",
+            "type": "object"
+        },
+        "ControlVarWithCol": {
+            "properties": {
+                "description": {
+                    "title": "Description of the control variable variable",
+                    "type": "string"
+                },
+                "is_moderator": {
+                    "title": "Whether the variable is a moderator.",
+                    "type": "boolean"
+                },
+                "moderator_on": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "",
+                    "title": "The variable that the control variable is moderating. Only applicable for control variables that are moderators."
+                },
+                "columns": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "The column(s) in the FINAL dataframe used in the STATISTICAL MODEL that corresponds to the control variable",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "description",
+                "is_moderator",
+                "columns"
+            ],
+            "title": "ControlVarWithCol",
+            "type": "object"
+        },
+        "DVarWithCol": {
+            "properties": {
+                "description": {
+                    "title": "Description of the dependent variable variable",
+                    "type": "string"
+                },
+                "columns": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "The column(s) in the FINAL dataframe used in the STATISTICAL MODEL that corresponds to the dependent variable",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "description",
+                "columns"
+            ],
+            "title": "DVarWithCol",
+            "type": "object"
+        },
+        "EntireAnalysis": {
+            "properties": {
+                "cvars": {
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/AgentCVarsWithCol"
+                        }
+                    ],
+                    "title": "Conceptual variables"
+                },
+                "transform_code": {
+                    "title": "The code that transforms the data",
+                    "type": "string"
+                },
+                "m_code": {
+                    "title": "The code for the statistical modeling",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cvars",
+                "transform_code",
+                "m_code"
+            ],
+            "title": "EntireAnalysis",
+            "type": "object"
+        },
+        "IVarWithCol": {
+            "properties": {
+                "description": {
+                    "title": "Description of the independent variable variable",
+                    "type": "string"
+                },
+                "columns": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "The column(s) in the FINAL dataframe used in the STATISTICAL MODEL that corresponds to the independent variable",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "description",
+                "columns"
+            ],
+            "title": "IVarWithCol",
+            "type": "object"
+        }
+    },
+    "properties": {
+        "dataset_name": {
+            "title": "Dataset Name",
+            "type": "string"
+        },
+        "analyses": {
+            "items": {
+                "$ref": "#/$defs/EntireAnalysis"
+            },
+            "title": "Analyses",
+            "type": "array"
+        }
+    },
+    "required": [
+        "dataset_name",
+        "analyses"
+    ],
+    "title": "DatasetSubmission",
+    "type": "object"
+}

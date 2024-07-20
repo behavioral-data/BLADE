@@ -1,4 +1,4 @@
-from blade_bench.data.dataset import get_dataset_info
+from blade_bench.data.dataset import load_dataset_info
 from blade_bench.eval.datamodel import (
     AgentCVarsWithCol,
     ControlVarWithCol,
@@ -7,7 +7,7 @@ from blade_bench.eval.datamodel import (
     IVarWithCol,
 )
 
-FERTILITY_DINFO = get_dataset_info("fertility")
+FERTILITY_DINFO = load_dataset_info("fertility")
 
 
 FERTILITY_TRANSFORM_CODE = """# drop the rows with missing values in the ReportedCycleLength, Rel1, Rel2, and Rel3 columns
