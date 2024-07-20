@@ -3,24 +3,24 @@
 Dataset and code for ["BLADE: Benchmarking Language Model Agents for Data-Driven Science"]()
 
 ---
-## Introduction
-BLADE is a comprehensive benchmark designed to evaluate Language Model Agents on writing justifiable analyses on real-world scientific research questions from data (e.g., *Are soccer players with a dark skin tone more likely than those with a light skin tone to receive red cards from referees?* from [Silberzahn et al.](https://journals.sagepub.com/doi/10.1177/2515245917747646)). In particular, BLADE evaluates Agents' ability to iteratively integrate scientific domain knowledge, statistical expertise, and data understanding to make nuanced analytical decisions
+## 📝 Introduction
+BLADE is a comprehensive benchmark designed to evaluate Language Model (LM) Agents on writing justifiable analyses on real-world scientific research questions from data (e.g., *Are soccer players with a dark skin tone more likely than those with a light skin tone to receive red cards from referees?* from [Silberzahn et al.](https://journals.sagepub.com/doi/10.1177/2515245917747646)). In particular, BLADE evaluates Agents' ability to iteratively integrate scientific domain knowledge, statistical expertise, and data understanding to make nuanced analytical decisions
 
-BLADE consists of 12 dataset and research question pairs with high-quality ground truth analysis decisions (i.e., choice of conceptual construct, transformations, statistical model) made by expert data scientists and researchers who independently conducted the analyses. In addition, BLADE contains Y multiple choice questions for discerning justifiable analysis decisions. 
+BLADE consists of X dataset and research question pairs with high-quality ground truth analysis decisions (i.e., choice of conceptual construct, transformations, statistical model) made by expert data scientists and researchers who independently conducted the analyses. In addition, BLADE contains Y multiple choice questions for discerning justifiable analysis decisions. 
 
 
 ![Main](assets/main_white.png)
 <p align="left">
-  <em><b>Overvie of BLADE Construction and Evaluation.</b> We gathered research questions and datasets from existing research papers, crowd-sourced analysis studies and statistic textbooks as well as analyses from expert annotators (boxes 1-3). Given a research question and dataset, LM agents generate a full analysis containing the relevant conceptual variables, a data transform function, and a statistical modeling function (boxes 1,4, and 5). BLADE then performs automatic evaluation against the ground truth (box 6).</em>
+  <em><b>Overview of BLADE Construction and Evaluation.</b> We gathered research questions and datasets from existing research papers, crowd-sourced analysis studies and statistic textbooks as well as analyses from expert annotators (boxes 1-3). Given a research question and dataset, LM agents generate a full analysis containing the relevant conceptual variables, a data transform function, and a statistical modeling function (boxes 1, 4, and 5). BLADE then performs automatic evaluation against the ground truth (box 6).</em>
 </p>
 
-## Getting Started
+## 🚀 Getting Started
 To get started with BLADE, follow the steps below:
 ### 1. Installation
 TODO
 
 ### 2. LM Setup
-BLADE evaluates Language Models and uses them for evaluation. Set the api keys for different LM services 
+Next, set the API keys for different LM services. BLADE both not only evalutes Language Models but needs one for evaluation.
 ```bash
 # for openai
 export OPENAI_API_KEY=<your key>
@@ -31,12 +31,12 @@ export GEMINI_API_KEY=<your key>
 # for anthropic
 export ANTHROPIC_API_KEY=<your key>
 ```
-Some default model configurations (e.g., environment variable for the api key) are specified in [llm_config.yml](blade_bench/conf/config.default.yml). You can also add set your own configurations by creating your own yaml file using the yaml format and setting the environment variable `LLM_CONFIG_PATH` to the file.
+Some default model configurations (e.g., environment variable for the api key) are specified in [llm_config.yml](blade_bench/conf/config.default.yml). You can also set your own configurations by creating your own yaml file folloing the format in `llm_config.yml` and setting the environment variable `LLM_CONFIG_PATH` to the file.
 
 ### 3. Running LMs and Agent
-We provide a starter script to run a basic LM or ReACT agent for our benchmark.
+We provide a starter script to run a basic one shot LM or ReACT agent for our benchmark.
 
-```bash
+```
 Usage: run_gen_analyses.py [OPTIONS]
 
 Options:
@@ -76,9 +76,9 @@ This will write the results to the folder specified by `output_dir`. After runni
 An example is provided in `example/multirun_analyses.json`.
 
 ### 4. Evaluating Agent Generated Analyses
-We provide a starter script to evaluate the outputs of running`run_gen_analyses.py`. Run `run_get_eval.py` as follows:
+We provide a starter script to evaluate the outputs of `run_gen_analyses.py`. Run `run_get_eval.py` as follows:
 
-```bash
+```
 Usage: run_get_eval.py [OPTIONS]
 
 Options:
@@ -102,7 +102,7 @@ Here is an example:
 python run_get_eval.py --multirun_load_path ./examples/multirun_analyses.json
 ```
 
-## Data Exploration Functions
+## 🔍 Data Exploration Functions
 To access the dataset and research question we can
 ```python
 from blade_bench.data import load_dataset_info, list_datasets, DatasetInfo
@@ -124,174 +124,9 @@ print(len(gnd_truth.cv_specs))
 ```
 More details about the structure of the ground truth is available in the paper.
 
-## Evaluating a Submission on BLADE
+## 🎯 Evaluating a Submission on BLADE
 To evalute your own submission to BLADE, the LM agent must generate a `json` file that conforms to the folloing schema. An example shown in [example/submission_analyses.json](example/submission_analyses.json). Then just specify --submission_load_path when running `run_get-eval.py`.
 
-```json
-{
-  "$defs": {
-    "AgentCVarsWithCol": {
-      "properties": {
-        "ivs": {
-          "items": {
-            "$ref": "#/$defs/IVarWithCol"
-          },
-          "title": "Independent variables",
-          "type": "array"
-        },
-        "dv": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/DVarWithCol"
-            }
-          ],
-          "title": "Dependent variable"
-        },
-        "controls": {
-          "items": {
-            "$ref": "#/$defs/ControlVarWithCol"
-          },
-          "title": "Control variables",
-          "type": "array"
-        }
-      },
-      "required": [
-        "ivs",
-        "dv",
-        "controls"
-      ],
-      "title": "AgentCVarsWithCol",
-      "type": "object"
-    },
-    "ControlVarWithCol": {
-      "properties": {
-        "description": {
-          "title": "Description of the control variable variable",
-          "type": "string"
-        },
-        "is_moderator": {
-          "title": "Whether the variable is a moderator.",
-          "type": "boolean"
-        },
-        "moderator_on": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": "",
-          "title": "The variable that the control variable is moderating. Only applicable for control variables that are moderators."
-        },
-        "columns": {
-          "items": {
-            "type": "string"
-          },
-          "title": "The column(s) in the FINAL dataframe used in the STATISTICAL MODEL that corresponds to the control variable",
-          "type": "array"
-        }
-      },
-      "required": [
-        "description",
-        "is_moderator",
-        "columns"
-      ],
-      "title": "ControlVarWithCol",
-      "type": "object"
-    },
-    "DVarWithCol": {
-      "properties": {
-        "description": {
-          "title": "Description of the dependent variable variable",
-          "type": "string"
-        },
-        "columns": {
-          "items": {
-            "type": "string"
-          },
-          "title": "The column(s) in the FINAL dataframe used in the STATISTICAL MODEL that corresponds to the dependent variable",
-          "type": "array"
-        }
-      },
-      "required": [
-        "description",
-        "columns"
-      ],
-      "title": "DVarWithCol",
-      "type": "object"
-    },
-    "EntireAnalysis": {
-      "properties": {
-        "cvars": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/AgentCVarsWithCol"
-            }
-          ],
-          "title": "Conceptual variables"
-        },
-        "transform_code": {
-          "title": "The code that transforms the data",
-          "type": "string"
-        },
-        "m_code": {
-          "title": "The code for the statistical modeling",
-          "type": "string"
-        }
-      },
-      "required": [
-        "cvars",
-        "transform_code",
-        "m_code"
-      ],
-      "title": "EntireAnalysis",
-      "type": "object"
-    },
-    "IVarWithCol": {
-      "properties": {
-        "description": {
-          "title": "Description of the independent variable variable",
-          "type": "string"
-        },
-        "columns": {
-          "items": {
-            "type": "string"
-          },
-          "title": "The column(s) in the FINAL dataframe used in the STATISTICAL MODEL that corresponds to the independent variable",
-          "type": "array"
-        }
-      },
-      "required": [
-        "description",
-        "columns"
-      ],
-      "title": "IVarWithCol",
-      "type": "object"
-    }
-  },
-  "properties": {
-    "dataset_name": {
-      "title": "Dataset Name",
-      "type": "string"
-    },
-    "analyses": {
-      "items": {
-        "$ref": "#/$defs/EntireAnalysis"
-      },
-      "title": "Analyses",
-      "type": "array"
-    }
-  },
-  "required": [
-    "dataset_name",
-    "analyses"
-  ],
-  "title": "DatasetSubmission",
-  "type": "object"
-}
-```
 ## Contributing
 
 TODO
