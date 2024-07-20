@@ -1,0 +1,503 @@
+{
+  "dataset_name": "hurricane",
+  "analyses": [
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Masculinity-Femininity rating of hurricane names",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Total number of deaths caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": null,
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": null,
+            "columns": [
+              "wind"
+            ]
+          },
+          {
+            "description": "Minimum pressure of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": null,
+            "columns": [
+              "min"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Drop rows with missing values in relevant columns\n    df = df.dropna(subset=['masfem', 'alldeaths', 'category', 'wind', 'min'])\n    \n    # Ensure the 'masfem' column is treated as numeric\n    df['masfem'] = pd.to_numeric(df['masfem'], errors='coerce')\n    \n    # Ensure the 'alldeaths' column is treated as numeric\n    df['alldeaths'] = pd.to_numeric(df['alldeaths'], errors='coerce')\n    \n    # Filter out hurricanes that caused zero deaths for a more informative analysis\n    df = df[df['alldeaths'] > 0]\n    \n    return df",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    X = df[['masfem', 'category', 'wind', 'min']]\n    y = df['alldeaths']\n    \n    # Add a constant to the independent variables matrix for intercept\n    X = sm.add_constant(X)\n    \n    # Fit the OLS model\n    model = sm.OLS(y, X).fit()\n    \n    # Return the summary of the model\n    return model.summary()"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Femininity of hurricane names",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of fatalities caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Keeping only necessary columns for the analysis\n    df = df[['masfem', 'alldeaths', 'category', 'wind']]\n    \n    # Dropping rows with missing values in the necessary columns\n    df = df.dropna(subset=['masfem', 'alldeaths', 'category', 'wind'])\n    \n    return df",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    # Prepare the independent variables and add a constant term for the intercept\n    X = df[['masfem', 'category', 'wind']]\n    X = sm.add_constant(X)\n    \n    # The dependent variable\n    y = df['alldeaths']\n    \n    # Fit the OLS model\n    model = sm.OLS(y, X).fit()\n    \n    # Return the summary of the model\n    return model.summary()"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Gender of the hurricane name",
+            "columns": [
+              "gender_mf"
+            ]
+          },
+          {
+            "description": "Femininity index of the hurricane name",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of deaths caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Minimum pressure of the hurricane at landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "min"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane at landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          },
+          {
+            "description": "Elapsed years since the hurricane",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "elapsedyrs"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Drop rows with missing values in the key columns\n    df = df.dropna(subset=['gender_mf', 'masfem', 'alldeaths', 'category', 'min', 'wind', 'elapsedyrs'])\n    # Convert categorical columns to appropriate types\n    df['gender_mf'] = df['gender_mf'].astype('category')\n    return df\n",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    X = df[['gender_mf', 'masfem', 'category', 'min', 'wind', 'elapsedyrs']]\n    X = pd.get_dummies(X, drop_first=True)\n    y = df['alldeaths']\n    X = sm.add_constant(X)\n    model = sm.OLS(y, X).fit()\n    return model.summary()\n"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Femininity of the hurricane name",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of deaths caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Minimum pressure of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "min"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          },
+          {
+            "description": "Normalized property damage caused by the hurricane (2015 monetary values)",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "ndam15"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Drop rows with missing values in the relevant columns\n    df = df.dropna(subset=['masfem', 'alldeaths', 'category', 'min', 'wind', 'ndam15'])\n    return df\n",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    # Define the independent variables including controls\n    X = df[['masfem', 'category', 'min', 'wind', 'ndam15']]\n    X = sm.add_constant(X) # add constant term\n    \n    # Define the dependent variable\n    y = df['alldeaths']\n    \n    # Fit the OLS model\n    model = sm.OLS(y, X).fit()\n    \n    # Return the summary of the regression results\n    return model.summary()\n"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Femininity of the hurricane name",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of deaths caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          },
+          {
+            "description": "Minimum pressure of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "min"
+            ]
+          },
+          {
+            "description": "Elapsed years since the hurricane",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "elapsedyrs"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    df = df.dropna(subset=['masfem', 'alldeaths', 'category', 'wind', 'min', 'elapsedyrs'])\n    return df",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    X = df[['masfem', 'category', 'wind', 'min', 'elapsedyrs']]\n    X = sm.add_constant(X)\n    y = df['alldeaths']\n    model = sm.OLS(y, X).fit()\n    return model.summary()"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Femininity of hurricane name",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of fatalities caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Categorical indicator of hurricane gender",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "gender_mf"
+            ]
+          },
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Elapsed years since the hurricane",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "elapsedyrs"
+            ]
+          },
+          {
+            "description": "Minimum pressure of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "min"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Drop rows with missing values in relevant columns\n    df = df.dropna(subset=['masfem', 'alldeaths', 'gender_mf', 'category', 'elapsedyrs', 'min', 'wind'])\n    return df\n",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    # Define the independent and dependent variables\n    X = df[['masfem', 'gender_mf', 'category', 'elapsedyrs', 'min', 'wind']]\n    y = df['alldeaths']\n\n    # Add a constant to the independent variables\n    X = sm.add_constant(X)\n\n    # Fit the OLS model\n    model = sm.OLS(y, X).fit()\n\n    # Return the model results\n    return model.summary()"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Femininity of the hurricane name",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of deaths caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Minimum pressure of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "min"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Drop rows with missing values in relevant columns\n    df = df.dropna(subset=['masfem', 'alldeaths', 'category', 'min', 'wind'])\n    \n    # Ensure numeric columns are in the correct dtype\n    df['masfem'] = pd.to_numeric(df['masfem'], errors='coerce')\n    df['alldeaths'] = pd.to_numeric(df['alldeaths'], errors='coerce')\n    df['category'] = pd.to_numeric(df['category'], errors='coerce')\n    df['min'] = pd.to_numeric(df['min'], errors='coerce')\n    df['wind'] = pd.to_numeric(df['wind'], errors='coerce')\n    \n    return df\n",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    X = df[['masfem', 'category', 'min', 'wind']]\n    y = df['alldeaths']\n    \n    # Add a constant to the model (intercept)\n    X = sm.add_constant(X)\n    \n    # Fit the OLS model\n    model = sm.OLS(y, X).fit()\n    \n    # Return the summary of the model\n    return model.summary()\n"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Femininity of the hurricane's name",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of deaths caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Minimum pressure of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "min"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          },
+          {
+            "description": "Elapsed years since the hurricane",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "elapsedyrs"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Ensure no missing values in the essential columns\n    df = df.dropna(subset=['alldeaths', 'masfem', 'category', 'min', 'wind', 'elapsedyrs'])\n    \n    # Log-transform the dependent variable to handle skewness in death counts\n    df['log_alldeaths'] = np.log1p(df['alldeaths'])\n    return df\n",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    # Define the model formula\n    formula = 'log_alldeaths ~ masfem + category + min + wind + elapsedyrs'\n    \n    # Fit the model using OLS regression\n    model = sm.OLS.from_formula(formula, data=df).fit()\n    \n    # Return the results of the model\n    return model.summary()\n"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Femininity of the hurricane name",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of deaths caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Maximum wind speed at the time of landfall",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Ensure no missing values in relevant columns\n    df = df.dropna(subset=['masfem', 'alldeaths', 'category', 'wind'])\n    return df",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    # Add constant term for the model\n    X = df[['masfem', 'category', 'wind']]\n    X = sm.add_constant(X)\n    y = df['alldeaths']\n    \n    # Fit the model\n    model = sm.OLS(y, X).fit()\n    \n    # Return the model results\n    return model.summary()"
+    },
+    {
+      "cvars": {
+        "ivs": [
+          {
+            "description": "Femininity of the hurricane name",
+            "columns": [
+              "masfem"
+            ]
+          }
+        ],
+        "dv": {
+          "description": "Number of deaths caused by the hurricane",
+          "columns": [
+            "alldeaths"
+          ]
+        },
+        "controls": [
+          {
+            "description": "Category of the hurricane on the Saffir-Simpson scale",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "category"
+            ]
+          },
+          {
+            "description": "Minimum pressure of the hurricane",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "min"
+            ]
+          },
+          {
+            "description": "Maximum wind speed of the hurricane",
+            "is_moderator": false,
+            "moderator_on": "",
+            "columns": [
+              "wind"
+            ]
+          }
+        ]
+      },
+      "transform_code": "def transform(df: pd.DataFrame) -> pd.DataFrame:\n    # Drop rows with missing values in the relevant columns\n    df = df.dropna(subset=['masfem', 'alldeaths', 'category', 'min', 'wind'])\n    \n    # Ensure the types of the columns are correct\n    df['masfem'] = df['masfem'].astype(float)\n    df['alldeaths'] = df['alldeaths'].astype(int)\n    df['category'] = df['category'].astype(int)\n    df['min'] = df['min'].astype(float)\n    df['wind'] = df['wind'].astype(float)\n    \n    return df\n",
+      "m_code": "def model(df: pd.DataFrame) -> Any:\n    # Define the independent variables (including control variables)\n    X = df[['masfem', 'category', 'min', 'wind']]\n    X = sm.add_constant(X)  # Adds a constant term to the model\n    \n    # Define the dependent variable\n    y = df['alldeaths']\n    \n    # Fit the OLS regression model\n    model = sm.OLS(y, X).fit()\n    \n    # Return the results\n    return model.summary()\n"
+    }
+  ]
+}
