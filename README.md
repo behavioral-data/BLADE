@@ -42,7 +42,7 @@ export GEMINI_API_KEY=<your key>
 # for anthropic
 export ANTHROPIC_API_KEY=<your key>
 ```
-Some default model configurations (e.g., environment variable for the api key) are specified in [llm_config.yml](blade_bench/conf/config.default.yml). You can also set your own configurations by creating your own yaml file folloing the format in `llm_config.yml` and setting the environment variable `LLM_CONFIG_PATH` to the file.
+Some default model configurations (e.g., environment variable for the api key) are specified in [llm_config.yml](blade_bench/conf/llm_config.yml). You can also set your own configurations by creating your own yaml file folloing the format in `llm_config.yml` and setting the environment variable `LLM_CONFIG_PATH` to the file.
 
 Here's a minimal example to test that the llm is working.
 ```python
@@ -70,18 +70,11 @@ Options:
                                   the provider, model, and text generation
                                   config such as the temperature.  [default:
                                   ./conf/llm.yaml]
-  --llm_provider [openai|azureopenai|gemini|anthropic|huggingface]
+  --llm_provider [openai|azureopenai|groq|mistral|together|gemini|anthropic|huggingface]
                                   Provider for the LLM to override the config
                                   file at llm_config_path
   --llm_model TEXT                Model for the LLM to override the config
-                                  file at llm_config_path. Default options are
-                                  ['gpt-4', 'gpt-4-32k', 'gpt-3.5-turbo',
-                                  'gpt-3.5-turbo-0301', 'gpt-3.5-turbo-16k',
-                                  'gpt-4o-azure', 'gpt-4o-eval',
-                                  'gpt-3.5-turbo', 'gemini-1.5-pro-latest',
-                                  'claude-3-opus', 'claude-3.5-sonnet',
-                                  'codellama-7b-instruct', 'deepseek-
-                                  coder-6.7b-instruct']
+                                  file at llm_config_path. 
   --llm_eval_config_path FILE     Path to the LLM eval config file, used to
                                   specify the provider, model, and text
                                   generation config such as the temperature.
@@ -110,7 +103,7 @@ Options:
                                  running code for the evaluation
   --output_dir DIRECTORY         output directory to store saved eval results
   --ks TEXT                      List of k values for diversity metrics.
-                                 Default is [1, 5, 10]
+                                 Default is []
   --diversity_n_samples INTEGER  Number of samples to use for diversity
                                  metrics
   --help                         Show this message and exit.

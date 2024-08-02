@@ -1,0 +1,152 @@
+# list of supported providers.
+providers:
+  openai:
+    name: OpenAI
+    description: OpenAI's GPT-3 and GPT-4 models.
+    models:
+      - name: gpt-4 # general model name, can be anything
+        model:
+          max_tokens: 8192 # max supported tokens
+          model: gpt-4 # model actual name, required
+          api_key_env_name: OPENAI_API_KEY
+      - name: gpt-4-32k
+        max_tokens: 32768
+        model:
+          model: gpt-4-32k
+          api_key_env_name: OPENAI_API_KEY
+      - name: gpt-3.5-turbo
+        max_tokens: 4096
+        model:
+          model: gpt-3.5-turbo
+          api_key_env_name: OPENAI_API_KEY
+      - name: gpt-3.5-turbo-0301
+        max_tokens: 4096
+        model:
+          model: gpt-3.5-turbo-0301
+          api_key_env_name: OPENAI_API_KEY
+      - name: gpt-3.5-turbo-16k
+        max_tokens: 16384
+        model:
+          model: gpt-3.5-turbo-16k
+          api_key_env_name: OPENAI_API_KEY
+        
+  azureopenai:
+    name: OpenAI
+    description: AzureOpenAI GPT-3 and GPT-4 models.
+    models:
+      - name: gpt-4o-azure
+        max_tokens: 4096
+        model:
+          api_key_env_name: 
+          api_base: 
+          api_version: 
+          model:  # deployment
+  groq:
+    name: Groq
+    description: Groq's LLM models
+    models:
+      - name: llama3-70b
+        max_tokens: 8192
+        model: 
+          model: llama3-70b-8192
+          api_key_env_name: GROQ_API_KEY
+      - name: llama3-8b
+        max_tokens: 8192
+        model:
+          model: llama3-8b-8192
+          api_key_env_name: GROQ_API_KEY
+      - name: mixtral-8x7b
+        max_tokens: 4096
+        model:
+          model: mixtral-8x7b-32768
+          api_key_env_name: GROQ_API_KEY
+  mistral:
+    name: mistral
+    description: Mistral's LLM models
+    models:
+      - name: mistral-7b
+        max_tokens: 8192
+        model: 
+          model: open-mistral-7b
+          api_key_env_name: MISTRAL_API_KEY
+      - name: mixtral-8x7b
+        max_tokens: 8192
+        model: 
+          model: open-mixtral-8x7b
+          api_key_env_name: MISTRAL_API_KEY
+      - name: mixtral-8x22b
+        max_tokens: 8192
+        model:
+          model: open-mixtral-8x22b
+          api_key_env_name: MISTRAL_API_KEY
+  together:
+    name: together
+    description: TogetherAI's LLM Models
+    models:
+      - name: llama3-70b
+        max_tokens: 8192
+        model: 
+          model: meta-llama/Meta-Llama-3-70B-Instruct-Turbo
+          api_key_env_name: TOGETHER_API_KEY
+      - name: mixtral-8x22b
+        max_tokens: 8192
+        model:
+          model: mistralai/Mixtral-8x22B-Instruct-v0.1
+          api_key_env_name: TOGETHER_API_KEY
+      - name: codellama-34b
+        max_tokens: 16384
+        model:
+          model: codellama/CodeLlama-34b-Instruct-hf
+          api_key_env_name: TOGETHER_API_KEY
+      - name: mixtral-8x7b
+        max_tokens: 8192
+        model: 
+          model: mistralai/Mixtral-8x7B-Instruct-v0.1
+          api_key_env_name: TOGETHER_API_KEY
+      - name: mixtral-8x22b
+        max_tokens: 8192
+        model:
+          model: mistralai/Mixtral-8x22B-Instruct-v0.1
+          api_key_env_name: TOGETHER_API_KEY
+      - name: d33b
+        max_tokens: 16384
+        model:
+          model: deepseek-ai/deepseek-coder-33b-instruct
+          api_key_env_name: TOGETHER_API_KEY
+  gemini:
+    name: Google
+    description: Google's LLM models.
+    models:
+      - name: gemini-1.5-pro
+        max_tokens: 8192
+        model:
+          model: gemini-1.5-pro-latest
+          api_key_env_name: GEMINI_API_KEY
+  anthropic:
+    name: Anthropic
+    description: Anthropic's LLM models
+    models:
+      - name: claude-3-opus
+        max_tokens: 4096
+        model:
+          model: claude-3-opus-20240229
+          api_key_env_name: ANTHROPIC_API_KEY
+      - name: claude-3.5-sonnet
+        max_tokens: 4096
+        model:
+          model: claude-3-5-sonnet-20240620
+          api_key_env_name: ANTHROPIC_API_KEY
+  huggingface:
+    name: HuggingFace
+    description: HuggingFace's LLM models deployed locally.
+    models:
+      - name: l7b
+        max_tokens: 4096
+        model:
+          api_base: http://localhost:8000
+          model: meta-llama/CodeLlama-7b-Instruct-hf
+      - name: d7b
+        max_tokens: 4096
+        model:
+          api_base: http://localhost:8001
+          model: deepseek-ai/deepseek-coder-6.7b-instruct

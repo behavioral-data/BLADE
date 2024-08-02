@@ -141,13 +141,13 @@ def run_eval(
     "--ks",
     "diversity_ks",
     type=str,
-    default="[1, 5, 10]",
-    help="List of k values for diversity metrics. Default is [1, 5, 10]",
+    default="[]",
+    help="List of k values for diversity metrics. Default is []",
 )
 @click.option(
     "--diversity_n_samples",
     type=int,
-    default=10000,
+    default=1000,
     help="Number of samples to use for diversity metrics",
 )
 def run_eval_click(
