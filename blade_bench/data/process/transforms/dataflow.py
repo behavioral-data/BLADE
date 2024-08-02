@@ -6,6 +6,7 @@ import networkx as nx
 from blade_bench.data.datamodel.specs import POST_GROUPBY_TRANS_VERB
 from blade_bench.data.datamodel.transforms import GraphHashInfo
 from blade_bench.parse_code import process_groupby_code
+from blade_bench.utils import timeout
 from .graph_paths import GraphPaths
 
 
@@ -356,6 +357,15 @@ class AnnotationDataTransforms:
         Add graph hashes to the graph_hash_and_graphs dict
         """
 
+        @timeout(seconds=3, default=False)
+        def is_isomorphic(g, subgraph):
+            return nx.is_isomorphic(
+                g,
+                subgraph,
+                edge_match=lambda x, y: x["type"] == y["type"],
+                node_match=lambda x, y: x["val"] == y["val"],
+            )
+
         for node in cols_g.nodes:
             if (
                 node not in nid_to_col_state
@@ -374,12 +384,7 @@ class AnnotationDataTransforms:
             else:
                 matched = False
                 for g, col_states in graph_hash_and_graphs[graph_hash]:
-                    if nx.is_isomorphic(
-                        g,
-                        subgraph,
-                        edge_match=lambda x, y: x["type"] == y["type"],
-                        node_match=lambda x, y: x["val"] == y["val"],
-                    ):
+                    if is_isomorphic(g, subgraph):
                         col_states.append(col_state)
                         matched = True
                         break

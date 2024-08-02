@@ -1,0 +1,164 @@
+{
+  "research_questions": [
+    "Do modern humans (Homo sapiens) have higher frequencies of antemortem tooth loss (AMTL) compared to non-human primate genera (Pan, Pongo, Papio), after accounting for the effects of age, sex, and tooth class?"
+  ],
+  "data_desc": {
+    "dataset_description": "Antemortem tooth loss (AMTL), the loss of teeth during an individual's lifetime, is of significant interest in anthropology and evolutionary studies. Some researchers suggest that high frequencies of AMTL in fossil hominins, our ancestors, may indicate the early adoption of certain human-like behaviors such as cooking food or providing care to individuals who could no longer chew effectively. However, it is unclear whether this association between AMTL and human behavior holds when comparing modern humans to non-human primates. To investigate this, Gilmore (2013) collected data on AMTL from skeletal remains of modern human hunter-gatherers and three non-human primate genera: chimpanzees (Pan), orangutans (Pongo), and baboons (Papio). The dataset includes information on the number of missing teeth, observable tooth sockets, estimated age at death, sex, and tooth class (anterior, posterior, or premolar) for each specimen. By analyzing this data using binomial regression modeling, we aim to determine if humans indeed have higher rates of AMTL compared to non-human primates, after accounting for the effects of age, sex, and tooth type.",
+    "fields": [
+      {
+        "column": "tooth_class",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Anterior",
+            "Posterior",
+            "Premolar"
+          ],
+          "num_unique_values": 3,
+          "semantic_type": "",
+          "description": "One of Anterior, Posterior, or Premolar"
+        }
+      },
+      {
+        "column": "specimen",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "NMNH350096",
+            "UVS56",
+            "BRK126758"
+          ],
+          "num_unique_values": 484,
+          "semantic_type": "",
+          "description": "Unique identifier for specimen"
+        }
+      },
+      {
+        "column": "num_amtl",
+        "properties": {
+          "dtype": "number",
+          "std": 1.6266311629535932,
+          "min": 0,
+          "max": 12,
+          "samples": [
+            10,
+            9,
+            0
+          ],
+          "num_unique_values": 12,
+          "semantic_type": "",
+          "description": "Number of teeth missing of given class"
+        }
+      },
+      {
+        "column": "sockets",
+        "properties": {
+          "dtype": "number",
+          "std": 2.798268102170289,
+          "min": 2,
+          "max": 14,
+          "samples": [
+            14,
+            13,
+            12
+          ],
+          "num_unique_values": 13,
+          "semantic_type": "",
+          "description": "number of observable sockets that could be scored for missing teeth"
+        }
+      },
+      {
+        "column": "age",
+        "properties": {
+          "dtype": "number",
+          "std": 10.93222964111899,
+          "min": 8.59322651,
+          "max": 71.2242553,
+          "samples": [
+            14.0305714,
+            42.2754092,
+            42.5600492
+          ],
+          "num_unique_values": 313,
+          "semantic_type": "",
+          "description": "Estimated age of specimen at death"
+        }
+      },
+      {
+        "column": "stdev_age",
+        "properties": {
+          "dtype": "number",
+          "std": 3.8776272832369036,
+          "min": 1.26803942,
+          "max": 31.4169538,
+          "samples": [
+            4.50357659,
+            7.9144902,
+            2.86641
+          ],
+          "num_unique_values": 311,
+          "semantic_type": "",
+          "description": "Assigned uncertainty of age at death"
+        }
+      },
+      {
+        "column": "prob_male",
+        "properties": {
+          "dtype": "number",
+          "std": 0.34975029083398823,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.25,
+            0.0,
+            0.75
+          ],
+          "num_unique_values": 5,
+          "semantic_type": "",
+          "description": "Estimate of sex of specimen"
+        }
+      },
+      {
+        "column": "genus",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Pongo",
+            "Pan",
+            "Homo sapiens"
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Specimen genus, one of Homo, Pan, Papio, or Pongo"
+        }
+      },
+      {
+        "column": "pop",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Alaska",
+            "Yaghan",
+            "Ebolwa"
+          ],
+          "num_unique_values": 22,
+          "semantic_type": "",
+          "description": "Region specimen originates from"
+        }
+      }
+    ],
+    "num_rows": 1450,
+    "field_names": [
+      "tooth_class",
+      "specimen",
+      "num_amtl",
+      "sockets",
+      "age",
+      "stdev_age",
+      "prob_male",
+      "genus",
+      "pop"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/amtl/data.csv"
+}

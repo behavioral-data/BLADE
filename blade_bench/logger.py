@@ -2,8 +2,7 @@ from collections import OrderedDict
 from loguru import logger
 import json  # <!- add this line
 import sys
-import os.path as osp
-from .utils import get_logs_dir
+
 
 LLM_LEVEL_NAME = "LLM"
 PROMPT_LEVEL_NAME = "PROMPT"

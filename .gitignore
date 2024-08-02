@@ -11,3 +11,8 @@ notebooks/**
 outputs/**
 conf
 .cache
+**annotations1.csv**
+run_download_data.py
+blade_bench/construct/** 
+gspread**
+*.sh

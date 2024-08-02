@@ -1,0 +1,274 @@
+{
+  "research_questions": [
+    "Is a lower student-teacher ratio associated with higher academic performance?"
+  ],
+  "data_desc": {
+    "dataset_description": "The data used here are from all 420 K-6 and K-8 districts in California with data available for 1998 and 1999. Test scores are on the Stanford 9 standardized test administered to 5th grade students. School characteristics (averaged across the district) include enrollment, number of teachers (measured as \u201cfull-time equivalents\u201d, number of computers per classroom, and expenditures per student. Demographic variables for the students are averaged across the district. The demographic variables include the percentage of students in the public assistance program CalWorks (formerly AFDC), the percentage of students that qualify for a reduced price lunch, and the percentage of students that are English learners (that is, students for whom English is a second language).",
+    "fields": [
+      {
+        "column": "rownames",
+        "properties": {
+          "dtype": "number",
+          "std": 121.38780828402827,
+          "min": 1,
+          "max": 420,
+          "samples": [
+            146,
+            335,
+            176
+          ],
+          "num_unique_values": 420,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "district",
+        "properties": {
+          "dtype": "number",
+          "std": 3466.994655283721,
+          "min": 61382,
+          "max": 75440,
+          "samples": [
+            68205,
+            71654,
+            63032
+          ],
+          "num_unique_values": 420,
+          "semantic_type": "",
+          "description": "character. District code."
+        }
+      },
+      {
+        "column": "school",
+        "properties": {
+          "dtype": "string",
+          "samples": [
+            "Red Bluff Union Elementary",
+            "Banta Elementary",
+            "Bellevue Union Elementary"
+          ],
+          "num_unique_values": 409,
+          "semantic_type": "",
+          "description": "character. School name."
+        }
+      },
+      {
+        "column": "county",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Calaveras",
+            "Lake",
+            "Sutter"
+          ],
+          "num_unique_values": 45,
+          "semantic_type": "",
+          "description": "factor indicating county."
+        }
+      },
+      {
+        "column": "grades",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "KK-06",
+            "KK-08"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor indicating grade span of district."
+        }
+      },
+      {
+        "column": "students",
+        "properties": {
+          "dtype": "number",
+          "std": 3913.104984901447,
+          "min": 81,
+          "max": 27176,
+          "samples": [
+            446,
+            6219,
+            25151
+          ],
+          "num_unique_values": 391,
+          "semantic_type": "",
+          "description": "Total enrollment."
+        }
+      },
+      {
+        "column": "teachers",
+        "properties": {
+          "dtype": "number",
+          "std": 187.9126794313481,
+          "min": 4.849999905,
+          "max": 1429.0,
+          "samples": [
+            16.28000069,
+            90.40000153,
+            42.06999969
+          ],
+          "num_unique_values": 374,
+          "semantic_type": "",
+          "description": "Number of teachers."
+        }
+      },
+      {
+        "column": "calworks",
+        "properties": {
+          "dtype": "number",
+          "std": 11.4548209903578,
+          "min": 0.0,
+          "max": 78.99420166,
+          "samples": [
+            20.63489914,
+            12.69200039,
+            19.83119965
+          ],
+          "num_unique_values": 411,
+          "semantic_type": "",
+          "description": "Percent qualifying for CalWorks (income assistance)."
+        }
+      },
+      {
+        "column": "lunch",
+        "properties": {
+          "dtype": "number",
+          "std": 27.123381081221236,
+          "min": 0.0,
+          "max": 100.0,
+          "samples": [
+            86.02940369,
+            34.03609848,
+            30.44169998
+          ],
+          "num_unique_values": 407,
+          "semantic_type": "",
+          "description": "Percent qualifying for reduced-price lunch."
+        }
+      },
+      {
+        "column": "computer",
+        "properties": {
+          "dtype": "number",
+          "std": 441.34129818958604,
+          "min": 0,
+          "max": 3324,
+          "samples": [
+            177,
+            4,
+            27
+          ],
+          "num_unique_values": 270,
+          "semantic_type": "",
+          "description": "Number of computers."
+        }
+      },
+      {
+        "column": "expenditure",
+        "properties": {
+          "dtype": "number",
+          "std": 633.9370531365888,
+          "min": 3926.06958,
+          "max": 7711.506836,
+          "samples": [
+            5124.836426,
+            4357.826172,
+            5504.025391
+          ],
+          "num_unique_values": 420,
+          "semantic_type": "",
+          "description": "Expenditure per student."
+        }
+      },
+      {
+        "column": "income",
+        "properties": {
+          "dtype": "number",
+          "std": 7.225889763125027,
+          "min": 5.335000038,
+          "max": 55.32799911,
+          "samples": [
+            10.47200012,
+            11.9119997,
+            11.08100033
+          ],
+          "num_unique_values": 337,
+          "semantic_type": "",
+          "description": "District average income (in USD 1,000)."
+        }
+      },
+      {
+        "column": "english",
+        "properties": {
+          "dtype": "number",
+          "std": 18.285927467535604,
+          "min": 0.0,
+          "max": 85.53971863,
+          "samples": [
+            1.68350172,
+            49.82307053,
+            85.53971863
+          ],
+          "num_unique_values": 372,
+          "semantic_type": "",
+          "description": "Percent of English learners."
+        }
+      },
+      {
+        "column": "read",
+        "properties": {
+          "dtype": "number",
+          "std": 20.10798002199425,
+          "min": 604.5,
+          "max": 704.0,
+          "samples": [
+            650.0,
+            650.7999878,
+            662.0999756
+          ],
+          "num_unique_values": 322,
+          "semantic_type": "",
+          "description": "Average reading score."
+        }
+      },
+      {
+        "column": "math",
+        "properties": {
+          "dtype": "number",
+          "std": 18.754202173212242,
+          "min": 605.4000244,
+          "max": 709.5,
+          "samples": [
+            646.0999756,
+            645.0999756,
+            648.4000244
+          ],
+          "num_unique_values": 324,
+          "semantic_type": "",
+          "description": "Average math score."
+        }
+      }
+    ],
+    "num_rows": 420,
+    "field_names": [
+      "rownames",
+      "district",
+      "school",
+      "county",
+      "grades",
+      "students",
+      "teachers",
+      "calworks",
+      "lunch",
+      "computer",
+      "expenditure",
+      "income",
+      "english",
+      "read",
+      "math"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/caschools/data.csv"
+}

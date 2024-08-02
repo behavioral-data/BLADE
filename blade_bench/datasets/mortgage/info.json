@@ -1,0 +1,258 @@
+{
+  "research_questions": [
+    "How does gender affect whether banks approve an individual\u2019s mortgage application?"
+  ],
+  "data_desc": {
+    "dataset_description": "This dataset comes from an influential study of discrimination in mortgage lending conducted by the Federal Reserve Bank of Boston [(Munnell et al. 1996)](https://drive.google.com/drive/u/0/folders/1NExj9btC_jGo42u-DYP_Zd2LF40uuMGD).\n\nThe context is that previous Home Mortgage Disclosure Act (HMDA) data showed much higher loan denial rates for minorities compared to whites. However, the HMDA data lacked important variables related to creditworthiness, so it was unclear if the racial disparity was due to differences in applicant qualifications or discrimination.\n\nTo address this, researchers at the Federal Reserve Bank of Boston collected additional data from lenders in 1990 on financial, employment, and property characteristics of applicants. This included variables like credit history, debt ratios, loan-to-value ratios, and more that lenders use to evaluate loan applications. The data covered both accepted and denied mortgage applications.",
+    "fields": [
+      {
+        "column": "Unnamed: 0",
+        "properties": {
+          "dtype": "number",
+          "std": 687.1911427446273,
+          "min": 0,
+          "max": 2379,
+          "samples": [
+            1413,
+            2168,
+            2002
+          ],
+          "num_unique_values": 2380,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "female",
+        "properties": {
+          "dtype": "number",
+          "std": 0.4070866105412032,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.0,
+            1.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if applicant is female, 0 if male"
+        }
+      },
+      {
+        "column": "black",
+        "properties": {
+          "dtype": "number",
+          "std": 0.34957120526725943,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if applicant is Black, 0 otherwise"
+        }
+      },
+      {
+        "column": "housing_expense_ratio",
+        "properties": {
+          "dtype": "number",
+          "std": 0.09665561118274041,
+          "min": 0.0,
+          "max": 3.0,
+          "samples": [
+            0.2883,
+            0.239,
+            0.2754
+          ],
+          "num_unique_values": 500,
+          "semantic_type": "",
+          "description": "Housing expense as a ratio of total income"
+        }
+      },
+      {
+        "column": "self_employed",
+        "properties": {
+          "dtype": "number",
+          "std": 0.3207552853451009,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if applicant is self-employed, 0 otherwise"
+        }
+      },
+      {
+        "column": "married",
+        "properties": {
+          "dtype": "number",
+          "std": 0.48846845077475415,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.0,
+            1.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if applicant is married, 0 otherwise"
+        }
+      },
+      {
+        "column": "mortgage_credit",
+        "properties": {
+          "dtype": "number",
+          "std": 0.5372816153447328,
+          "min": 1,
+          "max": 4,
+          "samples": [
+            1,
+            3,
+            2
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Applicant's mortgage credit score"
+        }
+      },
+      {
+        "column": "consumer_credit",
+        "properties": {
+          "dtype": "number",
+          "std": 1.666720586480013,
+          "min": 1,
+          "max": 6,
+          "samples": [
+            5,
+            2,
+            4
+          ],
+          "num_unique_values": 6,
+          "semantic_type": "",
+          "description": "Applicant's consumer credit score"
+        }
+      },
+      {
+        "column": "bad_history",
+        "properties": {
+          "dtype": "number",
+          "std": 0.26105836980012176,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if applicant has history of bad credit, 0 otherwise"
+        }
+      },
+      {
+        "column": "PI_ratio",
+        "properties": {
+          "dtype": "number",
+          "std": 0.0827703577027466,
+          "min": 0.0,
+          "max": 0.95,
+          "samples": [
+            0.42200002,
+            0.2967,
+            0.39380002
+          ],
+          "num_unique_values": 515,
+          "semantic_type": "",
+          "description": "Total debt payments to income ratio"
+        }
+      },
+      {
+        "column": "deny",
+        "properties": {
+          "dtype": "number",
+          "std": 0.32473473427038013,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if mortgage application was denied, 0 if accepted"
+        }
+      },
+      {
+        "column": "loan_to_value",
+        "properties": {
+          "dtype": "number",
+          "std": 0.17875097714406177,
+          "min": 0.02,
+          "max": 1.95,
+          "samples": [
+            0.79113925,
+            0.88235295,
+            0.5503876
+          ],
+          "num_unique_values": 1537,
+          "semantic_type": "",
+          "description": "Ratio of loan amount to appraised value of property"
+        }
+      },
+      {
+        "column": "denied_PMI",
+        "properties": {
+          "dtype": "number",
+          "std": 0.1406044908793718,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if application was denied private mortgage insurance, 0 otherwise"
+        }
+      },
+      {
+        "column": "accept",
+        "properties": {
+          "dtype": "number",
+          "std": 0.32473473427038013,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            0,
+            1
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if mortgage application was accepted, 0 if denied"
+        }
+      }
+    ],
+    "num_rows": 2380,
+    "field_names": [
+      "Unnamed: 0",
+      "female",
+      "black",
+      "housing_expense_ratio",
+      "self_employed",
+      "married",
+      "mortgage_credit",
+      "consumer_credit",
+      "bad_history",
+      "PI_ratio",
+      "deny",
+      "loan_to_value",
+      "denied_PMI",
+      "accept"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/mortgage/data.csv"
+}

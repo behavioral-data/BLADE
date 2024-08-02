@@ -1,0 +1,229 @@
+{
+  "research_questions": [
+    "How do relative group size and contest location influence the probability of a capuchin monkey group winning an intergroup contest? "
+  ],
+  "data_desc": {
+    "dataset_description": "Intergroup competition is a common phenomenon observed in many social animals, ranging from ants to primates, and plays a crucial role in shaping access to resources and, consequently, fitness. Capuchin monkeys (Cebus capucinus) are known for their intense intergroup competition, which can sometimes even lead to lethal aggression. Researchers have been curious to understand the factors influencing the outcome of these contests. While the common belief is that larger groups have a competitive advantage, smaller capuchin groups have been observed defeating larger neighboring groups. This study by Crofoot et al. investigates how the location of an intergroup contest and the relative group sizes influence the probability of winning. The researchers used an Automated Radio Telemetry System (ARTS) to track the movements of six capuchin social groups of varying sizes on Barro Colorado Island, Panama. By analyzing the data on intergroup interactions and their locations, the researchers aim to shed light on the complex dynamics of intergroup competition in capuchin monkeys.",
+    "fields": [
+      {
+        "column": "focal",
+        "properties": {
+          "dtype": "number",
+          "std": 1.7600287353976036,
+          "min": 1,
+          "max": 6,
+          "samples": [
+            2,
+            6,
+            3
+          ],
+          "num_unique_values": 6,
+          "semantic_type": "",
+          "description": "ID of focal group"
+        }
+      },
+      {
+        "column": "other",
+        "properties": {
+          "dtype": "number",
+          "std": 1.7076922867303992,
+          "min": 1,
+          "max": 6,
+          "samples": [
+            1,
+            5,
+            3
+          ],
+          "num_unique_values": 6,
+          "semantic_type": "",
+          "description": "ID of other group"
+        }
+      },
+      {
+        "column": "dyad",
+        "properties": {
+          "dtype": "number",
+          "std": 1.8654044648016352,
+          "min": 1,
+          "max": 8,
+          "samples": [
+            5,
+            8,
+            1
+          ],
+          "num_unique_values": 8,
+          "semantic_type": "",
+          "description": "ID of specific dyad pair of groups"
+        }
+      },
+      {
+        "column": "win",
+        "properties": {
+          "dtype": "number",
+          "std": 0.5016608833298435,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "1 if focal won contest, 0 if other won"
+        }
+      },
+      {
+        "column": "dist_focal",
+        "properties": {
+          "dtype": "number",
+          "std": 148.7312352492844,
+          "min": 72,
+          "max": 749,
+          "samples": [
+            181,
+            259,
+            328
+          ],
+          "num_unique_values": 54,
+          "semantic_type": "",
+          "description": "Distance in meters of focal group from the center of its home range"
+        }
+      },
+      {
+        "column": "dist_other",
+        "properties": {
+          "dtype": "number",
+          "std": 182.0470877706074,
+          "min": 55,
+          "max": 853,
+          "samples": [
+            577,
+            538,
+            469
+          ],
+          "num_unique_values": 56,
+          "semantic_type": "",
+          "description": "Distance in meters of other group from the center of its home range"
+        }
+      },
+      {
+        "column": "n_focal",
+        "properties": {
+          "dtype": "number",
+          "std": 3.1236370288433455,
+          "min": 5,
+          "max": 13,
+          "samples": [
+            10,
+            13,
+            5
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Number of individuals in focal group"
+        }
+      },
+      {
+        "column": "n_other",
+        "properties": {
+          "dtype": "number",
+          "std": 2.7450665200750644,
+          "min": 5,
+          "max": 13,
+          "samples": [
+            6,
+            5,
+            13
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Number of individuals in other group"
+        }
+      },
+      {
+        "column": "m_focal",
+        "properties": {
+          "dtype": "number",
+          "std": 0.7582975168210291,
+          "min": 2,
+          "max": 4,
+          "samples": [
+            2,
+            3,
+            4
+          ],
+          "num_unique_values": 3,
+          "semantic_type": "",
+          "description": "Number of males in focal group"
+        }
+      },
+      {
+        "column": "m_other",
+        "properties": {
+          "dtype": "number",
+          "std": 0.653530594811373,
+          "min": 2,
+          "max": 4,
+          "samples": [
+            4,
+            2,
+            3
+          ],
+          "num_unique_values": 3,
+          "semantic_type": "",
+          "description": "Number of males in other group"
+        }
+      },
+      {
+        "column": "f_focal",
+        "properties": {
+          "dtype": "number",
+          "std": 2.37806064131954,
+          "min": 3,
+          "max": 9,
+          "samples": [
+            7,
+            9,
+            3
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Number of females in focal group"
+        }
+      },
+      {
+        "column": "f_other",
+        "properties": {
+          "dtype": "number",
+          "std": 2.1052177853549865,
+          "min": 3,
+          "max": 9,
+          "samples": [
+            4,
+            3,
+            9
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Number of females in other group"
+        }
+      }
+    ],
+    "num_rows": 58,
+    "field_names": [
+      "focal",
+      "other",
+      "dyad",
+      "win",
+      "dist_focal",
+      "dist_other",
+      "n_focal",
+      "n_other",
+      "m_focal",
+      "m_other",
+      "f_focal",
+      "f_other"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/crofoot/data.csv"
+}

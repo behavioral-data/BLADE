@@ -1,6 +1,7 @@
 import os
 import click
 import yaml
+import os.path as osp
 
 from blade_bench.baselines.run_mcq import RunMCQ
 from blade_bench.eval.datamodel.run_mcq import MCQMetrics, MCQMetricsAcrossDatasets
@@ -70,6 +71,9 @@ def run_mcq(
     datasets = list_datasets_mcq()
     if not output_file:
         output_file = f"./outputs/mcq/{llm_config['provider']}-{llm_config['model']}_ndatasets={len(datasets)}.json"
+    if osp.exists(output_file):
+        logger.info(f"Skipping as output mcq file  {output_file} exists")
+        return
     # create directory if it does not exist
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
@@ -82,6 +86,7 @@ def run_mcq(
             run_dataset=run_dataset,
             use_data_desc=use_data_desc,
         )
+
         run_mcq = RunMCQ(config)
         results: MCQMetrics = run_mcq.run()
         logger.info(f"MCQ metrics: {results.model_dump_json(indent=2)}")

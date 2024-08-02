@@ -1,0 +1,129 @@
+{
+  "research_questions": [
+    "How do age, sex, and receiving help from another chimpanzee influence the nut-cracking efficiency of western chimpanzees?"
+  ],
+  "data_desc": {
+    "dataset_description": "The study \"Learning curves and teaching when acquiring nut-cracking in humans and chimpanzees\" by Boesch, Bombjakova, Meier, and Mundry [(2019)](https://www.nature.com/articles/s41598-018-38392-8) investigates the acquisition of nut-cracking skills in western chimpanzees and humans. The researchers compare the learning curves of both species to understand the development of this complex tool-use behavior. The study also examines the role of social learning and teaching in the acquisition of nut-cracking skills. Nut-cracking is a challenging skill that requires the coordination of multiple tools (hammer and anvil) and precise motor control. Panda nuts, used in this study, are particularly hard to crack, making them an excellent test case for investigating the cognitive and physical abilities required for this skill. ",
+    "fields": [
+      {
+        "column": "chimpanzee",
+        "properties": {
+          "dtype": "number",
+          "std": 5.777227933293793,
+          "min": 1,
+          "max": 22,
+          "samples": [
+            11,
+            4,
+            13
+          ],
+          "num_unique_values": 22,
+          "semantic_type": "",
+          "description": "ID of individual"
+        }
+      },
+      {
+        "column": "age",
+        "properties": {
+          "dtype": "number",
+          "std": 3.6770832063584145,
+          "min": 3,
+          "max": 16,
+          "samples": [
+            12,
+            14,
+            3
+          ],
+          "num_unique_values": 14,
+          "semantic_type": "",
+          "description": "Age in years at time of observation"
+        }
+      },
+      {
+        "column": "sex",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "f",
+            "m"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "individual's sex"
+        }
+      },
+      {
+        "column": "hammer",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "wood",
+            "Q",
+            "G"
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Type of hammer (one of four types)"
+        }
+      },
+      {
+        "column": "nuts_opened",
+        "properties": {
+          "dtype": "number",
+          "std": 16.113891121986086,
+          "min": 0,
+          "max": 77,
+          "samples": [
+            24,
+            36,
+            50
+          ],
+          "num_unique_values": 33,
+          "semantic_type": "",
+          "description": "Number of nuts opened in session"
+        }
+      },
+      {
+        "column": "seconds",
+        "properties": {
+          "dtype": "number",
+          "std": 20.299827846902648,
+          "min": 2.5,
+          "max": 135.0,
+          "samples": [
+            43.0,
+            11.0,
+            38.0
+          ],
+          "num_unique_values": 50,
+          "semantic_type": "",
+          "description": "Duration of session in seconds"
+        }
+      },
+      {
+        "column": "help",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "y",
+            "N"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Received help from another chimpanzee (yes or no)"
+        }
+      }
+    ],
+    "num_rows": 84,
+    "field_names": [
+      "chimpanzee",
+      "age",
+      "sex",
+      "hammer",
+      "nuts_opened",
+      "seconds",
+      "help"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/panda_nuts/data.csv"
+}

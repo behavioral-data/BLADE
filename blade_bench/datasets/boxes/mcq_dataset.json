@@ -1,0 +1,543 @@
+{
+  "mcqs_cvar": [],
+  "mcqs_transform": {
+    "Gender of children": [
+      {
+        "coneptual_var_str": "Gender of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+            "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_binary'] = np.where(df['age'] <= 9, 'Younger', 'Older')\n",
+            "rationale": "The existing transformations consider the 'age' column directly and also create age groups to categorize the age of children. Another alternative transformation could be to create a binary variable to distinguish younger children (age 4-9) from older children (age 10-14). This might be useful if we want to simplify the analysis or if there is a reason to believe that social learning strategies might differ fundamentally between these two age groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['culture', 'gender']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+            "rationale": "For the gender and culture variables, one-hot encoding is needed.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['culture_category'] = df['culture'].astype('category')\ndf['gender_category'] = df['gender'].astype('category')\ndf['majority_first_category'] = df['majority_first'].astype('category')",
+            "rationale": "These 'culture/gender/majority_first' variables need to be considered as categorical variables.",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['age_binary'] = np.where(df['age'] <= 9, 'Younger', 'Older')\n",
+          "rationale": "The existing transformations consider the 'age' column directly and also create age groups to categorize the age of children. Another alternative transformation could be to create a binary variable to distinguish younger children (age 4-9) from older children (age 10-14). This might be useful if we want to simplify the analysis or if there is a reason to believe that social learning strategies might differ fundamentally between these two age groups.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Gender of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['culture', 'gender']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+            "rationale": "For the gender and culture variables, one-hot encoding is needed.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "bins = [4, 6, 9, 12, 14]\nlabels = ['4-6', '7-9', '10-12', '13-14']\ndf['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)\n",
+            "rationale": "The existing transformation directly uses the 'age' column from the dataset to represent the conceptual variable age of children. However, we could also categorize the age into different age groups to analyze how social learning strategies develop in different age groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['culture_category'] = df['culture'].astype('category')\ndf['gender_category'] = df['gender'].astype('category')\ndf['majority_first_category'] = df['majority_first'].astype('category')",
+            "rationale": "These 'culture/gender/majority_first' variables need to be considered as categorical variables.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+            "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "bins = [4, 6, 9, 12, 14]\nlabels = ['4-6', '7-9', '10-12', '13-14']\ndf['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)\n",
+          "rationale": "The existing transformation directly uses the 'age' column from the dataset to represent the conceptual variable age of children. However, we could also categorize the age into different age groups to analyze how social learning strategies develop in different age groups.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Gender of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['gender'] = df['gender'].apply(lambda x: 1 if x == 1 else 0)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+            "rationale": "The existing transformations have considered the interaction of age and gender, age and majority_first. Another way to operationalize the interaction term of age and gender could be by considering the interaction of age with the binary transformation of gender where female is 1 and male is 0. This will provide a different perspective as it will highlight the effect of female gender with age.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+            "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['culture_category'] = df['culture'].astype('category')\ndf['gender_category'] = df['gender'].astype('category')\ndf['majority_first_category'] = df['majority_first'].astype('category')",
+            "rationale": "These 'culture/gender/majority_first' variables need to be considered as categorical variables.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['culture', 'gender']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+            "rationale": "For the gender and culture variables, one-hot encoding is needed.",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['gender'] = df['gender'].apply(lambda x: 1 if x == 1 else 0)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+          "rationale": "The existing transformations have considered the interaction of age and gender, age and majority_first. Another way to operationalize the interaction term of age and gender could be by considering the interaction of age with the binary transformation of gender where female is 1 and male is 0. This will provide a different perspective as it will highlight the effect of female gender with age.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Age of children": [
+      {
+        "coneptual_var_str": "Age of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "bins = [4, 6, 9, 12, 14]\nlabels = ['4-6', '7-9', '10-12', '13-14']\ndf['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)\n",
+            "rationale": "The existing transformation directly uses the 'age' column from the dataset to represent the conceptual variable age of children. However, we could also categorize the age into different age groups to analyze how social learning strategies develop in different age groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['Childhood_stage'] = np.where(df['age'] <= 8, 'Early Childhood',\n    'Middle Childhood')\n",
+            "rationale": "The existing transformations have categorized the age into different groups such as 'age_group', 'age_binary', and 'School_Level'. However, we can also create a new transformation where we divide the age into two groups 'Early Childhood (4-8 years)' and 'Middle Childhood (9-14 years)'. This categorization is often used in developmental psychology.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_category'] = np.where(df['age'] < 13, 'Pre-teen', 'Teen')\n",
+            "rationale": "The existing transformations have already considered direct age, age groups, binary categorization of age, school level based on age, childhood stage, normalized age and identifying if the child is a teenager. Another way to consider operationalizing age could be by categorizing the children into pre-teen and teen groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['culture', 'gender']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+            "rationale": "For the gender and culture variables, one-hot encoding is needed.",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['culture', 'gender']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+          "rationale": "For the gender and culture variables, one-hot encoding is needed.",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Age of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['age_binary'] = np.where(df['age'] <= 9, 'Younger', 'Older')\n",
+            "rationale": "The existing transformations consider the 'age' column directly and also create age groups to categorize the age of children. Another alternative transformation could be to create a binary variable to distinguish younger children (age 4-9) from older children (age 10-14). This might be useful if we want to simplify the analysis or if there is a reason to believe that social learning strategies might differ fundamentally between these two age groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender'] = df['gender'].apply(lambda x: 1 if x == 1 else 0)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+            "rationale": "The existing transformations have considered the interaction of age and gender, age and majority_first. Another way to operationalize the interaction term of age and gender could be by considering the interaction of age with the binary transformation of gender where female is 1 and male is 0. This will provide a different perspective as it will highlight the effect of female gender with age.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "bins = [4, 5, 11, 14]\nlabels = ['Preschool', 'PrimarySchool', 'SecondarySchool']\ndf['School_Level'] = pd.cut(df['age'], bins=bins, labels=labels,\n    include_lowest=True)\n",
+            "rationale": "We have operationalized the age of children by considering it as a continuous variable, categorizing it into age groups, and also binarizing it into younger and older groups. Another way to operationalize the age of children can be by creating a new column that represents whether the child is in preschool (ages 4-5), primary school (ages 6-11), or secondary school (ages 12-14).",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['Childhood_stage'] = np.where(df['age'] <= 8, 'Early Childhood',\n    'Middle Childhood')\n",
+            "rationale": "The existing transformations have categorized the age into different groups such as 'age_group', 'age_binary', and 'School_Level'. However, we can also create a new transformation where we divide the age into two groups 'Early Childhood (4-8 years)' and 'Middle Childhood (9-14 years)'. This categorization is often used in developmental psychology.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['gender'] = df['gender'].apply(lambda x: 1 if x == 1 else 0)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+          "rationale": "The existing transformations have considered the interaction of age and gender, age and majority_first. Another way to operationalize the interaction term of age and gender could be by considering the interaction of age with the binary transformation of gender where female is 1 and male is 0. This will provide a different perspective as it will highlight the effect of female gender with age.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Age of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['age_binary'] = np.where(df['age'] <= 9, 'Younger', 'Older')\n",
+            "rationale": "The existing transformations consider the 'age' column directly and also create age groups to categorize the age of children. Another alternative transformation could be to create a binary variable to distinguish younger children (age 4-9) from older children (age 10-14). This might be useful if we want to simplify the analysis or if there is a reason to believe that social learning strategies might differ fundamentally between these two age groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['culture_category'] = df['culture'].astype('category')\ndf['gender_category'] = df['gender'].astype('category')\ndf['majority_first_category'] = df['majority_first'].astype('category')",
+            "rationale": "These 'culture/gender/majority_first' variables need to be considered as categorical variables.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['Childhood_stage'] = np.where(df['age'] <= 8, 'Early Childhood',\n    'Middle Childhood')\n",
+            "rationale": "The existing transformations have categorized the age into different groups such as 'age_group', 'age_binary', and 'School_Level'. However, we can also create a new transformation where we divide the age into two groups 'Early Childhood (4-8 years)' and 'Middle Childhood (9-14 years)'. This categorization is often used in developmental psychology.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "bins = [4, 6, 9, 12, 14]\nlabels = ['4-6', '7-9', '10-12', '13-14']\ndf['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)\n",
+            "rationale": "The existing transformation directly uses the 'age' column from the dataset to represent the conceptual variable age of children. However, we could also categorize the age into different age groups to analyze how social learning strategies develop in different age groups.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['culture_category'] = df['culture'].astype('category')\ndf['gender_category'] = df['gender'].astype('category')\ndf['majority_first_category'] = df['majority_first'].astype('category')",
+          "rationale": "These 'culture/gender/majority_first' variables need to be considered as categorical variables.",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Age of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "bins = [4, 7, 11, 14]\nlabels = ['Early Childhood', 'Middle Childhood', 'Late Childhood']\ndf['Childhood_Period'] = pd.cut(df['age'], bins=bins, labels=labels,\n    include_lowest=True)\n",
+            "rationale": "We have operationalized the age variable in various ways including direct age, age groups, binary age (younger or older based on a threshold), school level, and childhood stage. Another way to consider the age variable could be to create a new variable that indicates whether the child is in their early, middle, or late childhood. We can define early childhood as age 4-7, middle childhood as age 8-11, and late childhood as age 12-14.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+            "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_binary'] = np.where(df['age'] <= 9, 'Younger', 'Older')\n",
+            "rationale": "The existing transformations consider the 'age' column directly and also create age groups to categorize the age of children. Another alternative transformation could be to create a binary variable to distinguish younger children (age 4-9) from older children (age 10-14). This might be useful if we want to simplify the analysis or if there is a reason to believe that social learning strategies might differ fundamentally between these two age groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "bins = [4, 5, 11, 14]\nlabels = ['Preschool', 'PrimarySchool', 'SecondarySchool']\ndf['School_Level'] = pd.cut(df['age'], bins=bins, labels=labels,\n    include_lowest=True)\n",
+            "rationale": "We have operationalized the age of children by considering it as a continuous variable, categorizing it into age groups, and also binarizing it into younger and older groups. Another way to operationalize the age of children can be by creating a new column that represents whether the child is in preschool (ages 4-5), primary school (ages 6-11), or secondary school (ages 12-14).",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+          "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Age of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['age_normalized'] = (df['age'] - df['age'].mean()) / df['age'].std()\n",
+            "rationale": "In the existing transformations, the age of children has been categorized into different groups based on age ranges. These transformations help to analyze the data in terms of age groups or stages of childhood. However, an alternative transformation could be to normalize the age variable to have a mean of 0 and a standard deviation of 1. This could be useful in certain analyses where the age variable might be used in a model that assumes a Gaussian distribution, such as a linear regression.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_category'] = np.where(df['age'] < 13, 'Pre-teen', 'Teen')\n",
+            "rationale": "The existing transformations have already considered direct age, age groups, binary categorization of age, school level based on age, childhood stage, normalized age and identifying if the child is a teenager. Another way to consider operationalizing age could be by categorizing the children into pre-teen and teen groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['Childhood_stage'] = np.where(df['age'] <= 8, 'Early Childhood',\n    'Middle Childhood')\n",
+            "rationale": "The existing transformations have categorized the age into different groups such as 'age_group', 'age_binary', and 'School_Level'. However, we can also create a new transformation where we divide the age into two groups 'Early Childhood (4-8 years)' and 'Middle Childhood (9-14 years)'. This categorization is often used in developmental psychology.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_majority_first_interaction'] = df['age'] * df['majority_first']\n",
+            "rationale": "An alternative transformation could be to create an interaction term between age and whether the majority option was demonstrated first. This would capture the interaction between a child's age and the order in which they see the majority option, which could influence their reliance on majority preference.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['age_majority_first_interaction'] = df['age'] * df['majority_first']\n",
+          "rationale": "An alternative transformation could be to create an interaction term between age and whether the majority option was demonstrated first. This would capture the interaction between a child's age and the order in which they see the majority option, which could influence their reliance on majority preference.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Age of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['is_teen'] = np.where(df['age'] >= 13, 1, 0)\n",
+            "rationale": "The existing transformations have covered a wide range of possibilities for operationalizing the age variable. They have binned the ages into different groups based on various criteria like school level, childhood stage, etc. They have also created a binary variable based on age and normalized the age variable. One additional transformation that could be done is to create a binary variable indicating whether the child is pre-teen or a teenager.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = pd.get_dummies(df, columns=['gender'])",
+            "rationale": "use dummy encoding to encode gender variable",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['age_binary'] = np.where(df['age'] <= 9, 'Younger', 'Older')\n",
+            "rationale": "The existing transformations consider the 'age' column directly and also create age groups to categorize the age of children. Another alternative transformation could be to create a binary variable to distinguish younger children (age 4-9) from older children (age 10-14). This might be useful if we want to simplify the analysis or if there is a reason to believe that social learning strategies might differ fundamentally between these two age groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "bins = [4, 6, 9, 12, 14]\nlabels = ['4-6', '7-9', '10-12', '13-14']\ndf['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)\n",
+            "rationale": "The existing transformation directly uses the 'age' column from the dataset to represent the conceptual variable age of children. However, we could also categorize the age into different age groups to analyze how social learning strategies develop in different age groups.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['gender'])",
+          "rationale": "use dummy encoding to encode gender variable",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Age of children",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['age_binary'] = np.where(df['age'] <= 9, 'Younger', 'Older')\n",
+            "rationale": "The existing transformations consider the 'age' column directly and also create age groups to categorize the age of children. Another alternative transformation could be to create a binary variable to distinguish younger children (age 4-9) from older children (age 10-14). This might be useful if we want to simplify the analysis or if there is a reason to believe that social learning strategies might differ fundamentally between these two age groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = pd.get_dummies(df, columns=['culture'])",
+            "rationale": "use dummy encoding to encode variable culture",
+            "is_llm_generated": false
+          },
+          {
+            "code": "bins = [4, 7, 11, 14]\nlabels = ['Early Childhood', 'Middle Childhood', 'Late Childhood']\ndf['Childhood_Period'] = pd.cut(df['age'], bins=bins, labels=labels,\n    include_lowest=True)\n",
+            "rationale": "We have operationalized the age variable in various ways including direct age, age groups, binary age (younger or older based on a threshold), school level, and childhood stage. Another way to consider the age variable could be to create a new variable that indicates whether the child is in their early, middle, or late childhood. We can define early childhood as age 4-7, middle childhood as age 8-11, and late childhood as age 12-14.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['is_teen'] = np.where(df['age'] >= 13, 1, 0)\n",
+            "rationale": "The existing transformations have covered a wide range of possibilities for operationalizing the age variable. They have binned the ages into different groups based on various criteria like school level, childhood stage, etc. They have also created a binary variable based on age and normalized the age variable. One additional transformation that could be done is to create a binary variable indicating whether the child is pre-teen or a teenager.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['culture'])",
+          "rationale": "use dummy encoding to encode variable culture",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Interaction term of age and gender": [
+      {
+        "coneptual_var_str": "Interaction term of age and gender",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['gender'] = df['gender'].apply(lambda x: 1 if x == 1 else 0)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+            "rationale": "The existing transformations have considered the interaction of age and gender, age and majority_first. Another way to operationalize the interaction term of age and gender could be by considering the interaction of age with the binary transformation of gender where female is 1 and male is 0. This will provide a different perspective as it will highlight the effect of female gender with age.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = pd.get_dummies(df, columns=['gender'])",
+            "rationale": "use dummy encoding to encode gender variable",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['age_majority_first_interaction'] = df['age'] * df['majority_first']\n",
+            "rationale": "An alternative transformation could be to create an interaction term between age and whether the majority option was demonstrated first. This would capture the interaction between a child's age and the order in which they see the majority option, which could influence their reliance on majority preference.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender'] = df['gender'].apply(lambda x: 0 if x == 1 else 1)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+            "rationale": "We want to operationalize the interaction term of age and gender based on the available data. The currently specified transformations consider the interaction of age with gender and majority_first. Another way to consider calculating the interaction term could be based on a transformation of the gender column to be more meaningful in the interaction term, for example, converting the gender column to a binary where 0 represents girls and 1 represents boys.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['gender'])",
+          "rationale": "use dummy encoding to encode gender variable",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term of age and gender",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['age_majority_first_interaction'] = df['age'] * df['majority_first']\n",
+            "rationale": "An alternative transformation could be to create an interaction term between age and whether the majority option was demonstrated first. This would capture the interaction between a child's age and the order in which they see the majority option, which could influence their reliance on majority preference.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_normalized'] = (df['age'] - df['age'].mean()) / df['age'].std()\n",
+            "rationale": "In the existing transformations, the age of children has been categorized into different groups based on age ranges. These transformations help to analyze the data in terms of age groups or stages of childhood. However, an alternative transformation could be to normalize the age variable to have a mean of 0 and a standard deviation of 1. This could be useful in certain analyses where the age variable might be used in a model that assumes a Gaussian distribution, such as a linear regression.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender'] = df['gender'].apply(lambda x: 0 if x == 1 else 1)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+            "rationale": "We want to operationalize the interaction term of age and gender based on the available data. The currently specified transformations consider the interaction of age with gender and majority_first. Another way to consider calculating the interaction term could be based on a transformation of the gender column to be more meaningful in the interaction term, for example, converting the gender column to a binary where 0 represents girls and 1 represents boys.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender'] = df['gender'].apply(lambda x: 1 if x == 1 else 0)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+            "rationale": "The existing transformations have considered the interaction of age and gender, age and majority_first. Another way to operationalize the interaction term of age and gender could be by considering the interaction of age with the binary transformation of gender where female is 1 and male is 0. This will provide a different perspective as it will highlight the effect of female gender with age.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['age_normalized'] = (df['age'] - df['age'].mean()) / df['age'].std()\n",
+          "rationale": "In the existing transformations, the age of children has been categorized into different groups based on age ranges. These transformations help to analyze the data in terms of age groups or stages of childhood. However, an alternative transformation could be to normalize the age variable to have a mean of 0 and a standard deviation of 1. This could be useful in certain analyses where the age variable might be used in a model that assumes a Gaussian distribution, such as a linear regression.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term of age and gender",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['gender'] = df['gender'].apply(lambda x: 1 if x == 1 else 0)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+            "rationale": "The existing transformations have considered the interaction of age and gender, age and majority_first. Another way to operationalize the interaction term of age and gender could be by considering the interaction of age with the binary transformation of gender where female is 1 and male is 0. This will provide a different perspective as it will highlight the effect of female gender with age.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_majority_first_interaction'] = df['age'] * df['majority_first']\n",
+            "rationale": "An alternative transformation could be to create an interaction term between age and whether the majority option was demonstrated first. This would capture the interaction between a child's age and the order in which they see the majority option, which could influence their reliance on majority preference.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender'] = df['gender'].apply(lambda x: 0 if x == 1 else 1)\ndf['age_gender_interaction'] = df['age'] * df['gender']\n",
+            "rationale": "We want to operationalize the interaction term of age and gender based on the available data. The currently specified transformations consider the interaction of age with gender and majority_first. Another way to consider calculating the interaction term could be based on a transformation of the gender column to be more meaningful in the interaction term, for example, converting the gender column to a binary where 0 represents girls and 1 represents boys.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+            "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+          "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Interaction term of culture and gender": [
+      {
+        "coneptual_var_str": "Interaction term of culture and gender",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df = pd.get_dummies(df, columns=['culture'])",
+            "rationale": "use dummy encoding to encode variable culture",
+            "is_llm_generated": false
+          },
+          {
+            "code": "bins = [4, 5, 11, 14]\nlabels = ['Preschool', 'PrimarySchool', 'SecondarySchool']\ndf['School_Level'] = pd.cut(df['age'], bins=bins, labels=labels,\n    include_lowest=True)\n",
+            "rationale": "We have operationalized the age of children by considering it as a continuous variable, categorizing it into age groups, and also binarizing it into younger and older groups. Another way to operationalize the age of children can be by creating a new column that represents whether the child is in preschool (ages 4-5), primary school (ages 6-11), or secondary school (ages 12-14).",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+            "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "bins = [4, 6, 9, 12, 14]\nlabels = ['4-6', '7-9', '10-12', '13-14']\ndf['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)\n",
+            "rationale": "The existing transformation directly uses the 'age' column from the dataset to represent the conceptual variable age of children. However, we could also categorize the age into different age groups to analyze how social learning strategies develop in different age groups.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['culture'])",
+          "rationale": "use dummy encoding to encode variable culture",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term of culture and gender",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df = pd.get_dummies(df, columns=['gender'])",
+            "rationale": "use dummy encoding to encode gender variable",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['boy'] = np.where(df['gender'] == 2, 1, 0)\n",
+            "rationale": "The gender of children has been operationalized in a variety of ways in the existing transformations, including using one-hot encoding, converting the gender column to a category type, and creating a binary column to represent if the child is a girl. Another way to operationalize this variable could be to create a binary column to represent if the child is a boy.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "bins = [4, 5, 11, 14]\nlabels = ['Preschool', 'PrimarySchool', 'SecondarySchool']\ndf['School_Level'] = pd.cut(df['age'], bins=bins, labels=labels,\n    include_lowest=True)\n",
+            "rationale": "We have operationalized the age of children by considering it as a continuous variable, categorizing it into age groups, and also binarizing it into younger and older groups. Another way to operationalize the age of children can be by creating a new column that represents whether the child is in preschool (ages 4-5), primary school (ages 6-11), or secondary school (ages 12-14).",
+            "is_llm_generated": true
+          },
+          {
+            "code": "bins = [4, 6, 9, 12, 14]\nlabels = ['4-6', '7-9', '10-12', '13-14']\ndf['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)\n",
+            "rationale": "The existing transformation directly uses the 'age' column from the dataset to represent the conceptual variable age of children. However, we could also categorize the age into different age groups to analyze how social learning strategies develop in different age groups.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['gender'])",
+          "rationale": "use dummy encoding to encode gender variable",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Children's choice on majority, minority or unchosen option": [
+      {
+        "coneptual_var_str": "Children's choice on majority, minority or unchosen option",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['y_majority_chosen'] = np.where(df['y'] == 2, 1, np.where(df['y'] == 3, 0, 0))",
+            "rationale": "Transform y into a binary outcome for logit models",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['is_teen'] = np.where(df['age'] >= 13, 1, 0)\n",
+            "rationale": "The existing transformations have covered a wide range of possibilities for operationalizing the age variable. They have binned the ages into different groups based on various criteria like school level, childhood stage, etc. They have also created a binary variable based on age and normalized the age variable. One additional transformation that could be done is to create a binary variable indicating whether the child is pre-teen or a teenager.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_majority_first_interaction'] = df['age'] * df['majority_first']\n",
+            "rationale": "An alternative transformation could be to create an interaction term between age and whether the majority option was demonstrated first. This would capture the interaction between a child's age and the order in which they see the majority option, which could influence their reliance on majority preference.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_category'] = np.where(df['age'] < 13, 'Pre-teen', 'Teen')\n",
+            "rationale": "The existing transformations have already considered direct age, age groups, binary categorization of age, school level based on age, childhood stage, normalized age and identifying if the child is a teenager. Another way to consider operationalizing age could be by categorizing the children into pre-teen and teen groups.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['y_majority_chosen'] = np.where(df['y'] == 2, 1, np.where(df['y'] == 3, 0, 0))",
+          "rationale": "Transform y into a binary outcome for logit models",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Children's choice on majority, minority or unchosen option",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['age_category'] = np.where(df['age'] < 13, 'Pre-teen', 'Teen')\n",
+            "rationale": "The existing transformations have already considered direct age, age groups, binary categorization of age, school level based on age, childhood stage, normalized age and identifying if the child is a teenager. Another way to consider operationalizing age could be by categorizing the children into pre-teen and teen groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df.loc[df['y'] == 2, 'y_majority_no_middle'] = 1\ndf.loc[df['y'] == 3, 'y_majority_no_middle'] = 0\ndf.loc[df['y'] == 1, 'y_majority_no_middle'] = pd.NA",
+            "rationale": "Exclude unchosen option",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['is_teen'] = np.where(df['age'] >= 13, 1, 0)\n",
+            "rationale": "The existing transformations have covered a wide range of possibilities for operationalizing the age variable. They have binned the ages into different groups based on various criteria like school level, childhood stage, etc. They have also created a binary variable based on age and normalized the age variable. One additional transformation that could be done is to create a binary variable indicating whether the child is pre-teen or a teenager.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_majority_first_interaction'] = df['age'] * df['majority_first']\n",
+            "rationale": "An alternative transformation could be to create an interaction term between age and whether the majority option was demonstrated first. This would capture the interaction between a child's age and the order in which they see the majority option, which could influence their reliance on majority preference.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df.loc[df['y'] == 2, 'y_majority_no_middle'] = 1\ndf.loc[df['y'] == 3, 'y_majority_no_middle'] = 0\ndf.loc[df['y'] == 1, 'y_majority_no_middle'] = pd.NA",
+          "rationale": "Exclude unchosen option",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Interaction term of age and culture": []
+  }
+}

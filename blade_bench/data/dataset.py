@@ -55,7 +55,7 @@ def list_datasets():
         d
         for d in os.listdir(datasets_dir)
         if osp.isdir(osp.join(datasets_dir, d))
-        if d != "toy"
+        if d != "toy" and osp.exists(osp.join(datasets_dir, d, "annotations.csv"))
     ]
 
 

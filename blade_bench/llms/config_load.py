@@ -35,21 +35,22 @@ def load_config():
                     return config
             except FileNotFoundError as file_not_found:
                 logger.info(
-                    "Error: Config file not found at '%s'. Please check the LLMX_CONFIG_PATH environment variable. %s",
-                    config_path,
-                    str(file_not_found),
+                    "Error: Config file not found at '{}'. Please check the LLMX_CONFIG_PATH environment variable. {}".format(
+                        config_path,
+                        str(file_not_found),
+                    )
                 )
             except IOError as io_error:
                 logger.info(
-                    "Error: Could not read the config file at '%s'. %s",
-                    config_path,
-                    str(io_error),
+                    "Error: Could not read the config file at '{}'. {}".format(
+                        config_path, str(io_error)
+                    )
                 )
             except yaml.YAMLError as yaml_error:
                 logger.info(
-                    "Error: Malformed YAML in config file at '%s'. %s",
-                    config_path,
-                    str(yaml_error),
+                    "Error: Malformed YAML in config file at '{}'. {}".format(
+                        config_path, str(yaml_error)
+                    )
                 )
         else:
             logger.info(
@@ -58,3 +59,9 @@ def load_config():
     except Exception as error:
         logger.info("Error: An unexpected error occurred: %s", str(error))
     return None
+
+
+if __name__ == "__main__":
+    print(get_providers())
+    print(get_models())
+    print(load_config())

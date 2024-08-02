@@ -1,0 +1,352 @@
+{
+  "mcqs_cvar": [],
+  "mcqs_transform": {
+    "Relative size of two groups": [
+      {
+        "coneptual_var_str": "Relative size of two groups",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['relative_group_size'] = df['n_focal'] / df['n_other']",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['male_to_female_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['male_to_female_ratio_other'] = df['m_other'] / df['f_other']\ndf['relative_male_to_female_ratio'] = df['male_to_female_ratio_focal'] / df[\n    'male_to_female_ratio_other']\n",
+            "rationale": "The current transformations are considering the relative size of the groups by taking the ratio of the number of individuals in the focal group to the number of individuals in the other group. They are also considering the difference in the number of individuals in the two groups. However, they are not considering the gender composition of the groups. An alternative transformation could be to consider the ratio of males to females in both groups, which might also influence the outcome of the contest.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['gender_ratio_other'] = df['m_other'] / df['f_focal']\ndf['dist_focal_scaled'] = df['dist_focal'] / 100\ndf['dist_other_scaled'] = df['dist_other'] / 100\ndf['relative_group_size'] = df['n_focal'] - df['n_other']\ndf['relative_dist'] = df['dist_focal'] - df['dist_other']\ndf['relative_dist_scaled'] = df['dist_focal_scaled'] - df['dist_other_scaled']\ndf['relative_gender_ratio'] = df['gender_ratio_focal'] - df['gender_ratio_other']",
+            "rationale": "the higher the gender ratio, the more likely to win\nto make the magnitude of coefficients more comparable and potentially improve model convergence",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['relative_distance_percentage'] = df['dist_focal'] / (df['dist_focal'] +\n    df['dist_other']) * 100\n",
+            "rationale": "The existing transformations operationalize the conceptual variable 'Relative contest distance from focal group' by creating new variables such as 'relative_dist', 'relative_dist_scaled', 'relative_distance', and 'distance_ratio'. These variables are derived by subtracting 'dist_other' from 'dist_focal' or dividing 'dist_focal' by 'dist_other'. \n\nAnother approach could be to calculate the 'relative_distance_percentage' which represents the relative distance of the focal group from the center of its home range as a percentage of the total distance of both groups from their respective home range centers. This could provide a more normalized measure of the relative distance.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['relative_distance_percentage'] = df['dist_focal'] / (df['dist_focal'] +\n    df['dist_other']) * 100\n",
+          "rationale": "The existing transformations operationalize the conceptual variable 'Relative contest distance from focal group' by creating new variables such as 'relative_dist', 'relative_dist_scaled', 'relative_distance', and 'distance_ratio'. These variables are derived by subtracting 'dist_other' from 'dist_focal' or dividing 'dist_focal' by 'dist_other'. \n\nAnother approach could be to calculate the 'relative_distance_percentage' which represents the relative distance of the focal group from the center of its home range as a percentage of the total distance of both groups from their respective home range centers. This could provide a more normalized measure of the relative distance.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Relative size of two groups",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['male_to_female_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['male_to_female_ratio_other'] = df['m_other'] / df['f_other']\ndf['relative_male_to_female_ratio'] = df['male_to_female_ratio_focal'] / df[\n    'male_to_female_ratio_other']\n",
+            "rationale": "The current transformations are considering the relative size of the groups by taking the ratio of the number of individuals in the focal group to the number of individuals in the other group. They are also considering the difference in the number of individuals in the two groups. However, they are not considering the gender composition of the groups. An alternative transformation could be to consider the ratio of males to females in both groups, which might also influence the outcome of the contest.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['gender_ratio_other'] = df['m_other'] / df['f_focal']\ndf['dist_focal_scaled'] = df['dist_focal'] / 100\ndf['dist_other_scaled'] = df['dist_other'] / 100\ndf['relative_group_size'] = df['n_focal'] - df['n_other']\ndf['relative_dist'] = df['dist_focal'] - df['dist_other']\ndf['relative_dist_scaled'] = df['dist_focal_scaled'] - df['dist_other_scaled']\ndf['relative_gender_ratio'] = df['gender_ratio_focal'] - df['gender_ratio_other']",
+            "rationale": "the higher the gender ratio, the more likely to win\nto make the magnitude of coefficients more comparable and potentially improve model convergence",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['relative_group_size'] = df['n_focal'] / df['n_other']",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['distance_ratio'] = df['dist_focal'] / df['dist_other']\n",
+            "rationale": "The existing transformations have considered the relative distance from the focal group to the center of its home range compared to the other group. They have also considered scaling these distances and even the gender ratios in the groups. However, one aspect that hasn't been considered yet is the ratio of the distances of the focal group and the other group from the center of their home ranges. This could provide a different perspective on the relative contest distance from the focal group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['distance_ratio'] = df['dist_focal'] / df['dist_other']\n",
+          "rationale": "The existing transformations have considered the relative distance from the focal group to the center of its home range compared to the other group. They have also considered scaling these distances and even the gender ratios in the groups. However, one aspect that hasn't been considered yet is the ratio of the distances of the focal group and the other group from the center of their home ranges. This could provide a different perspective on the relative contest distance from the focal group.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Relative size of two groups",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['relative_group_size'] = df['n_focal'] / df['n_other']",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['male_rate_other'] = df['m_other'] / df['n_other']",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['male_to_female_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['male_to_female_ratio_other'] = df['m_other'] / df['f_other']\ndf['relative_male_to_female_ratio'] = df['male_to_female_ratio_focal'] / df[\n    'male_to_female_ratio_other']\n",
+            "rationale": "The current transformations are considering the relative size of the groups by taking the ratio of the number of individuals in the focal group to the number of individuals in the other group. They are also considering the difference in the number of individuals in the two groups. However, they are not considering the gender composition of the groups. An alternative transformation could be to consider the ratio of males to females in both groups, which might also influence the outcome of the contest.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['gender_ratio_other'] = df['m_other'] / df['f_focal']\ndf['dist_focal_scaled'] = df['dist_focal'] / 100\ndf['dist_other_scaled'] = df['dist_other'] / 100\ndf['relative_group_size'] = df['n_focal'] - df['n_other']\ndf['relative_dist'] = df['dist_focal'] - df['dist_other']\ndf['relative_dist_scaled'] = df['dist_focal_scaled'] - df['dist_other_scaled']\ndf['relative_gender_ratio'] = df['gender_ratio_focal'] - df['gender_ratio_other']",
+            "rationale": "the higher the gender ratio, the more likely to win\nto make the magnitude of coefficients more comparable and potentially improve model convergence",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['male_rate_other'] = df['m_other'] / df['n_other']",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Relative contest distance from focal group": [
+      {
+        "coneptual_var_str": "Relative contest distance from focal group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['male_dominance_focal'] = df['m_focal'] / df['n_focal']\ndf['male_dominance_other'] = df['m_other'] / df['n_other']\ndf['relative_male_dominance'] = df['male_dominance_focal'] - df[\n    'male_dominance_other']\n",
+            "rationale": "The existing transformations calculate the relative number of males in the group by considering the male to female ratio, the relative distance of the groups from the center of their home range, and whether the focal group has more males than the other group. Another way to operationalize the relative number of males in the group could be by considering the proportion of males to the total number of individuals in the group. This would give us an idea of the male dominance in each group, which could potentially influence the outcome of the contest.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['relative_distance_percentage'] = df['dist_focal'] / (df['dist_focal'] +\n    df['dist_other']) * 100\n",
+            "rationale": "The existing transformations operationalize the conceptual variable 'Relative contest distance from focal group' by creating new variables such as 'relative_dist', 'relative_dist_scaled', 'relative_distance', and 'distance_ratio'. These variables are derived by subtracting 'dist_other' from 'dist_focal' or dividing 'dist_focal' by 'dist_other'. \n\nAnother approach could be to calculate the 'relative_distance_percentage' which represents the relative distance of the focal group from the center of its home range as a percentage of the total distance of both groups from their respective home range centers. This could provide a more normalized measure of the relative distance.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['log_distance_ratio'] = np.log(df['dist_focal'] / df['dist_other'])\n",
+            "rationale": "We want to operationalize the relative contest distance from the focal group based on the available data. The currently specified transformations consider various ways to represent the relative distance such as direct difference, scaled difference, normalized difference, absolute difference, and ratio of distances. Another way to represent the relative distance could be the logarithm of the ratio of distances which could help in dealing with large differences in the distances and help in achieving a more normal distribution of the variable.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['distance_ratio'] = df['dist_focal'] / df['dist_other']\n",
+            "rationale": "The existing transformations have considered the relative distance from the focal group to the center of its home range compared to the other group. They have also considered scaling these distances and even the gender ratios in the groups. However, one aspect that hasn't been considered yet is the ratio of the distances of the focal group and the other group from the center of their home ranges. This could provide a different perspective on the relative contest distance from the focal group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['male_dominance_focal'] = df['m_focal'] / df['n_focal']\ndf['male_dominance_other'] = df['m_other'] / df['n_other']\ndf['relative_male_dominance'] = df['male_dominance_focal'] - df[\n    'male_dominance_other']\n",
+          "rationale": "The existing transformations calculate the relative number of males in the group by considering the male to female ratio, the relative distance of the groups from the center of their home range, and whether the focal group has more males than the other group. Another way to operationalize the relative number of males in the group could be by considering the proportion of males to the total number of individuals in the group. This would give us an idea of the male dominance in each group, which could potentially influence the outcome of the contest.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Relative contest distance from focal group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['relative_distance_percentage'] = df['dist_focal'] / (df['dist_focal'] +\n    df['dist_other']) * 100\n",
+            "rationale": "The existing transformations operationalize the conceptual variable 'Relative contest distance from focal group' by creating new variables such as 'relative_dist', 'relative_dist_scaled', 'relative_distance', and 'distance_ratio'. These variables are derived by subtracting 'dist_other' from 'dist_focal' or dividing 'dist_focal' by 'dist_other'. \n\nAnother approach could be to calculate the 'relative_distance_percentage' which represents the relative distance of the focal group from the center of its home range as a percentage of the total distance of both groups from their respective home range centers. This could provide a more normalized measure of the relative distance.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['distance_ratio'] = df['dist_focal'] / df['dist_other']\n",
+            "rationale": "The existing transformations have considered the relative distance from the focal group to the center of its home range compared to the other group. They have also considered scaling these distances and even the gender ratios in the groups. However, one aspect that hasn't been considered yet is the ratio of the distances of the focal group and the other group from the center of their home ranges. This could provide a different perspective on the relative contest distance from the focal group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['male_rate_other'] = df['m_other'] / df['n_other']",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['log_distance_ratio'] = np.log(df['dist_focal'] / df['dist_other'])\n",
+            "rationale": "We want to operationalize the relative contest distance from the focal group based on the available data. The currently specified transformations consider various ways to represent the relative distance such as direct difference, scaled difference, normalized difference, absolute difference, and ratio of distances. Another way to represent the relative distance could be the logarithm of the ratio of distances which could help in dealing with large differences in the distances and help in achieving a more normal distribution of the variable.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['male_rate_other'] = df['m_other'] / df['n_other']",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Relative contest distance from focal group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['relative_distance_percentage'] = df['dist_focal'] / (df['dist_focal'] +\n    df['dist_other']) * 100\n",
+            "rationale": "The existing transformations operationalize the conceptual variable 'Relative contest distance from focal group' by creating new variables such as 'relative_dist', 'relative_dist_scaled', 'relative_distance', and 'distance_ratio'. These variables are derived by subtracting 'dist_other' from 'dist_focal' or dividing 'dist_focal' by 'dist_other'. \n\nAnother approach could be to calculate the 'relative_distance_percentage' which represents the relative distance of the focal group from the center of its home range as a percentage of the total distance of both groups from their respective home range centers. This could provide a more normalized measure of the relative distance.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['log_distance_ratio'] = np.log(df['dist_focal'] / df['dist_other'])\n",
+            "rationale": "We want to operationalize the relative contest distance from the focal group based on the available data. The currently specified transformations consider various ways to represent the relative distance such as direct difference, scaled difference, normalized difference, absolute difference, and ratio of distances. Another way to represent the relative distance could be the logarithm of the ratio of distances which could help in dealing with large differences in the distances and help in achieving a more normal distribution of the variable.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['distance_ratio'] = df['dist_focal'] / df['dist_other']\n",
+            "rationale": "The existing transformations have considered the relative distance from the focal group to the center of its home range compared to the other group. They have also considered scaling these distances and even the gender ratios in the groups. However, one aspect that hasn't been considered yet is the ratio of the distances of the focal group and the other group from the center of their home ranges. This could provide a different perspective on the relative contest distance from the focal group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['focal_has_more_males'] = (df['m_focal'] > df['m_other']).astype(int)\n",
+            "rationale": "The existing transformations have considered the ratio of males to total individuals in the group, ratio of males to females in the group, and the difference in male count between the focal and other groups. Another alternative transformation could be to create a binary variable that indicates if the focal group has more males than the other group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['focal_has_more_males'] = (df['m_focal'] > df['m_other']).astype(int)\n",
+          "rationale": "The existing transformations have considered the ratio of males to total individuals in the group, ratio of males to females in the group, and the difference in male count between the focal and other groups. Another alternative transformation could be to create a binary variable that indicates if the focal group has more males than the other group.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Relative number of male in the group": [
+      {
+        "coneptual_var_str": "Relative number of male in the group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['male_interaction_focal'] = df['m_focal'] * df['n_focal']\ndf['male_interaction_other'] = df['m_other'] * df['n_other']\ndf['relative_male_interaction'] = df['male_interaction_focal'] - df[\n    'male_interaction_other']\n",
+            "rationale": "The existing transformations have covered the proportion of males in the group, the difference in the number of males between the two groups, the difference in male to female ratio between the two groups, and the relative proportion of males in the total population. However, they haven't considered the interaction between the number of males and the total number of individuals in the group. We can create a new feature that represents the interaction between the number of males and the total number of individuals in the group. This new feature can provide additional information about the influence of the relative group size on the probability of winning.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['distance_ratio'] = df['dist_focal'] / df['dist_other']\n",
+            "rationale": "The existing transformations have considered the relative distance from the focal group to the center of its home range compared to the other group. They have also considered scaling these distances and even the gender ratios in the groups. However, one aspect that hasn't been considered yet is the ratio of the distances of the focal group and the other group from the center of their home ranges. This could provide a different perspective on the relative contest distance from the focal group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['male_to_female_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['male_to_female_ratio_other'] = df['m_other'] / df['f_other']\ndf['relative_male_to_female_ratio'] = df['male_to_female_ratio_focal'] - df[\n    'male_to_female_ratio_other']\n",
+            "rationale": "We want to operationalize the relative number of males in the group. The existing transformations consider the ratio of males to total number of individuals, the difference in the number of males between the focal and other group, the difference in the ratio of males to females between the two groups, the difference in the proportion of males between the two groups, and a binary variable indicating whether the focal group has more males than the other group. Another way to consider calculating the relative number of males could be based on the ratio of the number of males to the number of females in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['relative_male_rate'] = df['male_rate_focal'] - df['male_rate_other']\n",
+            "rationale": "The existing transformations have already considered the ratio of male to female in each group, the difference in the number of males between the two groups, and the difference in the male to female ratio between the two groups. However, we can also consider the difference in the ratio of males to total members between the two groups as another representation of the relative number of males in the group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['distance_ratio'] = df['dist_focal'] / df['dist_other']\n",
+          "rationale": "The existing transformations have considered the relative distance from the focal group to the center of its home range compared to the other group. They have also considered scaling these distances and even the gender ratios in the groups. However, one aspect that hasn't been considered yet is the ratio of the distances of the focal group and the other group from the center of their home ranges. This could provide a different perspective on the relative contest distance from the focal group.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Relative number of male in the group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['male_dominance_focal'] = df['m_focal'] / df['n_focal']\ndf['male_dominance_other'] = df['m_other'] / df['n_other']\ndf['relative_male_dominance'] = df['male_dominance_focal'] - df[\n    'male_dominance_other']\n",
+            "rationale": "The existing transformations calculate the relative number of males in the group by considering the male to female ratio, the relative distance of the groups from the center of their home range, and whether the focal group has more males than the other group. Another way to operationalize the relative number of males in the group could be by considering the proportion of males to the total number of individuals in the group. This would give us an idea of the male dominance in each group, which could potentially influence the outcome of the contest.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['male_rate_other'] = df['m_other'] / df['n_other']",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['relative_proportion_males'] = df['m_focal'] / (df['m_focal'] + df[\n    'm_other'])\n",
+            "rationale": "We want to operationalize the relative number of males in the group based on the available data. The currently specified transforms consider the ratio of males to total individuals in the group, the difference in male count between the focal and other groups, and the ratio of males to females in the group, among other decisions. Another way to consider calculating the relative number of males could be based on the proportion of males in the focal group to the total number of males in both groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['relative_group_size'] = df['n_focal'] / df['n_other']",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['relative_group_size'] = df['n_focal'] / df['n_other']",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Relative number of male in the group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['relative_male_rate'] = df['male_rate_focal'] - df['male_rate_other']\n",
+            "rationale": "The existing transformations have already considered the ratio of male to female in each group, the difference in the number of males between the two groups, and the difference in the male to female ratio between the two groups. However, we can also consider the difference in the ratio of males to total members between the two groups as another representation of the relative number of males in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['relative_distance_percentage'] = df['dist_focal'] / (df['dist_focal'] +\n    df['dist_other']) * 100\n",
+            "rationale": "The existing transformations operationalize the conceptual variable 'Relative contest distance from focal group' by creating new variables such as 'relative_dist', 'relative_dist_scaled', 'relative_distance', and 'distance_ratio'. These variables are derived by subtracting 'dist_other' from 'dist_focal' or dividing 'dist_focal' by 'dist_other'. \n\nAnother approach could be to calculate the 'relative_distance_percentage' which represents the relative distance of the focal group from the center of its home range as a percentage of the total distance of both groups from their respective home range centers. This could provide a more normalized measure of the relative distance.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['focal_has_more_males'] = (df['m_focal'] > df['m_other']).astype(int)\n",
+            "rationale": "The existing transformations have considered the ratio of males to total individuals in the group, ratio of males to females in the group, and the difference in male count between the focal and other groups. Another alternative transformation could be to create a binary variable that indicates if the focal group has more males than the other group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['relative_male_count'] = df['m_focal'] - df['m_other']\n",
+            "rationale": "The existing transformations consider the ratio of males to total individuals in the group, and the ratio of males to females in the group. Another way to consider this could be based on the difference in number of males between the focal group and the other group. This could provide a direct measure of the relative number of males in the group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['relative_distance_percentage'] = df['dist_focal'] / (df['dist_focal'] +\n    df['dist_other']) * 100\n",
+          "rationale": "The existing transformations operationalize the conceptual variable 'Relative contest distance from focal group' by creating new variables such as 'relative_dist', 'relative_dist_scaled', 'relative_distance', and 'distance_ratio'. These variables are derived by subtracting 'dist_other' from 'dist_focal' or dividing 'dist_focal' by 'dist_other'. \n\nAnother approach could be to calculate the 'relative_distance_percentage' which represents the relative distance of the focal group from the center of its home range as a percentage of the total distance of both groups from their respective home range centers. This could provide a more normalized measure of the relative distance.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Relative number of male in the group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['focal_has_more_males'] = (df['m_focal'] > df['m_other']).astype(int)\n",
+            "rationale": "The existing transformations have considered the ratio of males to total individuals in the group, ratio of males to females in the group, and the difference in male count between the focal and other groups. Another alternative transformation could be to create a binary variable that indicates if the focal group has more males than the other group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['male_to_female_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['male_to_female_ratio_other'] = df['m_other'] / df['f_other']\ndf['relative_male_to_female_ratio'] = df['male_to_female_ratio_focal'] / df[\n    'male_to_female_ratio_other']\n",
+            "rationale": "The current transformations are considering the relative size of the groups by taking the ratio of the number of individuals in the focal group to the number of individuals in the other group. They are also considering the difference in the number of individuals in the two groups. However, they are not considering the gender composition of the groups. An alternative transformation could be to consider the ratio of males to females in both groups, which might also influence the outcome of the contest.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['male_to_female_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['male_to_female_ratio_other'] = df['m_other'] / df['f_other']\ndf['relative_male_to_female_ratio'] = df['male_to_female_ratio_focal'] - df[\n    'male_to_female_ratio_other']\n",
+            "rationale": "We want to operationalize the relative number of males in the group. The existing transformations consider the ratio of males to total number of individuals, the difference in the number of males between the focal and other group, the difference in the ratio of males to females between the two groups, the difference in the proportion of males between the two groups, and a binary variable indicating whether the focal group has more males than the other group. Another way to consider calculating the relative number of males could be based on the ratio of the number of males to the number of females in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['relative_male_rate'] = df['male_rate_focal'] - df['male_rate_other']\n",
+            "rationale": "The existing transformations have already considered the ratio of male to female in each group, the difference in the number of males between the two groups, and the difference in the male to female ratio between the two groups. However, we can also consider the difference in the ratio of males to total members between the two groups as another representation of the relative number of males in the group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['male_to_female_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['male_to_female_ratio_other'] = df['m_other'] / df['f_other']\ndf['relative_male_to_female_ratio'] = df['male_to_female_ratio_focal'] / df[\n    'male_to_female_ratio_other']\n",
+          "rationale": "The current transformations are considering the relative size of the groups by taking the ratio of the number of individuals in the focal group to the number of individuals in the other group. They are also considering the difference in the number of individuals in the two groups. However, they are not considering the gender composition of the groups. An alternative transformation could be to consider the ratio of males to females in both groups, which might also influence the outcome of the contest.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Relative number of male in the group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['male_dominance_focal'] = df['m_focal'] / df['n_focal']\ndf['male_dominance_other'] = df['m_other'] / df['n_other']\ndf['relative_male_dominance'] = df['male_dominance_focal'] - df[\n    'male_dominance_other']\n",
+            "rationale": "The existing transformations calculate the relative number of males in the group by considering the male to female ratio, the relative distance of the groups from the center of their home range, and whether the focal group has more males than the other group. Another way to operationalize the relative number of males in the group could be by considering the proportion of males to the total number of individuals in the group. This would give us an idea of the male dominance in each group, which could potentially influence the outcome of the contest.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['relative_male_count'] = df['m_focal'] - df['m_other']\n",
+            "rationale": "The existing transformations consider the ratio of males to total individuals in the group, and the ratio of males to females in the group. Another way to consider this could be based on the difference in number of males between the focal group and the other group. This could provide a direct measure of the relative number of males in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['focal_has_more_males'] = (df['m_focal'] > df['m_other']).astype(int)\n",
+            "rationale": "The existing transformations have considered the ratio of males to total individuals in the group, ratio of males to females in the group, and the difference in male count between the focal and other groups. Another alternative transformation could be to create a binary variable that indicates if the focal group has more males than the other group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['gender_ratio_other'] = df['m_other'] / df['f_focal']\ndf['dist_focal_scaled'] = df['dist_focal'] / 100\ndf['dist_other_scaled'] = df['dist_other'] / 100\ndf['relative_group_size'] = df['n_focal'] - df['n_other']\ndf['relative_dist'] = df['dist_focal'] - df['dist_other']\ndf['relative_dist_scaled'] = df['dist_focal_scaled'] - df['dist_other_scaled']\ndf['relative_gender_ratio'] = df['gender_ratio_focal'] - df['gender_ratio_other']",
+            "rationale": "the higher the gender ratio, the more likely to win\nto make the magnitude of coefficients more comparable and potentially improve model convergence",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['gender_ratio_focal'] = df['m_focal'] / df['f_focal']\ndf['gender_ratio_other'] = df['m_other'] / df['f_focal']\ndf['dist_focal_scaled'] = df['dist_focal'] / 100\ndf['dist_other_scaled'] = df['dist_other'] / 100\ndf['relative_group_size'] = df['n_focal'] - df['n_other']\ndf['relative_dist'] = df['dist_focal'] - df['dist_other']\ndf['relative_dist_scaled'] = df['dist_focal_scaled'] - df['dist_other_scaled']\ndf['relative_gender_ratio'] = df['gender_ratio_focal'] - df['gender_ratio_other']",
+          "rationale": "the higher the gender ratio, the more likely to win\nto make the magnitude of coefficients more comparable and potentially improve model convergence",
+          "is_llm_generated": false
+        }
+      }
+    ]
+  }
+}

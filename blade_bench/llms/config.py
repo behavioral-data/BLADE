@@ -4,12 +4,18 @@ from dotenv import load_dotenv
 from blade_bench.llms.config_load import load_config
 from blade_bench.llms.datamodel.gen_config import (
     GenConfig,
+    MistralGenConfig,
     OpenAIGenConfig,
     AnthropicGenConfig,
     GeminiGenConfig,
     HuggingFaceGenConfig,
+    GroqGenConfig,
     TextGenConfig,
+    TogetherGenConfig,
 )
+from blade_bench.llms.textgen_groq import GroqTextGenerator
+from blade_bench.llms.textgen_mistral import MistralTextGenerator
+from blade_bench.llms.textgen_together import TogetherTextGenerator
 from blade_bench.logger import logger
 from blade_bench.llms.textgen_huggingface import HuggingFaceTextGenerator
 from blade_bench.llms.textgen_openai import OpenAITextGenerator
@@ -31,6 +37,12 @@ def get_text_gen(llm_config: GenConfig, cache_dir: str = None) -> TextGenerator:
         text_gen = AnthropicTextGenerator(llm_config, cache_dir=cache_dir)
     elif isinstance(llm_config, HuggingFaceGenConfig):
         text_gen = HuggingFaceTextGenerator(llm_config, cache_dir=cache_dir)
+    elif isinstance(llm_config, GroqGenConfig):
+        text_gen = GroqTextGenerator(llm_config, cache_dir=cache_dir)
+    elif isinstance(llm_config, MistralGenConfig):
+        text_gen = MistralTextGenerator(llm_config, cache_dir=cache_dir)
+    elif isinstance(llm_config, TogetherGenConfig):
+        text_gen = TogetherTextGenerator(llm_config, cache_dir=cache_dir)
     else:
         raise ValueError(f"Unknown LLM config type: {llm_config}")
     return text_gen
@@ -63,6 +75,12 @@ def get_llm_config_from_conf_dict(conf_dict: dict, provider: str, **kwargs):
         return GeminiGenConfig(**conf_dict)
     elif conf_dict.get("provider") == "huggingface":
         return HuggingFaceGenConfig(**conf_dict)
+    elif conf_dict.get("provider") == "groq":
+        return GroqGenConfig(**conf_dict)
+    elif conf_dict.get("provider") == "mistral":
+        return MistralGenConfig(**conf_dict)
+    elif conf_dict.get("provider") == "together":
+        return TogetherGenConfig(**conf_dict)
     else:
         raise ValueError(f"Unknown provider {conf_dict.get('provider')}")
 
@@ -78,6 +96,12 @@ def sanitize_provider(provider: str):
         return "anthropic"
     elif provider.lower() == "huggingface":
         return "huggingface"
+    elif provider.lower() == "groq":
+        return "groq"
+    elif provider.lower() == "mistral":
+        return "mistral"
+    elif provider.lower() == "together":
+        return "together"
     else:
         raise ValueError(
             f"Invalid provider '{provider}'.  Supported providers are 'gemini', 'openai', 'anthropic', 'azureopenai', 'huggingface'."

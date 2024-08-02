@@ -79,7 +79,11 @@ class GeminiTextGenerator(TextGenerator):
         response = TextGenResponse(
             text=[
                 Message(
-                    role=self.ROLES_MAP_REVERSE[x.content.role],
+                    role=(
+                        self.ROLES_MAP_REVERSE[x.content.role]
+                        if x.content.role in self.ROLES_MAP_REVERSE
+                        else "model"
+                    ),
                     content=x.content.parts[0].text,
                 )
                 for x in api_response.candidates

@@ -1,0 +1,102 @@
+{
+  "research_questions": [
+    "How do children's reliance on majority preference develop over growth in age across different cultural contexts?"
+  ],
+  "data_desc": {
+    "dataset_description": "In this study, researchers investigated how children's social learning strategies develop across age in diverse cultural contexts. Social learning, or learning from others, is a key aspect of human cognition and cultural transmission. Children can rely on social information to varying degrees, and they may preferentially learn from majority demonstrations over minority ones. Understanding how these social learning biases emerge and change with age, and how they might be influenced by cultural context, is important for shedding light on the development of human cognition and the emergence of cultural diversity. \n\nTo study this, the researchers used a controlled experimental paradigm across seven different societies: Brazil, Canada, China, Japan, Namibia, Germany, and Argentina. Children aged 4-14 watched a video demonstration showing three demonstrators choosing one option and one demonstrator choosing a different option. The researchers then recorded whether the children followed the majority, the minority, or chose an undemonstrated third option. They also collected data on the children's age, gender, and other relevant variables. This rich cross-cultural dataset provides an opportunity to explore the development of social learning strategies and how they might be shaped by cultural contexts.",
+    "fields": [
+      {
+        "column": "y",
+        "properties": {
+          "dtype": "number",
+          "std": 0.7279860209331118,
+          "min": 1,
+          "max": 3,
+          "samples": [
+            1,
+            3,
+            2
+          ],
+          "num_unique_values": 3,
+          "semantic_type": "",
+          "description": "Outcome, one of 1=unchosen option, 2=majority option, or 3=minority option"
+        }
+      },
+      {
+        "column": "gender",
+        "properties": {
+          "dtype": "number",
+          "std": 0.5003669428088497,
+          "min": 1,
+          "max": 2,
+          "samples": [
+            2,
+            1
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Index of child's gender. 1=girl. 2=boy."
+        }
+      },
+      {
+        "column": "age",
+        "properties": {
+          "dtype": "number",
+          "std": 2.4979055153439886,
+          "min": 4,
+          "max": 14,
+          "samples": [
+            10,
+            6,
+            13
+          ],
+          "num_unique_values": 11,
+          "semantic_type": "",
+          "description": "Age of each child in years"
+        }
+      },
+      {
+        "column": "majority_first",
+        "properties": {
+          "dtype": "number",
+          "std": 0.5001695863407738,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "whether the majority option was demonstrated first"
+        }
+      },
+      {
+        "column": "culture",
+        "properties": {
+          "dtype": "number",
+          "std": 1.9603189393022311,
+          "min": 1,
+          "max": 8,
+          "samples": [
+            1,
+            5,
+            2
+          ],
+          "num_unique_values": 8,
+          "semantic_type": "",
+          "description": "ID of the site, from 1 to 8"
+        }
+      }
+    ],
+    "num_rows": 629,
+    "field_names": [
+      "y",
+      "gender",
+      "age",
+      "majority_first",
+      "culture"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/boxes/data.csv"
+}

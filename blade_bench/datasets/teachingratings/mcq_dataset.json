@@ -1,0 +1,691 @@
+{
+  "mcqs_cvar": [
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: Years of teaching experience",
+          "rationale": "The professor's years of teaching experience may influence teaching evaluations, independent of their physical appearance.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: Size of the class",
+          "rationale": "evaluation scores are likely dependent on class type. Including these controls to better suit OLS assumptions. ",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Size of the class",
+          "rationale": "evaluation scores are likely dependent on class type. Including these controls to better suit OLS assumptions. ",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Years of teaching experience",
+        "rationale": "The professor's years of teaching experience may influence teaching evaluations, independent of their physical appearance.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: Years of teaching experience",
+          "rationale": "The years of teaching experience of the instructor may influence the relationship between beauty and teaching evaluations, as more experienced teachers may be evaluated differently compared to less experienced teachers.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: Number of students that participate in the teaching evaluation.",
+          "rationale": "this is the number of students who participate in evaluating, we should control for this as more students participated may indicate a more reliable rating",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Size of the class",
+          "rationale": "evaluation scores are likely dependent on class type. Including these controls to better suit OLS assumptions. ",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Years of teaching experience",
+        "rationale": "The years of teaching experience of the instructor may influence the relationship between beauty and teaching evaluations, as more experienced teachers may be evaluated differently compared to less experienced teachers.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Moderator: Instructor's years of teaching experience interacting with Beauty rating variable",
+          "rationale": "The instructor's years of teaching experience may moderate the relationship between beauty and teaching evaluations, as more experienced instructors may be evaluated differently based on their physical appearance.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: Number of students that participate in the teaching evaluation.",
+          "rationale": "this is the number of students who participate in evaluating, we should control for this as more students participated may indicate a more reliable rating",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Evaluation response rate",
+          "rationale": "evaluation response rate is endogenous to evaluation score, which needs to be controlled. High rate may either correlation with positive or negative evaluation. ",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Moderator: Instructor's years of teaching experience interacting with Beauty rating variable",
+        "rationale": "The instructor's years of teaching experience may moderate the relationship between beauty and teaching evaluations, as more experienced instructors may be evaluated differently based on their physical appearance.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Moderator: Instructor's years of teaching experience interacting with Beauty rating variable",
+          "rationale": "The instructor's years of teaching experience may moderate the impact of beauty on teaching evaluations, as more experienced teachers may be evaluated differently based on their appearance compared to less experienced teachers.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: Size of the class",
+          "rationale": "evaluation scores are likely dependent on class type. Including these controls to better suit OLS assumptions. ",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Professor's gender",
+          "rationale": "potential confounding variable",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Moderator: Instructor's years of teaching experience interacting with Beauty rating variable",
+        "rationale": "The instructor's years of teaching experience may moderate the impact of beauty on teaching evaluations, as more experienced teachers may be evaluated differently based on their appearance compared to less experienced teachers.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: Years of teaching experience",
+          "rationale": "The years of teaching experience of the instructor may influence the relationship between beauty and teaching evaluations, as instructors with more experience may be evaluated differently compared to those with less experience.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: Size of the class",
+          "rationale": "evaluation scores are likely dependent on class type. Including these controls to better suit OLS assumptions. ",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Evaluation response rate",
+          "rationale": "evaluation response rate is endogenous to evaluation score, which needs to be controlled. High rate may either correlation with positive or negative evaluation. ",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Years of teaching experience",
+        "rationale": "The years of teaching experience of the instructor may influence the relationship between beauty and teaching evaluations, as instructors with more experience may be evaluated differently compared to those with less experience.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: Teaching experience",
+          "rationale": "Teaching experience of the instructor(s) may influence teaching evaluations received by teachers, as more experienced teachers may have developed better teaching skills and strategies over time.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: Professor's gender",
+          "rationale": "potential confounding variable",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Size of the class",
+          "rationale": "evaluation scores are likely dependent on class type. Including these controls to better suit OLS assumptions. ",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Teaching experience",
+        "rationale": "Teaching experience of the instructor(s) may influence teaching evaluations received by teachers, as more experienced teachers may have developed better teaching skills and strategies over time.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: Size of the class",
+          "rationale": "evaluation scores are likely dependent on class type. Including these controls to better suit OLS assumptions. ",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Professor's age",
+          "rationale": "potential confounding variable",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Years of teaching experience",
+          "rationale": "The years of teaching experience of the instructor may influence teaching evaluations, as more experienced teachers may receive higher evaluations regardless of their physical appearance.",
+          "is_llm_generated": true
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Years of teaching experience",
+        "rationale": "The years of teaching experience of the instructor may influence teaching evaluations, as more experienced teachers may receive higher evaluations regardless of their physical appearance.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: Professor's gender",
+          "rationale": "potential confounding variable",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Size of the class",
+          "rationale": "evaluation scores are likely dependent on class type. Including these controls to better suit OLS assumptions. ",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Years of teaching experience",
+          "rationale": "The level of teaching experience of the instructor may influence teaching evaluations and should be considered as a control variable.",
+          "is_llm_generated": true
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Years of teaching experience",
+        "rationale": "The level of teaching experience of the instructor may influence teaching evaluations and should be considered as a control variable.",
+        "is_llm_generated": true
+      }
+    }
+  ],
+  "mcqs_transform": {
+    "Interaction between gender and beauty scoring": [
+      {
+        "coneptual_var_str": "Interaction between gender and beauty scoring",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender_beauty_interaction'] = df['male'] * df['beauty']\n",
+            "rationale": "Based on the existing transformations, the variable \"gender\" has already been transformed into a binary variable \"male\". To represent the interaction between gender and beauty scoring, we can create a new variable by multiplying the \"male\" variable with the \"beauty\" variable. This will capture the interaction effect between gender and beauty on teaching evaluations.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['credits_bin'] = pd.get_dummies(df.credits)['more']",
+            "rationale": "binary representation of the \"credits\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['tenured_prof'] = (df['tenure'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['gender_beauty_interaction'] = df['male'] * df['beauty']\n",
+          "rationale": "Based on the existing transformations, the variable \"gender\" has already been transformed into a binary variable \"male\". To represent the interaction between gender and beauty scoring, we can create a new variable by multiplying the \"male\" variable with the \"beauty\" variable. This will capture the interaction effect between gender and beauty on teaching evaluations.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Number of students that participate in the teaching evaluation.": [
+      {
+        "coneptual_var_str": "Number of students that participate in the teaching evaluation.",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['upper_division'] = (df['division'] == 'upper').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['gender_bin'] = pd.get_dummies(df.gender)['male']",
+            "rationale": "binary representation of the \"gender\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['participation_rate'] = df['students'] / df['allstudents']\n",
+            "rationale": "Based on the available dataset and the conceptual variable of interest, the existing transformation `students_log` takes the natural logarithm of the number of students participating in the teaching evaluation. This transformation can be useful if the distribution of the variable is skewed and the logarithmic transformation helps to normalize it.\n\nHowever, if we want to represent the conceptual variable without using the existing transformation, we can consider an alternative transformation that calculates the percentage of students participating in the teaching evaluation relative to the total number of students enrolled in the course. This alternative transformation can provide a measure of the engagement or response rate of students in the evaluation process.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['participation_rate'] = df['students'] / df['allstudents']\n",
+          "rationale": "Based on the available dataset and the conceptual variable of interest, the existing transformation `students_log` takes the natural logarithm of the number of students participating in the teaching evaluation. This transformation can be useful if the distribution of the variable is skewed and the logarithmic transformation helps to normalize it.\n\nHowever, if we want to represent the conceptual variable without using the existing transformation, we can consider an alternative transformation that calculates the percentage of students participating in the teaching evaluation relative to the total number of students enrolled in the course. This alternative transformation can provide a measure of the engagement or response rate of students in the evaluation process.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Size of the class": [
+      {
+        "coneptual_var_str": "Size of the class",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['lecture_size'] = (df['allstudents'] > 100).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['tenure_bin'] = pd.get_dummies(df.tenure)['yes']",
+            "rationale": "binary representation of the \"tenure\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['small_class'] = (df['allstudents'] <= 30).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['tenure_bin'] = pd.get_dummies(df.tenure)['yes']",
+          "rationale": "binary representation of the \"tenure\" column",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Size of the class",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['medium_class'] = ((df['allstudents'] > 30) & (df['allstudents'] <= 60)).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['credits_bin'] = pd.get_dummies(df.credits)['more']",
+            "rationale": "binary representation of the \"credits\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['small_class'] = (df['allstudents'] <= 30).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['credits_bin'] = pd.get_dummies(df.credits)['more']",
+          "rationale": "binary representation of the \"credits\" column",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Size of the class",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['medium_class'] = ((df['allstudents'] > 30) & (df['allstudents'] <= 60)).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['lecture_size'] = (df['allstudents'] > 100).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['native_bin'] = pd.get_dummies(df.native)['yes']",
+            "rationale": "binary representation of the \"native\" column",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['native_bin'] = pd.get_dummies(df.native)['yes']",
+          "rationale": "binary representation of the \"native\" column",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Indicator for professor belonging to a minority": [
+      {
+        "coneptual_var_str": "Indicator for professor belonging to a minority",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['minority_bin'] = pd.get_dummies(df.minority)['yes']",
+            "rationale": "binary representation of the \"minority\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['upper_division'] = (df['division'] == 'upper').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['division_bin'] = pd.get_dummies(df.division)['upper']",
+            "rationale": "0-1 representation of the \"division\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['lecture_size'] = (df['allstudents'] > 100).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['minority_bin'] = pd.get_dummies(df.minority)['yes']",
+          "rationale": "binary representation of the \"minority\" column",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Professor's gender": [
+      {
+        "coneptual_var_str": "Professor's gender",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['gender_bin'] = pd.get_dummies(df.gender)['male']",
+            "rationale": "binary representation of the \"gender\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['division_bin'] = pd.get_dummies(df.division)['upper']",
+            "rationale": "0-1 representation of the \"division\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['upper_division'] = (df['division'] == 'upper').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['gender_bin'] = pd.get_dummies(df.gender)['male']",
+          "rationale": "binary representation of the \"gender\" column",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Indicator that class is single-credit elective": [
+      {
+        "coneptual_var_str": "Indicator that class is single-credit elective",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['credits_bin'] = pd.get_dummies(df.credits)['more']",
+            "rationale": "binary representation of the \"credits\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['gender_bin'] = pd.get_dummies(df.gender)['male']",
+            "rationale": "binary representation of the \"gender\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['lecture_size'] = (df['allstudents'] > 100).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['minority_bin'] = pd.get_dummies(df.minority)['yes']",
+            "rationale": "binary representation of the \"minority\" column",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['credits_bin'] = pd.get_dummies(df.credits)['more']",
+          "rationale": "binary representation of the \"credits\" column",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Indicator that class is upper division": [
+      {
+        "coneptual_var_str": "Indicator that class is upper division",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['native_speaker'] = (df['native'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['lecture_size'] = (df['allstudents'] > 100).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['division_bin'] = pd.get_dummies(df.division)['upper']",
+            "rationale": "0-1 representation of the \"division\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['tenured_prof'] = (df['tenure'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['division_bin'] = pd.get_dummies(df.division)['upper']",
+          "rationale": "0-1 representation of the \"division\" column",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Indicator that class is upper division",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['lecture_size'] = (df['allstudents'] > 100).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['upper_division'] = (df['division'] == 'upper').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['tenured_prof'] = (df['tenure'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['native_speaker'] = (df['native'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['upper_division'] = (df['division'] == 'upper').astype(float)",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Indicator for professor is a native speaker": [
+      {
+        "coneptual_var_str": "Indicator for professor is a native speaker",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['participation_rate'] = df['students'] / df['allstudents']\n",
+            "rationale": "Based on the available dataset and the conceptual variable of interest, the existing transformation `students_log` takes the natural logarithm of the number of students participating in the teaching evaluation. This transformation can be useful if the distribution of the variable is skewed and the logarithmic transformation helps to normalize it.\n\nHowever, if we want to represent the conceptual variable without using the existing transformation, we can consider an alternative transformation that calculates the percentage of students participating in the teaching evaluation relative to the total number of students enrolled in the course. This alternative transformation can provide a measure of the engagement or response rate of students in the evaluation process.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['native_speaker'] = (df['native'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['medium_class'] = ((df['allstudents'] > 30) & (df['allstudents'] <= 60)).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['lecture_size'] = (df['allstudents'] > 100).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['native_speaker'] = (df['native'] == 'yes').astype(float)",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Indicator for professor is a native speaker",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['medium_class'] = ((df['allstudents'] > 30) & (df['allstudents'] <= 60)).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['native_bin'] = pd.get_dummies(df.native)['yes']",
+            "rationale": "binary representation of the \"native\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['participation_rate'] = df['students'] / df['allstudents']\n",
+            "rationale": "Based on the available dataset and the conceptual variable of interest, the existing transformation `students_log` takes the natural logarithm of the number of students participating in the teaching evaluation. This transformation can be useful if the distribution of the variable is skewed and the logarithmic transformation helps to normalize it.\n\nHowever, if we want to represent the conceptual variable without using the existing transformation, we can consider an alternative transformation that calculates the percentage of students participating in the teaching evaluation relative to the total number of students enrolled in the course. This alternative transformation can provide a measure of the engagement or response rate of students in the evaluation process.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['lecture_size'] = (df['allstudents'] > 100).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['native_bin'] = pd.get_dummies(df.native)['yes']",
+          "rationale": "binary representation of the \"native\" column",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Indicator for professor is tenured": [
+      {
+        "coneptual_var_str": "Indicator for professor is tenured",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['native_speaker'] = (df['native'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['tenured_prof'] = (df['tenure'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['small_class'] = (df['allstudents'] <= 30).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['tenured_prof'] = (df['tenure'] == 'yes').astype(float)",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Indicator for professor is tenured",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['small_class'] = (df['allstudents'] <= 30).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['native_speaker'] = (df['native'] == 'yes').astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['tenure_bin'] = pd.get_dummies(df.tenure)['yes']",
+            "rationale": "binary representation of the \"tenure\" column",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['tenure_bin'] = pd.get_dummies(df.tenure)['yes']",
+          "rationale": "binary representation of the \"tenure\" column",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Evaluation response rate": [
+      {
+        "coneptual_var_str": "Evaluation response rate",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['native_bin'] = pd.get_dummies(df.native)['yes']",
+            "rationale": "binary representation of the \"native\" column",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['class_size_bins'] = pd.cut(df['allstudents'], bins=[0, 30, 60, 100, np.\n    inf], labels=['small', 'medium', 'big', 'lecture'])\n",
+            "rationale": "The existing transformations for the conceptual variable \"Size of the class\" include creating categorical variables based on the number of students in the class (e.g., big_class, lecture_size, medium_class, small_class) and taking the logarithm of the number of students (allstudents_log). \n\nAn alternative transformation could be to create bins for the class size based on certain intervals. This would provide a more granular representation of the class size and capture the different ranges of class sizes.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['eval_response_rate'] = df['students'] / df['allstudents']",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['minority_bin'] = pd.get_dummies(df.minority)['yes']",
+            "rationale": "binary representation of the \"minority\" column",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['eval_response_rate'] = df['students'] / df['allstudents']",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      }
+    ]
+  }
+}

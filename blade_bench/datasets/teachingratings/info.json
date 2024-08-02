@@ -1,0 +1,224 @@
+{
+  "research_questions": [
+    "What is the impact of beauty on teaching evaluations received by teachers?"
+  ],
+  "data_desc": {
+    "dataset_description": "This data contains course evaluations, course characteristics, and professor characteristics for 463 courses for the academic years 2000\u20132002 at the University of Texas at Austin. It specifically resulted from a sample of student instructional ratings for a group of university teachers along with beauty rating (average from six independent judges) and a number of other characteristics.\n\nPaper reference: Hamermesh, D.S., and Parker, A. (2005). Beauty in the Classroom: Instructors\u2019 Pulchritude and Putative Pedagogical Productivity. Economics of Education Review, 24, 369\u2013376.",
+    "fields": [
+      {
+        "column": "rownames",
+        "properties": {
+          "dtype": "number",
+          "std": 133.8008470326951,
+          "min": 1,
+          "max": 463,
+          "samples": [
+            226,
+            31,
+            40
+          ],
+          "num_unique_values": 463,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "minority",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "no",
+            "yes"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor. Does the instructor belong to a minority (non-Caucasian)?"
+        }
+      },
+      {
+        "column": "age",
+        "properties": {
+          "dtype": "number",
+          "std": 9.802742037864817,
+          "min": 29,
+          "max": 73,
+          "samples": [
+            39,
+            56,
+            41
+          ],
+          "num_unique_values": 35,
+          "semantic_type": "",
+          "description": "the professor's age."
+        }
+      },
+      {
+        "column": "gender",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "male",
+            "female"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor indicating instructor's gender."
+        }
+      },
+      {
+        "column": "credits",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "single",
+            "more"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor. Is the course a single-credit elective (e.g., yoga, aerobics, dance)?"
+        }
+      },
+      {
+        "column": "beauty",
+        "properties": {
+          "dtype": "number",
+          "std": 0.7886476673278039,
+          "min": -1.450494,
+          "max": 1.970023,
+          "samples": [
+            -0.2377786,
+            -0.7330914,
+            -0.3260148
+          ],
+          "num_unique_values": 94,
+          "semantic_type": "",
+          "description": "rating of the instructor's physical appearance by a panel of six students, averaged across the six panelists, shifted to have a mean of zero."
+        }
+      },
+      {
+        "column": "eval",
+        "properties": {
+          "dtype": "number",
+          "std": 0.5548655656195951,
+          "min": 2.1,
+          "max": 5.0,
+          "samples": [
+            2.8,
+            4.1,
+            4.6
+          ],
+          "num_unique_values": 29,
+          "semantic_type": "",
+          "description": "course overall teaching evaluation score, on a scale of 1 (very unsatisfactory) to 5 (excellent)."
+        }
+      },
+      {
+        "column": "division",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "lower",
+            "upper"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor. Is the course an upper or lower division course? (Lower division courses are mainly large freshman and sophomore courses)?"
+        }
+      },
+      {
+        "column": "native",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "no",
+            "yes"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor. Is the instructor a native English speaker?"
+        }
+      },
+      {
+        "column": "tenure",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "no",
+            "yes"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor. Is the instructor on tenure track?"
+        }
+      },
+      {
+        "column": "students",
+        "properties": {
+          "dtype": "number",
+          "std": 45.01848127156701,
+          "min": 5,
+          "max": 380,
+          "samples": [
+            46,
+            65,
+            120
+          ],
+          "num_unique_values": 104,
+          "semantic_type": "",
+          "description": "number of students that participated in the evaluation."
+        }
+      },
+      {
+        "column": "allstudents",
+        "properties": {
+          "dtype": "number",
+          "std": 75.07279983847907,
+          "min": 8,
+          "max": 581,
+          "samples": [
+            15,
+            100,
+            149
+          ],
+          "num_unique_values": 127,
+          "semantic_type": "",
+          "description": "number of students enrolled in the course."
+        }
+      },
+      {
+        "column": "prof",
+        "properties": {
+          "dtype": "number",
+          "std": 27.508902172681815,
+          "min": 1,
+          "max": 94,
+          "samples": [
+            41,
+            23,
+            56
+          ],
+          "num_unique_values": 94,
+          "semantic_type": "",
+          "description": "factor indicating instructor identifier."
+        }
+      }
+    ],
+    "num_rows": 463,
+    "field_names": [
+      "rownames",
+      "minority",
+      "age",
+      "gender",
+      "credits",
+      "beauty",
+      "eval",
+      "division",
+      "native",
+      "tenure",
+      "students",
+      "allstudents",
+      "prof"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/teachingratings/data.csv"
+}

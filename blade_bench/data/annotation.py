@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Literal, Optional, Set, Union
 import networkx as nx
 import numpy as np
 import pandas as pd
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 
 from blade_bench.data.datamodel import (
@@ -44,6 +44,25 @@ class AnnotationDBData(BaseModel):
     def model_post_init(self, __context: Any) -> None:
         if self.nx_g is None:
             self.nx_g = self.build_graph_from_specs()
+
+    @computed_field
+    @property
+    def cv_spec_names(self) -> List[str]:
+        return [str(cvar) for cvar in self.cv_specs.values()]
+
+    @computed_field
+    @property
+    def transform_spec_names(self) -> List[str]:
+        return [
+            tspec.specification
+            for tspec in self.transform_specs.values()
+            if tspec.spec_id != ROOT_SPEC_ID
+        ]
+
+    @computed_field
+    @property
+    def model_spec_names(self) -> List[str]:
+        return list(set([mspec.specification for mspec in self.m_specs.values()]))
 
     def save(self, path: str):
         with open(path, "wb") as f:

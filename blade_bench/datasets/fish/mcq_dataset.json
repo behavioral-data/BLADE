@@ -1,0 +1,476 @@
+{
+  "mcqs_cvar": [],
+  "mcqs_transform": {
+    "Rate of fish caught": [
+      {
+        "coneptual_var_str": "Rate of fish caught",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']\ndf['log_fish_per_hour'] = np.log(1 + df['fish_per_hour'])",
+            "rationale": "This is the target variable\nThe fish_per_hour variable has a long tail distribution",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['child_proportion'] = df['child'] / (df['persons'] + df['child'])\n",
+            "rationale": "The existing transformations use the 'child' column directly or create a new binary column 'have_child' to represent whether the group has any children. Another way to consider the number of children in the group could be to calculate the proportion of children in the group. This can be done by dividing the number of children by the total number of people in the group (adults + children).",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']",
+            "rationale": "This is the target variable",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['total_people'] = df['persons'] + df['child']\ndf['fish_caught_per_hour_per_total_people'] = df['fish_caught'] / (df[\n    'hours'] * df['total_people'])\n",
+            "rationale": "The existing transformations already provide a variety of ways to operationalize the rate of fish caught, including per hour, per person, with live bait, with a camper, and with children. However, one aspect that hasn't been considered is the effect of group size on the rate of fish caught. It could be interesting to see how the rate changes with the number of people (both adults and children) in the group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['child_proportion'] = df['child'] / (df['persons'] + df['child'])\n",
+          "rationale": "The existing transformations use the 'child' column directly or create a new binary column 'have_child' to represent whether the group has any children. Another way to consider the number of children in the group could be to calculate the proportion of children in the group. This can be done by dividing the number of children by the total number of people in the group (adults + children).",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Rate of fish caught",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']\ndf['log_fish_per_hour'] = np.log(1 + df['fish_per_hour'])",
+            "rationale": "This is the target variable\nThe fish_per_hour variable has a long tail distribution",
+            "is_llm_generated": false
+          },
+          {
+            "code": "avg_adults = df['persons'].mean()\ndf['above_avg_adults_in_group'] = (df['persons'] > avg_adults).astype(int)\n",
+            "rationale": "From the existing transformations, the first transformation creates a binary variable indicating whether the party size is smaller than 2. The second transformation directly uses the 'persons' column from the dataframe. The third transformation creates a binary variable indicating whether the group size is equal to the maximum group size in the data.\n\nAn alternative transformation could be to create a binary variable indicating whether the group size is larger than the average group size. This would provide a measure of whether the group is larger than what is typically observed.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']",
+            "rationale": "This is the target variable",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['group_size'] = df['persons'] + df['child']\ndf['fish_caught_per_hour_per_person'] = df['fish_caught'] / (df['hours'] *\n    df['group_size'])\n",
+            "rationale": "The conceptual variable of interest here is the rate of fish caught per hour. The existing transformations have used the 'fish_caught' and 'hours' columns to derive this rate. Some transformations have also applied outlier detection and log transformations. \n\nAn alternative transformation could be to consider the size of the group (number of adults and children) as well. The assumption here is that a larger group might catch more fish per hour. We can create a new column 'group_size' as the sum of 'persons' and 'child', and then calculate the rate of fish caught per hour per person.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "avg_adults = df['persons'].mean()\ndf['above_avg_adults_in_group'] = (df['persons'] > avg_adults).astype(int)\n",
+          "rationale": "From the existing transformations, the first transformation creates a binary variable indicating whether the party size is smaller than 2. The second transformation directly uses the 'persons' column from the dataframe. The third transformation creates a binary variable indicating whether the group size is equal to the maximum group size in the data.\n\nAn alternative transformation could be to create a binary variable indicating whether the group size is larger than the average group size. This would provide a measure of whether the group is larger than what is typically observed.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Rate of fish caught",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['avg_child_per_adult'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transforms consider whether there is a child in the group, the proportion of children to the total group size, the ratio of children to adults, and categorizing the number of children. Another way to consider calculating the number of children could be based on the average number of children per adult in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['group_size'] = df['persons'] + df['child']\ndf['fish_caught_per_hour_per_person'] = df['fish_caught'] / (df['hours'] *\n    df['group_size'])\n",
+            "rationale": "The conceptual variable of interest here is the rate of fish caught per hour. The existing transformations have used the 'fish_caught' and 'hours' columns to derive this rate. Some transformations have also applied outlier detection and log transformations. \n\nAn alternative transformation could be to consider the size of the group (number of adults and children) as well. The assumption here is that a larger group might catch more fish per hour. We can create a new column 'group_size' as the sum of 'persons' and 'child', and then calculate the rate of fish caught per hour per person.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['total_people'] = df['persons'] + df['child']\ndf['fish_caught_per_hour_per_total_people'] = df['fish_caught'] / (df[\n    'hours'] * df['total_people'])\n",
+            "rationale": "The existing transformations already provide a variety of ways to operationalize the rate of fish caught, including per hour, per person, with live bait, with a camper, and with children. However, one aspect that hasn't been considered is the effect of group size on the rate of fish caught. It could be interesting to see how the rate changes with the number of people (both adults and children) in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']\ndf['log_fish_per_hour'] = np.log(1 + df['fish_per_hour'])",
+            "rationale": "This is the target variable\nThe fish_per_hour variable has a long tail distribution",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['avg_child_per_adult'] = df['child'] / df['persons']\n",
+          "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transforms consider whether there is a child in the group, the proportion of children to the total group size, the ratio of children to adults, and categorizing the number of children. Another way to consider calculating the number of children could be based on the average number of children per adult in the group.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Number of children in group": [
+      {
+        "coneptual_var_str": "Number of children in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['child_to_adult_ratio'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transformations consider the raw count of children, the presence of children, and the proportion of children in the group. Another way to consider calculating the children in the group could be based on the ratio of children to adults in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']\ndf['log_fish_per_hour'] = np.log(1 + df['fish_per_hour'])",
+            "rationale": "This is the target variable\nThe fish_per_hour variable has a long tail distribution",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['avg_child_per_adult'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transforms consider whether there is a child in the group, the proportion of children to the total group size, the ratio of children to adults, and categorizing the number of children. Another way to consider calculating the number of children could be based on the average number of children per adult in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['have_child'] = (df['child'] > 0).astype(int)",
+            "rationale": "There is a small amount (17%) of people having more than 1 child",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']\ndf['log_fish_per_hour'] = np.log(1 + df['fish_per_hour'])",
+          "rationale": "This is the target variable\nThe fish_per_hour variable has a long tail distribution",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Number of children in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['avg_child_per_adult'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transforms consider whether there is a child in the group, the proportion of children to the total group size, the ratio of children to adults, and categorizing the number of children. Another way to consider calculating the number of children could be based on the average number of children per adult in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_category'] = 'No children'\ndf.loc[df['child'] == 1, 'child_category'] = 'One child'\ndf.loc[df['child'] > 1, 'child_category'] = 'More than one child'\n",
+            "rationale": "The existing transformations have considered the absolute number of children, whether there are children or not, the proportion of children in the group, and the ratio of children to adults. Another approach could be to create a categorical variable that classifies the groups into those with no children, those with one child, and those with more than one child.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_proportion'] = df['child'] / (df['persons'] + df['child'])\n",
+            "rationale": "The existing transformations use the 'child' column directly or create a new binary column 'have_child' to represent whether the group has any children. Another way to consider the number of children in the group could be to calculate the proportion of children in the group. This can be done by dividing the number of children by the total number of people in the group (adults + children).",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['adult_ratio'] = df['persons'] / (df['persons'] + df['child'])\n",
+            "rationale": "The existing transformation simply uses the original column \"persons\" which represents the number of adults in the group. An alternative transformation could be to create a new variable that represents the ratio of adults to the total number of persons in the group (adults + children). This could provide additional context for the analysis, especially if the ratio of adults to children influences the number of fish caught.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['adult_ratio'] = df['persons'] / (df['persons'] + df['child'])\n",
+          "rationale": "The existing transformation simply uses the original column \"persons\" which represents the number of adults in the group. An alternative transformation could be to create a new variable that represents the ratio of adults to the total number of persons in the group (adults + children). This could provide additional context for the analysis, especially if the ratio of adults to children influences the number of fish caught.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Number of children in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['avg_child_per_adult'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transforms consider whether there is a child in the group, the proportion of children to the total group size, the ratio of children to adults, and categorizing the number of children. Another way to consider calculating the number of children could be based on the average number of children per adult in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['all_adults'] = (df['persons'] > 0) & (df['child'] == 0)\n",
+            "rationale": "The existing transformations have already used the 'persons' column in the original data, which represents the number of adults in a group. They have also calculated the ratio of adults to the total number of people in the group (adult_ratio), and the number of adults per hour (adults_per_hour). \n\nAn alternative transformation could be to create a binary variable indicating whether the group is comprised solely of adults or not. This could potentially be useful if being an all-adult group has an impact on the number of fish caught.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_category'] = 'No children'\ndf.loc[df['child'] == 1, 'child_category'] = 'One child'\ndf.loc[df['child'] > 1, 'child_category'] = 'More than one child'\n",
+            "rationale": "The existing transformations have considered the absolute number of children, whether there are children or not, the proportion of children in the group, and the ratio of children to adults. Another approach could be to create a categorical variable that classifies the groups into those with no children, those with one child, and those with more than one child.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_to_adult_ratio'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transformations consider the raw count of children, the presence of children, and the proportion of children in the group. Another way to consider calculating the children in the group could be based on the ratio of children to adults in the group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['all_adults'] = (df['persons'] > 0) & (df['child'] == 0)\n",
+          "rationale": "The existing transformations have already used the 'persons' column in the original data, which represents the number of adults in a group. They have also calculated the ratio of adults to the total number of people in the group (adult_ratio), and the number of adults per hour (adults_per_hour). \n\nAn alternative transformation could be to create a binary variable indicating whether the group is comprised solely of adults or not. This could potentially be useful if being an all-adult group has an impact on the number of fish caught.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Number of children in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['avg_child_per_adult'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transforms consider whether there is a child in the group, the proportion of children to the total group size, the ratio of children to adults, and categorizing the number of children. Another way to consider calculating the number of children could be based on the average number of children per adult in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['is_adult_only'] = df['child'].apply(lambda x: 1 if x == 0 else 0)\n",
+            "rationale": "The existing transformations have covered a lot of aspects of the variable \"Number of adults in group\" including calculating ratios, averages, per hour calculations, and categorization based on certain conditions. Another way to operationalize this variable could be to create a new column that represents whether the group is adult only or not. This can be done by checking if the number of children in a group is zero.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_proportion'] = df['child'] / (df['persons'] + df['child'])\n",
+            "rationale": "The existing transformations use the 'child' column directly or create a new binary column 'have_child' to represent whether the group has any children. Another way to consider the number of children in the group could be to calculate the proportion of children in the group. This can be done by dividing the number of children by the total number of people in the group (adults + children).",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_to_adult_ratio'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transformations consider the raw count of children, the presence of children, and the proportion of children in the group. Another way to consider calculating the children in the group could be based on the ratio of children to adults in the group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['is_adult_only'] = df['child'].apply(lambda x: 1 if x == 0 else 0)\n",
+          "rationale": "The existing transformations have covered a lot of aspects of the variable \"Number of adults in group\" including calculating ratios, averages, per hour calculations, and categorization based on certain conditions. Another way to operationalize this variable could be to create a new column that represents whether the group is adult only or not. This can be done by checking if the number of children in a group is zero.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Number of adults in group": [
+      {
+        "coneptual_var_str": "Number of adults in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['adults_livebait_camper'] = df['persons'].apply(lambda x: 'high' if x > \n    2 else 'low') + '_' + df['livebait'].apply(lambda x: 'livebait' if x ==\n    1 else 'no_livebait') + '_' + df['camper'].apply(lambda x: 'camper' if \n    x == 1 else 'no_camper')\n",
+            "rationale": "The existing transformations have considered the number of adults in the group in various contexts such as the ratio of adults to children, adults per hour, and adults per fish caught. However, we could also consider the impact of the number of adults in the group on whether they used live bait or had a camper. We could create a new variable that categorizes the groups based on the number of adults and whether they used live bait or had a camper.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['total_people'] = df['persons'] + df['child']\ndf['fish_caught_per_hour_per_total_people'] = df['fish_caught'] / (df[\n    'hours'] * df['total_people'])\n",
+            "rationale": "The existing transformations already provide a variety of ways to operationalize the rate of fish caught, including per hour, per person, with live bait, with a camper, and with children. However, one aspect that hasn't been considered is the effect of group size on the rate of fish caught. It could be interesting to see how the rate changes with the number of people (both adults and children) in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['more_adults'] = df['persons'] > df['child']\n",
+            "rationale": "The existing transformations consider the raw count of adults, the ratio of adults to the total number of people, the number of adults per hour and also a binary column indicating if all members are adults. Another way to consider the number of adults in the group could be to create a binary column indicating if the group has more adults than children.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['is_adult_only'] = df['child'].apply(lambda x: 1 if x == 0 else 0)\n",
+            "rationale": "The existing transformations have covered a lot of aspects of the variable \"Number of adults in group\" including calculating ratios, averages, per hour calculations, and categorization based on certain conditions. Another way to operationalize this variable could be to create a new column that represents whether the group is adult only or not. This can be done by checking if the number of children in a group is zero.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['total_people'] = df['persons'] + df['child']\ndf['fish_caught_per_hour_per_total_people'] = df['fish_caught'] / (df[\n    'hours'] * df['total_people'])\n",
+          "rationale": "The existing transformations already provide a variety of ways to operationalize the rate of fish caught, including per hour, per person, with live bait, with a camper, and with children. However, one aspect that hasn't been considered is the effect of group size on the rate of fish caught. It could be interesting to see how the rate changes with the number of people (both adults and children) in the group.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Number of adults in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['adult_ratio'] = df['persons'] / (df['persons'] + df['child'])\n",
+            "rationale": "The existing transformation simply uses the original column \"persons\" which represents the number of adults in the group. An alternative transformation could be to create a new variable that represents the ratio of adults to the total number of persons in the group (adults + children). This could provide additional context for the analysis, especially if the ratio of adults to children influences the number of fish caught.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['fish_per_adult'] = df['fish_caught'] / df['persons']\n",
+            "rationale": "Based on the existing transformations, we have considered the number of adults in the group in various contexts such as the ratio of adults to children, adults per hour, whether all members are adults, whether there are more adults than children, adults per fish caught, average adults per visit, adult count in combination with live bait and camper usage, and categorizing the group size based on the number of adults. \n\nAnother way to operationalize the number of adults in the group could be to look at the number of adults in relation to the number of fish caught. For example, we could calculate the number of fish caught per adult in the group. This could provide insight into the efficiency of the group in terms of fishing, assuming that adults are primarily the ones doing the fishing.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['adults_livebait_camper'] = df['persons'].apply(lambda x: 'high' if x > \n    2 else 'low') + '_' + df['livebait'].apply(lambda x: 'livebait' if x ==\n    1 else 'no_livebait') + '_' + df['camper'].apply(lambda x: 'camper' if \n    x == 1 else 'no_camper')\n",
+            "rationale": "The existing transformations have considered the number of adults in the group in various contexts such as the ratio of adults to children, adults per hour, and adults per fish caught. However, we could also consider the impact of the number of adults in the group on whether they used live bait or had a camper. We could create a new variable that categorizes the groups based on the number of adults and whether they used live bait or had a camper.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_to_adult_ratio'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transformations consider the raw count of children, the presence of children, and the proportion of children in the group. Another way to consider calculating the children in the group could be based on the ratio of children to adults in the group.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['child_to_adult_ratio'] = df['child'] / df['persons']\n",
+          "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transformations consider the raw count of children, the presence of children, and the proportion of children in the group. Another way to consider calculating the children in the group could be based on the ratio of children to adults in the group.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Number of adults in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "avg_adults = df['persons'].mean()\ndf['above_avg_adults_in_group'] = (df['persons'] > avg_adults).astype(int)\n",
+            "rationale": "From the existing transformations, the first transformation creates a binary variable indicating whether the party size is smaller than 2. The second transformation directly uses the 'persons' column from the dataframe. The third transformation creates a binary variable indicating whether the group size is equal to the maximum group size in the data.\n\nAn alternative transformation could be to create a binary variable indicating whether the group size is larger than the average group size. This would provide a measure of whether the group is larger than what is typically observed.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['more_adults_than_children'] = (df['persons'] > df['child']).astype(int)\n",
+            "rationale": "We want to operationalize the number of adults in a group based on the available data. The currently specified transformations consider marking groups smaller than 2 adults, identifying groups with maximum number of adults, and groups with above average number of adults. Another way to consider operationalizing this variable could be to create a new binary variable that indicates if the group has more adults than children.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['adults_ratio'] = df['persons'] / (df['persons'] + df['child'])\n",
+            "rationale": "The current transformations capture various aspects of the number of adults in a group such as whether the group size is smaller than 2, if the group has maximum number of adults, if the group has above average number of adults, and if the group has more adults than children. However, one aspect that has not been captured is the ratio of adults to total group size (adults + children). This could provide additional insights into the influence of adult presence in the group on the number of fish caught.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_proportion'] = df['child'] / (df['persons'] + df['child'])\n",
+            "rationale": "The existing transformations use the 'child' column directly or create a new binary column 'have_child' to represent whether the group has any children. Another way to consider the number of children in the group could be to calculate the proportion of children in the group. This can be done by dividing the number of children by the total number of people in the group (adults + children).",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['child_proportion'] = df['child'] / (df['persons'] + df['child'])\n",
+          "rationale": "The existing transformations use the 'child' column directly or create a new binary column 'have_child' to represent whether the group has any children. Another way to consider the number of children in the group could be to calculate the proportion of children in the group. This can be done by dividing the number of children by the total number of people in the group (adults + children).",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Number of adults in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['more_adults_than_children'] = (df['persons'] > df['child']).astype(int)\n",
+            "rationale": "We want to operationalize the number of adults in a group based on the available data. The currently specified transformations consider marking groups smaller than 2 adults, identifying groups with maximum number of adults, and groups with above average number of adults. Another way to consider operationalizing this variable could be to create a new binary variable that indicates if the group has more adults than children.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['group_size'] = pd.cut(df['persons'], bins=[0, 1, 2, df['persons'].max()\n    ], labels=['small', 'medium', 'large'])\n",
+            "rationale": "The current transformations operationalize the conceptual variable \"Number of adults in group\" in a variety of ways, including direct use, ratio of adults to total people, adults per hour, situations where all members are adults, situations where there are more adults than children, adults per fish caught, average adults per visit, and a combination of adults, livebait, and camper. \n\nAn alternative transformation can be to consider the number of adults in the group as a categorical variable, where groups with one adult are categorized as 'small', with two adults as 'medium', and with three or more adults as 'large'. This transformation can provide insights into how the size of the adult group affects the number of fish caught.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['adults_livebait_camper'] = df['persons'].apply(lambda x: 'high' if x > \n    2 else 'low') + '_' + df['livebait'].apply(lambda x: 'livebait' if x ==\n    1 else 'no_livebait') + '_' + df['camper'].apply(lambda x: 'camper' if \n    x == 1 else 'no_camper')\n",
+            "rationale": "The existing transformations have considered the number of adults in the group in various contexts such as the ratio of adults to children, adults per hour, and adults per fish caught. However, we could also consider the impact of the number of adults in the group on whether they used live bait or had a camper. We could create a new variable that categorizes the groups based on the number of adults and whether they used live bait or had a camper.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['have_child'] = (df['child'] > 0).astype(int)",
+            "rationale": "There is a small amount (17%) of people having more than 1 child",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['have_child'] = (df['child'] > 0).astype(int)",
+          "rationale": "There is a small amount (17%) of people having more than 1 child",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Number of adults in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['adult_ratio'] = df['persons'] / (df['persons'] + df['child'])\n",
+            "rationale": "The existing transformation simply uses the original column \"persons\" which represents the number of adults in the group. An alternative transformation could be to create a new variable that represents the ratio of adults to the total number of persons in the group (adults + children). This could provide additional context for the analysis, especially if the ratio of adults to children influences the number of fish caught.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['more_adults'] = df['persons'] > df['child']\n",
+            "rationale": "The existing transformations consider the raw count of adults, the ratio of adults to the total number of people, the number of adults per hour and also a binary column indicating if all members are adults. Another way to consider the number of adults in the group could be to create a binary column indicating if the group has more adults than children.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['group_size'] = df['persons'] + df['child']\ndf['fish_caught_per_hour_per_person'] = df['fish_caught'] / (df['hours'] *\n    df['group_size'])\n",
+            "rationale": "The conceptual variable of interest here is the rate of fish caught per hour. The existing transformations have used the 'fish_caught' and 'hours' columns to derive this rate. Some transformations have also applied outlier detection and log transformations. \n\nAn alternative transformation could be to consider the size of the group (number of adults and children) as well. The assumption here is that a larger group might catch more fish per hour. We can create a new column 'group_size' as the sum of 'persons' and 'child', and then calculate the rate of fish caught per hour per person.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['party_size_smaller_than_2'] = df['persons'].isin([1, 2]).astype(int)",
+            "rationale": "Increase statistical significance by merging variables",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['group_size'] = df['persons'] + df['child']\ndf['fish_caught_per_hour_per_person'] = df['fish_caught'] / (df['hours'] *\n    df['group_size'])\n",
+          "rationale": "The conceptual variable of interest here is the rate of fish caught per hour. The existing transformations have used the 'fish_caught' and 'hours' columns to derive this rate. Some transformations have also applied outlier detection and log transformations. \n\nAn alternative transformation could be to consider the size of the group (number of adults and children) as well. The assumption here is that a larger group might catch more fish per hour. We can create a new column 'group_size' as the sum of 'persons' and 'child', and then calculate the rate of fish caught per hour per person.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Number of adults in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']",
+            "rationale": "This is the target variable",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['group_size'] = pd.cut(df['persons'], bins=[0, 1, 2, df['persons'].max()\n    ], labels=['small', 'medium', 'large'])\n",
+            "rationale": "The current transformations operationalize the conceptual variable \"Number of adults in group\" in a variety of ways, including direct use, ratio of adults to total people, adults per hour, situations where all members are adults, situations where there are more adults than children, adults per fish caught, average adults per visit, and a combination of adults, livebait, and camper. \n\nAn alternative transformation can be to consider the number of adults in the group as a categorical variable, where groups with one adult are categorized as 'small', with two adults as 'medium', and with three or more adults as 'large'. This transformation can provide insights into how the size of the adult group affects the number of fish caught.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['adults_livebait_camper'] = df['persons'].apply(lambda x: 'high' if x > \n    2 else 'low') + '_' + df['livebait'].apply(lambda x: 'livebait' if x ==\n    1 else 'no_livebait') + '_' + df['camper'].apply(lambda x: 'camper' if \n    x == 1 else 'no_camper')\n",
+            "rationale": "The existing transformations have considered the number of adults in the group in various contexts such as the ratio of adults to children, adults per hour, and adults per fish caught. However, we could also consider the impact of the number of adults in the group on whether they used live bait or had a camper. We could create a new variable that categorizes the groups based on the number of adults and whether they used live bait or had a camper.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['fish_per_adult'] = df['fish_caught'] / df['persons']\n",
+            "rationale": "Based on the existing transformations, we have considered the number of adults in the group in various contexts such as the ratio of adults to children, adults per hour, whether all members are adults, whether there are more adults than children, adults per fish caught, average adults per visit, adult count in combination with live bait and camper usage, and categorizing the group size based on the number of adults. \n\nAnother way to operationalize the number of adults in the group could be to look at the number of adults in relation to the number of fish caught. For example, we could calculate the number of fish caught per adult in the group. This could provide insight into the efficiency of the group in terms of fishing, assuming that adults are primarily the ones doing the fishing.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['fish_per_hour'] = df['fish_caught'] / df['hours']",
+          "rationale": "This is the target variable",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Number of adults in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['more_adults_than_children'] = (df['persons'] > df['child']).astype(int)\n",
+            "rationale": "We want to operationalize the number of adults in a group based on the available data. The currently specified transformations consider marking groups smaller than 2 adults, identifying groups with maximum number of adults, and groups with above average number of adults. Another way to consider operationalizing this variable could be to create a new binary variable that indicates if the group has more adults than children.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['more_adults'] = df['persons'] > df['child']\n",
+            "rationale": "The existing transformations consider the raw count of adults, the ratio of adults to the total number of people, the number of adults per hour and also a binary column indicating if all members are adults. Another way to consider the number of adults in the group could be to create a binary column indicating if the group has more adults than children.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['child_category'] = 'No children'\ndf.loc[df['child'] == 1, 'child_category'] = 'One child'\ndf.loc[df['child'] > 1, 'child_category'] = 'More than one child'\n",
+            "rationale": "The existing transformations have considered the absolute number of children, whether there are children or not, the proportion of children in the group, and the ratio of children to adults. Another approach could be to create a categorical variable that classifies the groups into those with no children, those with one child, and those with more than one child.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['is_adult_only'] = df['child'].apply(lambda x: 1 if x == 0 else 0)\n",
+            "rationale": "The existing transformations have covered a lot of aspects of the variable \"Number of adults in group\" including calculating ratios, averages, per hour calculations, and categorization based on certain conditions. Another way to operationalize this variable could be to create a new column that represents whether the group is adult only or not. This can be done by checking if the number of children in a group is zero.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['child_category'] = 'No children'\ndf.loc[df['child'] == 1, 'child_category'] = 'One child'\ndf.loc[df['child'] > 1, 'child_category'] = 'More than one child'\n",
+          "rationale": "The existing transformations have considered the absolute number of children, whether there are children or not, the proportion of children in the group, and the ratio of children to adults. Another approach could be to create a categorical variable that classifies the groups into those with no children, those with one child, and those with more than one child.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Number of adults in group",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['all_adults'] = (df['persons'] > 0) & (df['child'] == 0)\n",
+            "rationale": "The existing transformations have already used the 'persons' column in the original data, which represents the number of adults in a group. They have also calculated the ratio of adults to the total number of people in the group (adult_ratio), and the number of adults per hour (adults_per_hour). \n\nAn alternative transformation could be to create a binary variable indicating whether the group is comprised solely of adults or not. This could potentially be useful if being an all-adult group has an impact on the number of fish caught.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['avg_child_per_adult'] = df['child'] / df['persons']\n",
+            "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transforms consider whether there is a child in the group, the proportion of children to the total group size, the ratio of children to adults, and categorizing the number of children. Another way to consider calculating the number of children could be based on the average number of children per adult in the group.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['fish_per_adult'] = df['fish_caught'] / df['persons']\n",
+            "rationale": "Based on the existing transformations, we have considered the number of adults in the group in various contexts such as the ratio of adults to children, adults per hour, whether all members are adults, whether there are more adults than children, adults per fish caught, average adults per visit, adult count in combination with live bait and camper usage, and categorizing the group size based on the number of adults. \n\nAnother way to operationalize the number of adults in the group could be to look at the number of adults in relation to the number of fish caught. For example, we could calculate the number of fish caught per adult in the group. This could provide insight into the efficiency of the group in terms of fishing, assuming that adults are primarily the ones doing the fishing.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['group_size'] = pd.cut(df['persons'], bins=[0, 1, 2, df['persons'].max()\n    ], labels=['small', 'medium', 'large'])\n",
+            "rationale": "The current transformations operationalize the conceptual variable \"Number of adults in group\" in a variety of ways, including direct use, ratio of adults to total people, adults per hour, situations where all members are adults, situations where there are more adults than children, adults per fish caught, average adults per visit, and a combination of adults, livebait, and camper. \n\nAn alternative transformation can be to consider the number of adults in the group as a categorical variable, where groups with one adult are categorized as 'small', with two adults as 'medium', and with three or more adults as 'large'. This transformation can provide insights into how the size of the adult group affects the number of fish caught.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['avg_child_per_adult'] = df['child'] / df['persons']\n",
+          "rationale": "We want to operationalize the number of children in the group based on the available data. The currently specified transforms consider whether there is a child in the group, the proportion of children to the total group size, the ratio of children to adults, and categorizing the number of children. Another way to consider calculating the number of children could be based on the average number of children per adult in the group.",
+          "is_llm_generated": true
+        }
+      }
+    ]
+  }
+}

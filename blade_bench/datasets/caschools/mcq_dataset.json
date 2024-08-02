@@ -1,0 +1,142 @@
+{
+  "mcqs_cvar": [
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: Percentage of students qualifying for CalWorks(income assistance)",
+          "rationale": "this is percentage of students qualifying for income assistance",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Economic status of student",
+          "rationale": "Economic status is highly correlated with academic performance, so it should be controlled. There are 3 columns available in the dataset and they are highly correlated with each other. Ok to use any one of the three.",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: School's reputation",
+          "rationale": "The reputation or prestige of a school may influence a student's academic performance. Schools with a good reputation often have better resources and attract more qualified teachers, which can contribute to higher academic performance.",
+          "is_llm_generated": true
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: School's reputation",
+        "rationale": "The reputation or prestige of a school may influence a student's academic performance. Schools with a good reputation often have better resources and attract more qualified teachers, which can contribute to higher academic performance.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: Number of computers per student",
+          "rationale": "The availability of computers per student may influence a student's academic performance as it can represent the quality of resources provided by the school.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: School's reputation",
+          "rationale": "The reputation of the school may influence the academic performance of students as more reputable schools may have more resources or employ more qualified teachers.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: Economic status of student",
+          "rationale": "Economic status is highly correlated with academic performance, so it should be controlled. There are 3 columns available in the dataset and they are highly correlated with each other. Ok to use any one of the three.",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: School's reputation",
+        "rationale": "The reputation of the school may influence the academic performance of students as more reputable schools may have more resources or employ more qualified teachers.",
+        "is_llm_generated": true
+      }
+    }
+  ],
+  "mcqs_transform": {
+    "Grade span of the district": [
+      {
+        "coneptual_var_str": "Grade span of the district",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['impute_grades'] = df['grades'].replace({'KK-06': 0, 'KK-08': 1})",
+            "rationale": "classify KK-06 as 0 and KK-08 as 1",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['computer_per_student'] = df['computer'] / df['students']",
+            "rationale": "it make senses to see how many students are sharing one computer, instead of using the number of computers directly",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['avg_score'] = (df['read'] + df['math']) / 2",
+            "rationale": "derive the average reading and math score to represent the student's academic performance",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['impute_grades'] = df['grades'].replace({'KK-06': 0, 'KK-08': 1})",
+          "rationale": "classify KK-06 as 0 and KK-08 as 1",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Computer per student": [
+      {
+        "coneptual_var_str": "Computer per student",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['computer_per_student'] = df['computer'] / df['students']",
+            "rationale": "it make senses to see how many students are sharing one computer, instead of using the number of computers directly",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['impute_grades'] = df['grades'].replace({'KK-06': 0, 'KK-08': 1})",
+            "rationale": "classify KK-06 as 0 and KK-08 as 1",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['avg_score'] = (df['read'] + df['math']) / 2",
+            "rationale": "derive the average reading and math score to represent the student's academic performance",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['computer_per_student'] = df['computer'] / df['students']",
+          "rationale": "it make senses to see how many students are sharing one computer, instead of using the number of computers directly",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Student's test scores": [
+      {
+        "coneptual_var_str": "Student's test scores",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['score_sum'] = df['read'] + df['math']",
+            "rationale": "This is a reasonable way to combine the two dimensions.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['computer_per_student'] = df['computer'] / df['students']",
+            "rationale": "it make senses to see how many students are sharing one computer, instead of using the number of computers directly",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['avg_score'] = (df['read'] + df['math']) / 2",
+            "rationale": "derive the average reading and math score to represent the student's academic performance",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['computer_per_student'] = df['computer'] / df['students']",
+          "rationale": "it make senses to see how many students are sharing one computer, instead of using the number of computers directly",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Expenditure per student": [],
+    "School district code": []
+  }
+}

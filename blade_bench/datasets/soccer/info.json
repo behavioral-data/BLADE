@@ -1,0 +1,481 @@
+{
+  "research_questions": [
+    "Are soccer players with a dark skin tone more likely than those with a light skin tone to receive red cards from referees?"
+  ],
+  "data_desc": {
+    "dataset_description": "The team collected data and profile photos of soccer players (N = 2053) playing in the first male divisions of England, Germany, France, and Spain in the 2012-2013 season and referees (N = 3147) that these players played under in their professional career were obtained from a company for sports statistics. A dataset of player-referee dyads was created, including the number of matches players and referees encountered each other and the number of red cards given to a player by a particular referee throughout all matches the two encountered each other.\n\nPlayer photos were available for 1586 out of 2053 players from the source. Two independent raters, blind to the research question, coded players' skin tone based on their profile photos. They categorized players on a 5-point scale ranging from \"very light skin\" to \"very dark skin,\" with \"neither dark nor light skin\" as the center value.\n\nAdditionally, implicit bias scores for each referee country were calculated using a race implicit association test (IAT), where higher values indicated faster white | good, black | bad associations. Explicit bias scores for each referee country were determined using a racial thermometer task, with higher values indicating greater feelings of warmth toward whites versus blacks. Both measures were derived from data aggregated from online users in referee countries who took these tests on Project Implicit (http://projectimplicit.net).\n\nOverall, the dataset comprises 146,028 dyads of players and referees.",
+    "fields": [
+      {
+        "column": "playerShort",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "pedro_7",
+            "ruben-garcia_3",
+            "jakub-blaszczykowski"
+          ],
+          "num_unique_values": 2053,
+          "semantic_type": "",
+          "description": "Short name of the football player."
+        }
+      },
+      {
+        "column": "player",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            " Carl\u00e3o",
+            "Gr\u00e9gory Lorenzi",
+            " Agirretxe"
+          ],
+          "num_unique_values": 2034,
+          "semantic_type": "",
+          "description": "Full name of the football player."
+        }
+      },
+      {
+        "column": "club",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Levante UD",
+            "Villarreal CF",
+            "Fulham FC"
+          ],
+          "num_unique_values": 118,
+          "semantic_type": "",
+          "description": "Name of the football club the player belongs to."
+        }
+      },
+      {
+        "column": "leagueCountry",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "France",
+            "Germany",
+            "Spain"
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Name of the country where the league is played."
+        }
+      },
+      {
+        "column": "birthday",
+        "properties": {
+          "dtype": "date",
+          "min": "01.01.1981",
+          "max": "31.12.1989",
+          "samples": [
+            "06.04.1989",
+            "28.01.1986",
+            "01.07.1984"
+          ],
+          "num_unique_values": 1726,
+          "semantic_type": "",
+          "description": "Birthday of the player in dd.mm.yyyy format."
+        }
+      },
+      {
+        "column": "height",
+        "properties": {
+          "dtype": "number",
+          "std": 6.738726074757214,
+          "min": 161.0,
+          "max": 203.0,
+          "samples": [
+            196.0,
+            174.0,
+            173.0
+          ],
+          "num_unique_values": 43,
+          "semantic_type": "",
+          "description": "Height of the player in centimeters."
+        }
+      },
+      {
+        "column": "weight",
+        "properties": {
+          "dtype": "number",
+          "std": 7.140906351541053,
+          "min": 54.0,
+          "max": 100.0,
+          "samples": [
+            93.0,
+            69.0,
+            66.0
+          ],
+          "num_unique_values": 45,
+          "semantic_type": "",
+          "description": "Weight of the player in kilograms."
+        }
+      },
+      {
+        "column": "position",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Center Forward",
+            "Left Midfielder",
+            "Attacking Midfielder"
+          ],
+          "num_unique_values": 12,
+          "semantic_type": "",
+          "description": "Position of the player in the field."
+        }
+      },
+      {
+        "column": "games",
+        "properties": {
+          "dtype": "number",
+          "std": 3.413632854486367,
+          "min": 1,
+          "max": 47,
+          "samples": [
+            47,
+            25,
+            30
+          ],
+          "num_unique_values": 45,
+          "semantic_type": "",
+          "description": "Number of games in the player-referee dyad."
+        }
+      },
+      {
+        "column": "victories",
+        "properties": {
+          "dtype": "number",
+          "std": 1.7907254477150707,
+          "min": 0,
+          "max": 29,
+          "samples": [
+            29,
+            14,
+            11
+          ],
+          "num_unique_values": 29,
+          "semantic_type": "",
+          "description": "Number of victories in the player-referee dyad."
+        }
+      },
+      {
+        "column": "ties",
+        "properties": {
+          "dtype": "number",
+          "std": 1.1167925201562219,
+          "min": 0,
+          "max": 14,
+          "samples": [
+            10,
+            13,
+            0
+          ],
+          "num_unique_values": 15,
+          "semantic_type": "",
+          "description": "Number of ties in the player-referee dyad."
+        }
+      },
+      {
+        "column": "defeats",
+        "properties": {
+          "dtype": "number",
+          "std": 1.383058962434939,
+          "min": 0,
+          "max": 18,
+          "samples": [
+            1,
+            5,
+            15
+          ],
+          "num_unique_values": 19,
+          "semantic_type": "",
+          "description": "Number of losses in the player-referee dyad."
+        }
+      },
+      {
+        "column": "goals",
+        "properties": {
+          "dtype": "number",
+          "std": 0.9064805502464165,
+          "min": 0,
+          "max": 23,
+          "samples": [
+            0,
+            21,
+            7
+          ],
+          "num_unique_values": 22,
+          "semantic_type": "",
+          "description": "Number of goals scored by a player in the player-referee dyad."
+        }
+      },
+      {
+        "column": "yellowCards",
+        "properties": {
+          "dtype": "number",
+          "std": 0.7953327981767239,
+          "min": 0,
+          "max": 14,
+          "samples": [
+            10,
+            7,
+            0
+          ],
+          "num_unique_values": 15,
+          "semantic_type": "",
+          "description": "Number of yellow cards player received from referee."
+        }
+      },
+      {
+        "column": "yellowReds",
+        "properties": {
+          "dtype": "number",
+          "std": 0.10793102891403204,
+          "min": 0,
+          "max": 3,
+          "samples": [
+            1,
+            3,
+            0
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Number of yellow-red cards player received from referee."
+        }
+      },
+      {
+        "column": "redCards",
+        "properties": {
+          "dtype": "number",
+          "std": 0.11288927400104161,
+          "min": 0,
+          "max": 2,
+          "samples": [
+            0,
+            1,
+            2
+          ],
+          "num_unique_values": 3,
+          "semantic_type": "",
+          "description": "Number of red cards player received from referee."
+        }
+      },
+      {
+        "column": "photoID",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "10946.jpg",
+            "1400.jpg",
+            "156429.jpg"
+          ],
+          "num_unique_values": 1585,
+          "semantic_type": "",
+          "description": "ID of player photo (if available)."
+        }
+      },
+      {
+        "column": "rater1",
+        "properties": {
+          "dtype": "number",
+          "std": 0.29538220453074965,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.75,
+            0.5,
+            0.0
+          ],
+          "num_unique_values": 5,
+          "semantic_type": "",
+          "description": "Skin rating of photo by rater 1 (5-point scale ranging from 'very light skin' to 'very dark skin') normalized to 1."
+        }
+      },
+      {
+        "column": "rater2",
+        "properties": {
+          "dtype": "number",
+          "std": 0.293019740512479,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            0.75,
+            1.0,
+            0.0
+          ],
+          "num_unique_values": 5,
+          "semantic_type": "",
+          "description": "Skin rating of photo by rater 2 (5-point scale ranging from 'very light skin' to 'very dark skin') normalized to 1."
+        }
+      },
+      {
+        "column": "refNum",
+        "properties": {
+          "dtype": "number",
+          "std": 918.7366248371987,
+          "min": 1,
+          "max": 3147,
+          "samples": [
+            2963,
+            970,
+            1386
+          ],
+          "num_unique_values": 3147,
+          "semantic_type": "",
+          "description": "Unique referee ID number (referee name removed for anonymizing purposes)."
+        }
+      },
+      {
+        "column": "refCountry",
+        "properties": {
+          "dtype": "number",
+          "std": 27.496188572551272,
+          "min": 1,
+          "max": 161,
+          "samples": [
+            106,
+            109,
+            143
+          ],
+          "num_unique_values": 161,
+          "semantic_type": "",
+          "description": "Unique referee country ID number (country name removed for anonymizing purposes)."
+        }
+      },
+      {
+        "column": "meanIAT",
+        "properties": {
+          "dtype": "number",
+          "std": 0.032245687232423006,
+          "min": -0.04725422528,
+          "max": 0.5737932868,
+          "samples": [
+            0.3436322984,
+            0.09410007079,
+            0.3499648018
+          ],
+          "num_unique_values": 154,
+          "semantic_type": "",
+          "description": "Mean implicit bias score (using the race IAT) for referee country, higher values correspond to faster white | good, black | bad associations."
+        }
+      },
+      {
+        "column": "nIAT",
+        "properties": {
+          "dtype": "number",
+          "std": 127126.19714291781,
+          "min": 2.0,
+          "max": 1975803.0,
+          "samples": [
+            238.0,
+            44791.0,
+            1021.0
+          ],
+          "num_unique_values": 129,
+          "semantic_type": "",
+          "description": "Sample size for race IAT in that particular country."
+        }
+      },
+      {
+        "column": "seIAT",
+        "properties": {
+          "dtype": "number",
+          "std": 0.004735858032335504,
+          "min": 2.24e-07,
+          "max": 0.286287119,
+          "samples": [
+            0.007074600037,
+            0.001782156497,
+            0.00471282422
+          ],
+          "num_unique_values": 154,
+          "semantic_type": "",
+          "description": "Standard error for mean estimate of race IAT."
+        }
+      },
+      {
+        "column": "meanExp",
+        "properties": {
+          "dtype": "number",
+          "std": 0.2174688610751441,
+          "min": -1.375,
+          "max": 1.8,
+          "samples": [
+            0.7727272727,
+            -1.375,
+            0.6666666667
+          ],
+          "num_unique_values": 149,
+          "semantic_type": "",
+          "description": "Mean explicit bias score (using a racial thermometer task) for referee country, higher values correspond to greater feelings of warmth toward whites versus blacks."
+        }
+      },
+      {
+        "column": "nExp",
+        "properties": {
+          "dtype": "number",
+          "std": 130615.74510267928,
+          "min": 2.0,
+          "max": 2029548.0,
+          "samples": [
+            207.0,
+            1895.0,
+            193.0
+          ],
+          "num_unique_values": 136,
+          "semantic_type": "",
+          "description": "Sample size for explicit bias in that particular country."
+        }
+      },
+      {
+        "column": "seExp",
+        "properties": {
+          "dtype": "number",
+          "std": 0.019723404207055945,
+          "min": 1.04e-06,
+          "max": 1.060660172,
+          "samples": [
+            0.0266506853,
+            0.007422242787,
+            0.0157000342
+          ],
+          "num_unique_values": 154,
+          "semantic_type": "",
+          "description": "Standard error for mean estimate of explicit bias measure."
+        }
+      }
+    ],
+    "num_rows": 146028,
+    "field_names": [
+      "playerShort",
+      "player",
+      "club",
+      "leagueCountry",
+      "birthday",
+      "height",
+      "weight",
+      "position",
+      "games",
+      "victories",
+      "ties",
+      "defeats",
+      "goals",
+      "yellowCards",
+      "yellowReds",
+      "redCards",
+      "photoID",
+      "rater1",
+      "rater2",
+      "refNum",
+      "refCountry",
+      "meanIAT",
+      "nIAT",
+      "seIAT",
+      "meanExp",
+      "nExp",
+      "seExp"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/soccer/data.csv"
+}

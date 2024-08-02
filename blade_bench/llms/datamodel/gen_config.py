@@ -73,6 +73,18 @@ class GeminiGenConfig(ProviderModelConfig):
     provider: Literal["gemini"] = "gemini"
 
 
+class GroqGenConfig(ProviderModelConfig):
+    provider: Literal["groq"] = "groq"
+
+
+class MistralGenConfig(ProviderModelConfig):
+    provider: Literal["mistral"] = "mistral"
+
+
+class TogetherGenConfig(ProviderModelConfig):
+    provider: Literal["together"] = "together"
+
+
 class HuggingFaceGenConfig(ProviderModelConfig):
     llm_client: Literal["default"] = "default"
     provider: Literal["huggingface"] = "huggingface"
@@ -128,7 +140,13 @@ class LLMHistory(BaseModel):
 
 
 GenConfig = Union[
-    OpenAIGenConfig, GeminiGenConfig, AnthropicGenConfig, HuggingFaceGenConfig
+    OpenAIGenConfig,
+    GeminiGenConfig,
+    AnthropicGenConfig,
+    HuggingFaceGenConfig,
+    GroqGenConfig,
+    MistralGenConfig,
+    TogetherGenConfig,
 ]
 
 

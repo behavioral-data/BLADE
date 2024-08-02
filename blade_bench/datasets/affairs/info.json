@@ -1,0 +1,186 @@
+{
+  "research_questions": [
+    "Does having children decrease (if at all) the engagement in extramarital affairs? "
+  ],
+  "data_desc": {
+    "dataset_description": "In 1969, the popular magazine Psychology Today published a 101-question survey on sex and asked its readers to mail in their answers. The results of the survey were discussed in the July 1970 issue. From the approximately 2,000 replies that were collected in electronic form (of about 20,000 received), Professor Ray Fair [(1978)](https://fairmodel.econ.yale.edu/rayfair/pdf/1978A200.PDF) extracted a sample of 601 observations on men and women then currently married for the first time and analyzed their responses to a question about extramarital affairs. He used the tobit model as a platform. Fair\u2019s analysis in this frequently cited study suggests several interesting econometric questions.",
+    "fields": [
+      {
+        "column": "rownames",
+        "properties": {
+          "dtype": "number",
+          "std": 914.9046112352131,
+          "min": 4,
+          "max": 9029,
+          "samples": [
+            547,
+            1846,
+            1575
+          ],
+          "num_unique_values": 601,
+          "semantic_type": "",
+          "description": ""
+        }
+      },
+      {
+        "column": "affairs",
+        "properties": {
+          "dtype": "number",
+          "std": 3.2987577284946803,
+          "min": 0,
+          "max": 12,
+          "samples": [
+            0,
+            3,
+            2
+          ],
+          "num_unique_values": 6,
+          "semantic_type": "",
+          "description": "numeric. How often engaged in extramarital sexual intercourse during the past year? 0 =none, 1 = once, 2 = twice, 3 = 3 times, 7 = 4\u201310 times, 12 = monthly, 12 = weekly, 12 = daily."
+        }
+      },
+      {
+        "column": "gender",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "female",
+            "male"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor indicating gender."
+        }
+      },
+      {
+        "column": "age",
+        "properties": {
+          "dtype": "number",
+          "std": 9.28876170487667,
+          "min": 17.5,
+          "max": 57.0,
+          "samples": [
+            52.0,
+            27.0,
+            47.0
+          ],
+          "num_unique_values": 9,
+          "semantic_type": "",
+          "description": "numeric variable coding age in years: 17.5 = under 20, 22 = 20\u201324, 27 = 25\u201329, 32 = 30\u201334,37 = 35\u201339, 42 = 40\u201344, 47 = 45\u201349, 52 = 50\u201354, 57 = 55 or over."
+        }
+      },
+      {
+        "column": "yearsmarried",
+        "properties": {
+          "dtype": "number",
+          "std": 5.57130314996379,
+          "min": 0.125,
+          "max": 15.0,
+          "samples": [
+            4.0,
+            7.0,
+            10.0
+          ],
+          "num_unique_values": 8,
+          "semantic_type": "",
+          "description": "numeric variable coding number of years married: 0.125 = 3 months or less, 0.417= 4\u20136 months, 0.75 = 6 months\u20131 year, 1.5 = 1\u20132 years, 4 = 3\u20135 years, 7 = 6\u20138 years, 10 =9\u201311 years, 15 = 12 or more years."
+        }
+      },
+      {
+        "column": "children",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "yes",
+            "no"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "factor. Are there children in the marriage?"
+        }
+      },
+      {
+        "column": "religiousness",
+        "properties": {
+          "dtype": "number",
+          "std": 1.1675094016730692,
+          "min": 1,
+          "max": 5,
+          "samples": [
+            4,
+            2,
+            1
+          ],
+          "num_unique_values": 5,
+          "semantic_type": "",
+          "description": "numeric variable coding religiousness: 1 = anti, 2 = not at all, 3 = slightly, 4 =somewhat, 5 = very."
+        }
+      },
+      {
+        "column": "education",
+        "properties": {
+          "dtype": "number",
+          "std": 2.402554565766699,
+          "min": 9,
+          "max": 20,
+          "samples": [
+            18,
+            14,
+            20
+          ],
+          "num_unique_values": 7,
+          "semantic_type": "",
+          "description": "numeric variable coding level of education: 9 = grade school, 12 = high school graduate,14 = some college, 16 = college graduate, 17 = some graduate work, 18 = master's degree, 20= Ph.D., M.D., or other advanced degree."
+        }
+      },
+      {
+        "column": "occupation",
+        "properties": {
+          "dtype": "number",
+          "std": 1.8194426627085785,
+          "min": 1,
+          "max": 7,
+          "samples": [
+            7,
+            6,
+            3
+          ],
+          "num_unique_values": 7,
+          "semantic_type": "",
+          "description": "numeric variable coding occupation according to Hollingshead classification (reverse numbering)."
+        }
+      },
+      {
+        "column": "rating",
+        "properties": {
+          "dtype": "number",
+          "std": 1.1031794920503792,
+          "min": 1,
+          "max": 5,
+          "samples": [
+            5,
+            1,
+            3
+          ],
+          "num_unique_values": 5,
+          "semantic_type": "",
+          "description": "numeric variable coding self rating of marriage: 1 = very unhappy, 2 = somewhat unhappy, 3 = average, 4 = happier than average, 5 = very happy."
+        }
+      }
+    ],
+    "num_rows": 601,
+    "field_names": [
+      "rownames",
+      "affairs",
+      "gender",
+      "age",
+      "yearsmarried",
+      "children",
+      "religiousness",
+      "education",
+      "occupation",
+      "rating"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/affairs/data.csv"
+}

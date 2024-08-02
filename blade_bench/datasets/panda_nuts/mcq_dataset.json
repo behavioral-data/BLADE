@@ -1,0 +1,756 @@
+{
+  "mcqs_cvar": [
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Moderator: Interaction between age and help interacting with Nut-cracking efficiency variable",
+          "rationale": "The interaction between the age of the chimpanzee and whether they received help from another chimpanzee might have a moderating effect on the nut-cracking efficiency. This interaction is reasonable for the analysis considering the specifics of the research question and dataset.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "DV: Nuts opened count",
+          "rationale": "The number of nuts opened by the chimpanzee.",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Hammer types",
+          "rationale": "To determine if each Hammer Type influence the nut cracking efficiency",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Hammer types",
+        "rationale": "To determine if each Hammer Type influence the nut cracking efficiency",
+        "is_llm_generated": false
+      }
+    }
+  ],
+  "mcqs_transform": {
+    "Nut-cracking efficiency": [
+      {
+        "coneptual_var_str": "Nut-cracking efficiency",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['penalized_efficiency'] = np.where(df['help'] == 'y', df['efficiency'] *\n    0.5, df['efficiency'])\n",
+            "rationale": "The current transformations consider the efficiency of nut cracking as the ratio of nuts opened to the seconds spent. They also consider different groupings based on the age, sex, help received, hammer type etc. We can consider a new transformation where we calculate the efficiency as the ratio of nuts opened to the seconds spent, but we penalize the efficiency by a factor if the chimpanzee received help. This is because if a chimpanzee received help, then the efficiency should not be considered the same as if the chimpanzee did not receive any help.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_chimpanzee'] = df.groupby('chimpanzee')['efficiency'\n    ].transform('mean')\n",
+            "rationale": "The existing transformations have considered efficiency as the ratio of nuts opened to seconds. They have also considered grouping by different variables like hammer, age, sex and help to calculate the mean efficiency. However, one aspect that has not been considered is the effect of the individual chimpanzee's experience. We could hypothesize that a chimpanzee who has been observed more often might have a higher efficiency due to more practice or natural skill. Therefore, a possible transformation could be to calculate the average efficiency for each chimpanzee over all their observations.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf_grp = df.groupby('sex')\ndf = df_grp['age'].mean().reset_index()\ndf.rename(columns={'age': 'avg_age_by_sex'}, inplace=True)\n",
+            "rationale": "The existing transformation does a good job of creating an interaction term between age and sex by first converting the categorical sex variable into a binary variable and then multiplying it with age. However, another way to operationalize the interaction between age and sex could be by grouping by sex and calculating the average age in each group. This would give us an idea of the average age of males and females, which can be considered as an interaction between the two variables.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_hammer_help'] = df.groupby(['hammer', 'help'])['efficiency'\n    ].transform('mean')\n",
+            "rationale": "The existing transformations for the conceptual variable \"Nut-cracking efficiency\" are primarily based on the number of nuts opened divided by the session duration in seconds. Some transformations also consider the type of hammer used, whether the chimpanzee received help, and the age and sex of the chimpanzee. An alternative transformation could consider the interaction of the type of hammer used and whether the chimpanzee received help. This transformation would be reasonable as it could reveal if certain types of hammers are more effective when used with help from another chimpanzee.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf_grp = df.groupby('sex')\ndf = df_grp['age'].mean().reset_index()\ndf.rename(columns={'age': 'avg_age_by_sex'}, inplace=True)\n",
+          "rationale": "The existing transformation does a good job of creating an interaction term between age and sex by first converting the categorical sex variable into a binary variable and then multiplying it with age. However, another way to operationalize the interaction between age and sex could be by grouping by sex and calculating the average age in each group. This would give us an idea of the average age of males and females, which can be considered as an interaction between the two variables.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Nut-cracking efficiency",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['efficiency2'] = df['nuts_opened'].replace(0, 0.01) / df['seconds']",
+            "rationale": "Replace opened nuts 0 by 0.01 to include the effect of session duration. derive the nut-cracking efficiency by dividing number of nuts by the session duration",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df = df.groupby(['chimpanzee', 'hammer']).agg(total_nuts_opened_hammer=(\n    'nuts_opened', 'sum')).reset_index()\n",
+            "rationale": "We want to operationalize the Nuts opened count based on the available data. The currently specified transformations consider various aggregations such as mean, median, max, min, standard deviation, and sum of nuts opened for each chimpanzee. They also consider the average nuts opened by age, hammer type, help received, and sex. Additionally, they consider the nuts opened per session and efficiency of nut cracking. Another way to consider calculating the nuts opened could be the total nuts opened by each chimpanzee for each age. We can also consider the total nuts opened by each chimpanzee for each hammer type.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency_per_hammer'] = df.groupby('hammer')['nuts_opened'].transform(\n    'sum') / df.groupby('hammer')['seconds'].transform('sum')\n",
+            "rationale": "The current transformations are considering the efficiency of nut-cracking in different ways like the number of nuts opened per second, the number of nuts opened per second per age, considering the help received from another chimpanzee, and grouping by different variables like age, sex, hammer, and chimpanzee id. Another way to consider calculating the efficiency could be based on the number of nuts opened per second per hammer type. This would provide insight into the efficiency of the chimpanzee when using different types of hammers.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_hammer_help'] = df.groupby(['hammer', 'help'])['efficiency'\n    ].transform('mean')\n",
+            "rationale": "The existing transformations for the conceptual variable \"Nut-cracking efficiency\" are primarily based on the number of nuts opened divided by the session duration in seconds. Some transformations also consider the type of hammer used, whether the chimpanzee received help, and the age and sex of the chimpanzee. An alternative transformation could consider the interaction of the type of hammer used and whether the chimpanzee received help. This transformation would be reasonable as it could reveal if certain types of hammers are more effective when used with help from another chimpanzee.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = df.groupby(['chimpanzee', 'hammer']).agg(total_nuts_opened_hammer=(\n    'nuts_opened', 'sum')).reset_index()\n",
+          "rationale": "We want to operationalize the Nuts opened count based on the available data. The currently specified transformations consider various aggregations such as mean, median, max, min, standard deviation, and sum of nuts opened for each chimpanzee. They also consider the average nuts opened by age, hammer type, help received, and sex. Additionally, they consider the nuts opened per session and efficiency of nut cracking. Another way to consider calculating the nuts opened could be the total nuts opened by each chimpanzee for each age. We can also consider the total nuts opened by each chimpanzee for each hammer type.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Nut-cracking efficiency",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df = df.groupby('chimpanzee').agg(avg_nuts_opened=('nuts_opened', 'mean')\n    ).reset_index()\n",
+            "rationale": "The existing transformations consider the raw count of nuts opened and the efficiency of nut cracking (nuts opened per second). Another way to represent the nuts opened count could be to consider the average number of nuts opened by each individual chimpanzee. This would give us a perspective on the individual efficiency of each chimpanzee in nut cracking.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['nuts_per_seconds'] = df['nuts_opened'] / df['seconds']",
+            "rationale": "Measures the nut-cracking efficiency",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['efficiency_per_hammer'] = df.groupby('hammer')['nuts_opened'].transform(\n    'sum') / df.groupby('hammer')['seconds'].transform('sum')\n",
+            "rationale": "The current transformations are considering the efficiency of nut-cracking in different ways like the number of nuts opened per second, the number of nuts opened per second per age, considering the help received from another chimpanzee, and grouping by different variables like age, sex, hammer, and chimpanzee id. Another way to consider calculating the efficiency could be based on the number of nuts opened per second per hammer type. This would provide insight into the efficiency of the chimpanzee when using different types of hammers.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_hammer'] = df.groupby('hammer')['efficiency'].transform(\n    'mean')\n",
+            "rationale": "The current transformations are calculating efficiency based on the number of nuts opened and the duration of the session. They also consider whether help was received from another chimpanzee. Another way to operationalize the efficiency could be to consider the type of hammer used in the process. We can calculate the efficiency separately for each type of hammer used.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = df.groupby('chimpanzee').agg(avg_nuts_opened=('nuts_opened', 'mean')\n    ).reset_index()\n",
+          "rationale": "The existing transformations consider the raw count of nuts opened and the efficiency of nut cracking (nuts opened per second). Another way to represent the nuts opened count could be to consider the average number of nuts opened by each individual chimpanzee. This would give us a perspective on the individual efficiency of each chimpanzee in nut cracking.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Nut-cracking efficiency",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['efficiency_per_hammer'] = df.groupby('hammer')['nuts_opened'].transform(\n    'sum') / df.groupby('hammer')['seconds'].transform('sum')\n",
+            "rationale": "The current transformations are considering the efficiency of nut-cracking in different ways like the number of nuts opened per second, the number of nuts opened per second per age, considering the help received from another chimpanzee, and grouping by different variables like age, sex, hammer, and chimpanzee id. Another way to consider calculating the efficiency could be based on the number of nuts opened per second per hammer type. This would provide insight into the efficiency of the chimpanzee when using different types of hammers.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['nut_cracking_efficiency'] = df['nuts_opened'] / df['seconds']\n",
+            "rationale": "The existing transformation directly uses the 'nuts_opened' column from the dataframe to represent the conceptual variable 'Nuts opened count'. An alternative transformation could be to create a new column that represents the efficiency of nut cracking. This could be calculated as the number of nuts opened per second.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency_with_help'] = np.where(df['help'] == 'y', df['nuts_opened'] /\n    (2 * df['seconds']), df['nuts_opened'] / df['seconds'])\n",
+            "rationale": "The existing transformations already calculate the efficiency of nut-cracking by dividing the number of nuts opened by the duration of the session. This indeed seems to be a reasonable way to operationalize nut-cracking efficiency. However, another way to consider this could be to incorporate the 'help' variable into the calculation. If a chimpanzee received help, this might artificially inflate their perceived efficiency. Therefore, we could create a new variable that takes into account whether the chimpanzee received help or not.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_hammer_help'] = df.groupby(['hammer', 'help'])['efficiency'\n    ].transform('mean')\n",
+            "rationale": "The existing transformations for the conceptual variable \"Nut-cracking efficiency\" are primarily based on the number of nuts opened divided by the session duration in seconds. Some transformations also consider the type of hammer used, whether the chimpanzee received help, and the age and sex of the chimpanzee. An alternative transformation could consider the interaction of the type of hammer used and whether the chimpanzee received help. This transformation would be reasonable as it could reveal if certain types of hammers are more effective when used with help from another chimpanzee.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['nut_cracking_efficiency'] = df['nuts_opened'] / df['seconds']\n",
+          "rationale": "The existing transformation directly uses the 'nuts_opened' column from the dataframe to represent the conceptual variable 'Nuts opened count'. An alternative transformation could be to create a new column that represents the efficiency of nut cracking. This could be calculated as the number of nuts opened per second.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Nut-cracking efficiency",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['efficiency_per_hammer'] = df.groupby('hammer')['nuts_opened'].transform(\n    'sum') / df.groupby('hammer')['seconds'].transform('sum')\n",
+            "rationale": "The current transformations are considering the efficiency of nut-cracking in different ways like the number of nuts opened per second, the number of nuts opened per second per age, considering the help received from another chimpanzee, and grouping by different variables like age, sex, hammer, and chimpanzee id. Another way to consider calculating the efficiency could be based on the number of nuts opened per second per hammer type. This would provide insight into the efficiency of the chimpanzee when using different types of hammers.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['nuts_per_seconds'] = df['nuts_opened'] / df['seconds']",
+            "rationale": "Measures the nut-cracking efficiency",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 0, 'f': 1})\ndf['adult_female'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations have used various ways to operationalize the interaction term between age and sex. They have considered creating dummy variables for sex, calculating average age by sex, creating an interaction term between age, sex and efficiency, etc. They have also considered binning the age into different groups and calculating the interaction term. Another transformation we could consider is to create a binary variable indicating whether the chimpanzee is an adult female (age >= 12 and sex == 'f').",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency_with_help'] = np.where(df['help'] == 'y', df['nuts_opened'] /\n    (2 * df['seconds']), df['nuts_opened'] / df['seconds'])\n",
+            "rationale": "The existing transformations already calculate the efficiency of nut-cracking by dividing the number of nuts opened by the duration of the session. This indeed seems to be a reasonable way to operationalize nut-cracking efficiency. However, another way to consider this could be to incorporate the 'help' variable into the calculation. If a chimpanzee received help, this might artificially inflate their perceived efficiency. Therefore, we could create a new variable that takes into account whether the chimpanzee received help or not.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['sex'] = df['sex'].map({'m': 0, 'f': 1})\ndf['adult_female'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+          "rationale": "The existing transformations have used various ways to operationalize the interaction term between age and sex. They have considered creating dummy variables for sex, calculating average age by sex, creating an interaction term between age, sex and efficiency, etc. They have also considered binning the age into different groups and calculating the interaction term. Another transformation we could consider is to create a binary variable indicating whether the chimpanzee is an adult female (age >= 12 and sex == 'f').",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Nut-cracking efficiency",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['sex_binary'] = df['sex'].map({'m': 0, 'f': 1})",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['efficiency2'] = df['nuts_opened'].replace(0, 0.01) / df['seconds']",
+            "rationale": "Replace opened nuts 0 by 0.01 to include the effect of session duration. derive the nut-cracking efficiency by dividing number of nuts by the session duration",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['penalized_efficiency'] = np.where(df['help'] == 'y', df['efficiency'] *\n    0.5, df['efficiency'])\n",
+            "rationale": "The current transformations consider the efficiency of nut cracking as the ratio of nuts opened to the seconds spent. They also consider different groupings based on the age, sex, help received, hammer type etc. We can consider a new transformation where we calculate the efficiency as the ratio of nuts opened to the seconds spent, but we penalize the efficiency by a factor if the chimpanzee received help. This is because if a chimpanzee received help, then the efficiency should not be considered the same as if the chimpanzee did not receive any help.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_hammer_help'] = df.groupby(['hammer', 'help'])['efficiency'\n    ].transform('mean')\n",
+            "rationale": "The existing transformations for the conceptual variable \"Nut-cracking efficiency\" are primarily based on the number of nuts opened divided by the session duration in seconds. Some transformations also consider the type of hammer used, whether the chimpanzee received help, and the age and sex of the chimpanzee. An alternative transformation could consider the interaction of the type of hammer used and whether the chimpanzee received help. This transformation would be reasonable as it could reveal if certain types of hammers are more effective when used with help from another chimpanzee.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['sex_binary'] = df['sex'].map({'m': 0, 'f': 1})",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Nut-cracking efficiency",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df = pd.get_dummies(df, columns=['sex'], drop_first=True)\ndf['age_sex_interaction'] = df['age'] * df['sex_m']",
+            "rationale": "use dummy encoding to encode the variable sex\ncreate an interaction term between age and sex because the relationship between age and nut-cracking efficiency varies by sex",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['efficiency2'] = df['nuts_opened'].replace(0, 0.01) / df['seconds']",
+            "rationale": "Replace opened nuts 0 by 0.01 to include the effect of session duration. derive the nut-cracking efficiency by dividing number of nuts by the session duration",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_chimpanzee'] = df.groupby('chimpanzee')['efficiency'\n    ].transform('mean')\n",
+            "rationale": "The existing transformations have considered efficiency as the ratio of nuts opened to seconds. They have also considered grouping by different variables like hammer, age, sex and help to calculate the mean efficiency. However, one aspect that has not been considered is the effect of the individual chimpanzee's experience. We could hypothesize that a chimpanzee who has been observed more often might have a higher efficiency due to more practice or natural skill. Therefore, a possible transformation could be to calculate the average efficiency for each chimpanzee over all their observations.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency_per_hammer'] = df.groupby('hammer')['nuts_opened'].transform(\n    'sum') / df.groupby('hammer')['seconds'].transform('sum')\n",
+            "rationale": "The current transformations are considering the efficiency of nut-cracking in different ways like the number of nuts opened per second, the number of nuts opened per second per age, considering the help received from another chimpanzee, and grouping by different variables like age, sex, hammer, and chimpanzee id. Another way to consider calculating the efficiency could be based on the number of nuts opened per second per hammer type. This would provide insight into the efficiency of the chimpanzee when using different types of hammers.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['sex'], drop_first=True)\ndf['age_sex_interaction'] = df['age'] * df['sex_m']",
+          "rationale": "use dummy encoding to encode the variable sex\ncreate an interaction term between age and sex because the relationship between age and nut-cracking efficiency varies by sex",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Nuts opened count": [
+      {
+        "coneptual_var_str": "Nuts opened count",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['nut_cracking_efficiency'] = df['nuts_opened'] / df['seconds']\n",
+            "rationale": "The existing transformation directly uses the 'nuts_opened' column from the dataframe to represent the conceptual variable 'Nuts opened count'. An alternative transformation could be to create a new column that represents the efficiency of nut cracking. This could be calculated as the number of nuts opened per second.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = df.groupby(['chimpanzee', 'hammer']).agg(total_nuts_opened_hammer=(\n    'nuts_opened', 'sum')).reset_index()\n",
+            "rationale": "We want to operationalize the Nuts opened count based on the available data. The currently specified transformations consider various aggregations such as mean, median, max, min, standard deviation, and sum of nuts opened for each chimpanzee. They also consider the average nuts opened by age, hammer type, help received, and sex. Additionally, they consider the nuts opened per session and efficiency of nut cracking. Another way to consider calculating the nuts opened could be the total nuts opened by each chimpanzee for each age. We can also consider the total nuts opened by each chimpanzee for each hammer type.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = df.groupby('chimpanzee').agg(avg_nuts_opened=('nuts_opened', 'mean')\n    ).reset_index()\n",
+            "rationale": "The existing transformations consider the raw count of nuts opened and the efficiency of nut cracking (nuts opened per second). Another way to represent the nuts opened count could be to consider the average number of nuts opened by each individual chimpanzee. This would give us a perspective on the individual efficiency of each chimpanzee in nut cracking.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['penalized_efficiency'] = np.where(df['help'] == 'y', df['efficiency'] *\n    0.5, df['efficiency'])\n",
+            "rationale": "The current transformations consider the efficiency of nut cracking as the ratio of nuts opened to the seconds spent. They also consider different groupings based on the age, sex, help received, hammer type etc. We can consider a new transformation where we calculate the efficiency as the ratio of nuts opened to the seconds spent, but we penalize the efficiency by a factor if the chimpanzee received help. This is because if a chimpanzee received help, then the efficiency should not be considered the same as if the chimpanzee did not receive any help.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['penalized_efficiency'] = np.where(df['help'] == 'y', df['efficiency'] *\n    0.5, df['efficiency'])\n",
+          "rationale": "The current transformations consider the efficiency of nut cracking as the ratio of nuts opened to the seconds spent. They also consider different groupings based on the age, sex, help received, hammer type etc. We can consider a new transformation where we calculate the efficiency as the ratio of nuts opened to the seconds spent, but we penalize the efficiency by a factor if the chimpanzee received help. This is because if a chimpanzee received help, then the efficiency should not be considered the same as if the chimpanzee did not receive any help.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Nuts opened count",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df = df.groupby('chimpanzee').agg(total_nuts_opened=('nuts_opened', 'sum')\n    ).reset_index()\n",
+            "rationale": "The existing transformations calculate the direct count of nuts opened, the efficiency of nut cracking considering the time taken, and the average number of nuts opened by each chimpanzee. Another way to represent the variable could be to calculate the total number of nuts opened by each chimpanzee across all sessions. This would give a cumulative measure of the nut cracking ability of each chimpanzee.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = df.groupby('chimpanzee').agg(avg_nuts_opened=('nuts_opened', 'mean')\n    ).reset_index()\n",
+            "rationale": "The existing transformations consider the raw count of nuts opened and the efficiency of nut cracking (nuts opened per second). Another way to represent the nuts opened count could be to consider the average number of nuts opened by each individual chimpanzee. This would give us a perspective on the individual efficiency of each chimpanzee in nut cracking.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = df.groupby(['chimpanzee', 'hammer']).agg(total_nuts_opened_hammer=(\n    'nuts_opened', 'sum')).reset_index()\n",
+            "rationale": "We want to operationalize the Nuts opened count based on the available data. The currently specified transformations consider various aggregations such as mean, median, max, min, standard deviation, and sum of nuts opened for each chimpanzee. They also consider the average nuts opened by age, hammer type, help received, and sex. Additionally, they consider the nuts opened per session and efficiency of nut cracking. Another way to consider calculating the nuts opened could be the total nuts opened by each chimpanzee for each age. We can also consider the total nuts opened by each chimpanzee for each hammer type.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_hammer_help'] = df.groupby(['hammer', 'help'])['efficiency'\n    ].transform('mean')\n",
+            "rationale": "The existing transformations for the conceptual variable \"Nut-cracking efficiency\" are primarily based on the number of nuts opened divided by the session duration in seconds. Some transformations also consider the type of hammer used, whether the chimpanzee received help, and the age and sex of the chimpanzee. An alternative transformation could consider the interaction of the type of hammer used and whether the chimpanzee received help. This transformation would be reasonable as it could reveal if certain types of hammers are more effective when used with help from another chimpanzee.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_hammer_help'] = df.groupby(['hammer', 'help'])['efficiency'\n    ].transform('mean')\n",
+          "rationale": "The existing transformations for the conceptual variable \"Nut-cracking efficiency\" are primarily based on the number of nuts opened divided by the session duration in seconds. Some transformations also consider the type of hammer used, whether the chimpanzee received help, and the age and sex of the chimpanzee. An alternative transformation could consider the interaction of the type of hammer used and whether the chimpanzee received help. This transformation would be reasonable as it could reveal if certain types of hammers are more effective when used with help from another chimpanzee.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Nuts opened count",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df = df.groupby('chimpanzee').agg(avg_nuts_opened=('nuts_opened', 'mean')\n    ).reset_index()\n",
+            "rationale": "The existing transformations consider the raw count of nuts opened and the efficiency of nut cracking (nuts opened per second). Another way to represent the nuts opened count could be to consider the average number of nuts opened by each individual chimpanzee. This would give us a perspective on the individual efficiency of each chimpanzee in nut cracking.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = df.groupby('chimpanzee').agg(total_nuts_opened=('nuts_opened', 'sum')\n    ).reset_index()\n",
+            "rationale": "The existing transformations calculate the direct count of nuts opened, the efficiency of nut cracking considering the time taken, and the average number of nuts opened by each chimpanzee. Another way to represent the variable could be to calculate the total number of nuts opened by each chimpanzee across all sessions. This would give a cumulative measure of the nut cracking ability of each chimpanzee.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = df.groupby(['chimpanzee', 'hammer']).agg(total_nuts_opened_hammer=(\n    'nuts_opened', 'sum')).reset_index()\n",
+            "rationale": "We want to operationalize the Nuts opened count based on the available data. The currently specified transformations consider various aggregations such as mean, median, max, min, standard deviation, and sum of nuts opened for each chimpanzee. They also consider the average nuts opened by age, hammer type, help received, and sex. Additionally, they consider the nuts opened per session and efficiency of nut cracking. Another way to consider calculating the nuts opened could be the total nuts opened by each chimpanzee for each age. We can also consider the total nuts opened by each chimpanzee for each hammer type.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency_with_help'] = np.where(df['help'] == 'y', df['nuts_opened'] /\n    (2 * df['seconds']), df['nuts_opened'] / df['seconds'])\n",
+            "rationale": "The existing transformations already calculate the efficiency of nut-cracking by dividing the number of nuts opened by the duration of the session. This indeed seems to be a reasonable way to operationalize nut-cracking efficiency. However, another way to consider this could be to incorporate the 'help' variable into the calculation. If a chimpanzee received help, this might artificially inflate their perceived efficiency. Therefore, we could create a new variable that takes into account whether the chimpanzee received help or not.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['efficiency_with_help'] = np.where(df['help'] == 'y', df['nuts_opened'] /\n    (2 * df['seconds']), df['nuts_opened'] / df['seconds'])\n",
+          "rationale": "The existing transformations already calculate the efficiency of nut-cracking by dividing the number of nuts opened by the duration of the session. This indeed seems to be a reasonable way to operationalize nut-cracking efficiency. However, another way to consider this could be to incorporate the 'help' variable into the calculation. If a chimpanzee received help, this might artificially inflate their perceived efficiency. Therefore, we could create a new variable that takes into account whether the chimpanzee received help or not.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Interaction term between age and sex": [
+      {
+        "coneptual_var_str": "Interaction term between age and sex",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['adult_male'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations produce various interaction terms between age and sex, such as the average, standard deviation, and median age by sex, as well as the proportion of each sex within age groups. Another possible transformation could be to create a column that indicates whether the individual is an adult male or not, as adult males might have different nut-cracking efficiency than other groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_group'] = pd.cut(df['age'], bins=[0, 5, 10, 15, 20], labels=[\n    'young', 'middle', 'old', 'very_old'])\ndf['age_sex_interaction'] = df['age_group'].astype(str) + '_' + df['sex']\n",
+            "rationale": "We want to operationalize the interaction term between age and sex based on the available data. The currently specified transformations consider the mean, standard deviation, median, and proportion of age by sex, as well as the interaction between age, sex, and efficiency. One possible alternative transformation could be to create a categorical variable that represents the interaction between age group and sex. For instance, we could create age groups (e.g., 'young', 'middle', 'old') and then create an interaction term between these age groups and sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['age_sex_efficiency'] = df['age'] * df['sex'] * df['efficiency']\n",
+            "rationale": "The existing transformations are calculating the interaction between age and sex and also the average age for each sex. However, we can also consider the interaction between age and sex in terms of the nut-cracking efficiency (nuts_opened/seconds). This will operationalize the conceptual variable by considering how the efficiency of nut-cracking varies with age and sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex_help_interaction'] = df['sex'].map({'m': 0, 'f': 1}) * df['help'].map({\n    'N': 0, 'y': 1})\n",
+            "rationale": "The sex of the chimpanzee is already represented as a binary categorical variable in the dataset. The existing transformations have covered the direct use of the variable, binary encoding, one-hot encoding, and interaction with age. Another potential transformation could be to create an interaction term between sex and whether the chimpanzee received help or not. This might capture the combined influence of sex and receiving help on the nut-cracking efficiency.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['sex_help_interaction'] = df['sex'].map({'m': 0, 'f': 1}) * df['help'].map({\n    'N': 0, 'y': 1})\n",
+          "rationale": "The sex of the chimpanzee is already represented as a binary categorical variable in the dataset. The existing transformations have covered the direct use of the variable, binary encoding, one-hot encoding, and interaction with age. Another potential transformation could be to create an interaction term between sex and whether the chimpanzee received help or not. This might capture the combined influence of sex and receiving help on the nut-cracking efficiency.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term between age and sex",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df = pd.get_dummies(df, columns=['sex'], drop_first=True)\ndf['age_sex_interaction'] = df['age'] * df['sex_m']",
+            "rationale": "use dummy encoding to encode the variable sex\ncreate an interaction term between age and sex because the relationship between age and nut-cracking efficiency varies by sex",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['age_group'] = pd.cut(df['age'], bins=[0, 5, 10, 15, 20], labels=[\n    'young', 'middle', 'old', 'very_old'])\ndf['age_sex_interaction'] = df['age_group'].astype(str) + '_' + df['sex']\n",
+            "rationale": "We want to operationalize the interaction term between age and sex based on the available data. The currently specified transformations consider the mean, standard deviation, median, and proportion of age by sex, as well as the interaction between age, sex, and efficiency. One possible alternative transformation could be to create a categorical variable that represents the interaction between age group and sex. For instance, we could create age groups (e.g., 'young', 'middle', 'old') and then create an interaction term between these age groups and sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_chimpanzee'] = df.groupby('chimpanzee')['efficiency'\n    ].transform('mean')\n",
+            "rationale": "The existing transformations have considered efficiency as the ratio of nuts opened to seconds. They have also considered grouping by different variables like hammer, age, sex and help to calculate the mean efficiency. However, one aspect that has not been considered is the effect of the individual chimpanzee's experience. We could hypothesize that a chimpanzee who has been observed more often might have a higher efficiency due to more practice or natural skill. Therefore, a possible transformation could be to calculate the average efficiency for each chimpanzee over all their observations.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['age_group'] = np.where(df['age'] < 10, 0, 1)\ndf['age_sex_interaction'] = df['age_group'] * df['sex']\n",
+            "rationale": "The existing transformations have already captured the interaction between age and sex in various ways including creating an interaction term directly, calculating efficiency and then creating an interaction term, creating age groups and then interacting with sex, etc. Another approach could be to binarize the age variable into two groups (e.g., less than 10 years and greater than or equal to 10 years) and then interact this binary age variable with sex.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['efficiency_by_chimpanzee'] = df.groupby('chimpanzee')['efficiency'\n    ].transform('mean')\n",
+          "rationale": "The existing transformations have considered efficiency as the ratio of nuts opened to seconds. They have also considered grouping by different variables like hammer, age, sex and help to calculate the mean efficiency. However, one aspect that has not been considered is the effect of the individual chimpanzee's experience. We could hypothesize that a chimpanzee who has been observed more often might have a higher efficiency due to more practice or natural skill. Therefore, a possible transformation could be to calculate the average efficiency for each chimpanzee over all their observations.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term between age and sex",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['efficiency2'] = df['nuts_opened'].replace(0, 0.01) / df['seconds']",
+            "rationale": "Replace opened nuts 0 by 0.01 to include the effect of session duration. derive the nut-cracking efficiency by dividing number of nuts by the session duration",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf_grp = df.groupby('sex')\ndf = df_grp['age'].mean().reset_index()\ndf.rename(columns={'age': 'avg_age_by_sex'}, inplace=True)\n",
+            "rationale": "The existing transformation does a good job of creating an interaction term between age and sex by first converting the categorical sex variable into a binary variable and then multiplying it with age. However, another way to operationalize the interaction between age and sex could be by grouping by sex and calculating the average age in each group. This would give us an idea of the average age of males and females, which can be considered as an interaction between the two variables.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['age_sex_efficiency'] = df['age'] * df['sex'] * df['efficiency']\n",
+            "rationale": "The existing transformations are calculating the interaction between age and sex and also the average age for each sex. However, we can also consider the interaction between age and sex in terms of the nut-cracking efficiency (nuts_opened/seconds). This will operationalize the conceptual variable by considering how the efficiency of nut-cracking varies with age and sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_group'] = pd.cut(df['age'], bins=[0, 5, 10, 15, 20], labels=[\n    'young', 'middle', 'old', 'very_old'])\ndf['age_sex_interaction'] = df['age_group'].astype(str) + '_' + df['sex']\n",
+            "rationale": "We want to operationalize the interaction term between age and sex based on the available data. The currently specified transformations consider the mean, standard deviation, median, and proportion of age by sex, as well as the interaction between age, sex, and efficiency. One possible alternative transformation could be to create a categorical variable that represents the interaction between age group and sex. For instance, we could create age groups (e.g., 'young', 'middle', 'old') and then create an interaction term between these age groups and sex.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['efficiency2'] = df['nuts_opened'].replace(0, 0.01) / df['seconds']",
+          "rationale": "Replace opened nuts 0 by 0.01 to include the effect of session duration. derive the nut-cracking efficiency by dividing number of nuts by the session duration",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term between age and sex",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['age_group'] = np.where(df['age'] < 10, 0, 1)\ndf['age_sex_interaction'] = df['age_group'] * df['sex']\n",
+            "rationale": "The existing transformations have already captured the interaction between age and sex in various ways including creating an interaction term directly, calculating efficiency and then creating an interaction term, creating age groups and then interacting with sex, etc. Another approach could be to binarize the age variable into two groups (e.g., less than 10 years and greater than or equal to 10 years) and then interact this binary age variable with sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = df.groupby('chimpanzee').agg(total_nuts_opened=('nuts_opened', 'sum')\n    ).reset_index()\n",
+            "rationale": "The existing transformations calculate the direct count of nuts opened, the efficiency of nut cracking considering the time taken, and the average number of nuts opened by each chimpanzee. Another way to represent the variable could be to calculate the total number of nuts opened by each chimpanzee across all sessions. This would give a cumulative measure of the nut cracking ability of each chimpanzee.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf_grp = df.groupby('sex')\ndf = df_grp['age'].mean().reset_index()\ndf.rename(columns={'age': 'avg_age_by_sex'}, inplace=True)\n",
+            "rationale": "The existing transformation does a good job of creating an interaction term between age and sex by first converting the categorical sex variable into a binary variable and then multiplying it with age. However, another way to operationalize the interaction between age and sex could be by grouping by sex and calculating the average age in each group. This would give us an idea of the average age of males and females, which can be considered as an interaction between the two variables.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 0, 'f': 1})\ndf['adult_female'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations have used various ways to operationalize the interaction term between age and sex. They have considered creating dummy variables for sex, calculating average age by sex, creating an interaction term between age, sex and efficiency, etc. They have also considered binning the age into different groups and calculating the interaction term. Another transformation we could consider is to create a binary variable indicating whether the chimpanzee is an adult female (age >= 12 and sex == 'f').",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = df.groupby('chimpanzee').agg(total_nuts_opened=('nuts_opened', 'sum')\n    ).reset_index()\n",
+          "rationale": "The existing transformations calculate the direct count of nuts opened, the efficiency of nut cracking considering the time taken, and the average number of nuts opened by each chimpanzee. Another way to represent the variable could be to calculate the total number of nuts opened by each chimpanzee across all sessions. This would give a cumulative measure of the nut cracking ability of each chimpanzee.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term between age and sex",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df = pd.get_dummies(df, columns=['sex'], drop_first=True)\ndf['age_sex_interaction'] = df['age'] * df['sex_m']",
+            "rationale": "use dummy encoding to encode the variable sex\ncreate an interaction term between age and sex because the relationship between age and nut-cracking efficiency varies by sex",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['age_group'] = np.where(df['age'] < 10, 0, 1)\ndf['age_sex_interaction'] = df['age_group'] * df['sex']\n",
+            "rationale": "The existing transformations have already captured the interaction between age and sex in various ways including creating an interaction term directly, calculating efficiency and then creating an interaction term, creating age groups and then interacting with sex, etc. Another approach could be to binarize the age variable into two groups (e.g., less than 10 years and greater than or equal to 10 years) and then interact this binary age variable with sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['adult_male'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations produce various interaction terms between age and sex, such as the average, standard deviation, and median age by sex, as well as the proportion of each sex within age groups. Another possible transformation could be to create a column that indicates whether the individual is an adult male or not, as adult males might have different nut-cracking efficiency than other groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = pd.get_dummies(df, columns=['hammer'])",
+            "rationale": "use one hot encoding to encode hammer",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['hammer'])",
+          "rationale": "use one hot encoding to encode hammer",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term between age and sex",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['age_group'] = pd.cut(df['age'], bins=[0, 5, 10, 15, 20], labels=[\n    'young', 'middle', 'old', 'very_old'])\ndf['age_sex_interaction'] = df['age_group'].astype(str) + '_' + df['sex']\n",
+            "rationale": "We want to operationalize the interaction term between age and sex based on the available data. The currently specified transformations consider the mean, standard deviation, median, and proportion of age by sex, as well as the interaction between age, sex, and efficiency. One possible alternative transformation could be to create a categorical variable that represents the interaction between age group and sex. For instance, we could create age groups (e.g., 'young', 'middle', 'old') and then create an interaction term between these age groups and sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['adult_male'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations produce various interaction terms between age and sex, such as the average, standard deviation, and median age by sex, as well as the proportion of each sex within age groups. Another possible transformation could be to create a column that indicates whether the individual is an adult male or not, as adult males might have different nut-cracking efficiency than other groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency_with_help'] = np.where(df['help'] == 'y', df['nuts_opened'] /\n    (2 * df['seconds']), df['nuts_opened'] / df['seconds'])\n",
+            "rationale": "The existing transformations already calculate the efficiency of nut-cracking by dividing the number of nuts opened by the duration of the session. This indeed seems to be a reasonable way to operationalize nut-cracking efficiency. However, another way to consider this could be to incorporate the 'help' variable into the calculation. If a chimpanzee received help, this might artificially inflate their perceived efficiency. Therefore, we could create a new variable that takes into account whether the chimpanzee received help or not.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['help'] = df['help'].map({'y': 1, 'N': 0})\ndf['age_sex_help_interaction'] = df['age'] * df['sex'] * df['help']\n",
+            "rationale": "We want to operationalize the interaction term between age and sex. The existing transformations consider creating dummy variables for sex, calculating average age by sex, creating an interaction term between age, sex and efficiency, calculating the standard deviation of age by sex, calculating the proportion of each sex in each age group, and identifying if the individual is an adult male or female. An alternative transformation could be to create an interaction term between age, sex and if the chimpanzee received help or not.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['efficiency_with_help'] = np.where(df['help'] == 'y', df['nuts_opened'] /\n    (2 * df['seconds']), df['nuts_opened'] / df['seconds'])\n",
+          "rationale": "The existing transformations already calculate the efficiency of nut-cracking by dividing the number of nuts opened by the duration of the session. This indeed seems to be a reasonable way to operationalize nut-cracking efficiency. However, another way to consider this could be to incorporate the 'help' variable into the calculation. If a chimpanzee received help, this might artificially inflate their perceived efficiency. Therefore, we could create a new variable that takes into account whether the chimpanzee received help or not.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Interaction term between age and sex",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['adult_male'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations produce various interaction terms between age and sex, such as the average, standard deviation, and median age by sex, as well as the proportion of each sex within age groups. Another possible transformation could be to create a column that indicates whether the individual is an adult male or not, as adult males might have different nut-cracking efficiency than other groups.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency_per_hammer'] = df.groupby('hammer')['nuts_opened'].transform(\n    'sum') / df.groupby('hammer')['seconds'].transform('sum')\n",
+            "rationale": "The current transformations are considering the efficiency of nut-cracking in different ways like the number of nuts opened per second, the number of nuts opened per second per age, considering the help received from another chimpanzee, and grouping by different variables like age, sex, hammer, and chimpanzee id. Another way to consider calculating the efficiency could be based on the number of nuts opened per second per hammer type. This would provide insight into the efficiency of the chimpanzee when using different types of hammers.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['help'] = df['help'].map({'y': 1, 'N': 0})\ndf['age_sex_help_interaction'] = df['age'] * df['sex'] * df['help']\n",
+            "rationale": "We want to operationalize the interaction term between age and sex. The existing transformations consider creating dummy variables for sex, calculating average age by sex, creating an interaction term between age, sex and efficiency, calculating the standard deviation of age by sex, calculating the proportion of each sex in each age group, and identifying if the individual is an adult male or female. An alternative transformation could be to create an interaction term between age, sex and if the chimpanzee received help or not.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = pd.get_dummies(df, columns=['sex'], drop_first=True)\ndf['age_sex_interaction'] = df['age'] * df['sex_m']",
+            "rationale": "use dummy encoding to encode the variable sex\ncreate an interaction term between age and sex because the relationship between age and nut-cracking efficiency varies by sex",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['efficiency_per_hammer'] = df.groupby('hammer')['nuts_opened'].transform(\n    'sum') / df.groupby('hammer')['seconds'].transform('sum')\n",
+          "rationale": "The current transformations are considering the efficiency of nut-cracking in different ways like the number of nuts opened per second, the number of nuts opened per second per age, considering the help received from another chimpanzee, and grouping by different variables like age, sex, hammer, and chimpanzee id. Another way to consider calculating the efficiency could be based on the number of nuts opened per second per hammer type. This would provide insight into the efficiency of the chimpanzee when using different types of hammers.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Sex of chimpanzee": [
+      {
+        "coneptual_var_str": "Sex of chimpanzee",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['sex_help_interaction'] = df['sex'].map({'m': 0, 'f': 1}) * df['help'].map({\n    'N': 0, 'y': 1})\n",
+            "rationale": "The sex of the chimpanzee is already represented as a binary categorical variable in the dataset. The existing transformations have covered the direct use of the variable, binary encoding, one-hot encoding, and interaction with age. Another potential transformation could be to create an interaction term between sex and whether the chimpanzee received help or not. This might capture the combined influence of sex and receiving help on the nut-cracking efficiency.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf_grp = df.groupby('sex')\ndf = df_grp['age'].mean().reset_index()\ndf.rename(columns={'age': 'avg_age_by_sex'}, inplace=True)\n",
+            "rationale": "The existing transformation does a good job of creating an interaction term between age and sex by first converting the categorical sex variable into a binary variable and then multiplying it with age. However, another way to operationalize the interaction between age and sex could be by grouping by sex and calculating the average age in each group. This would give us an idea of the average age of males and females, which can be considered as an interaction between the two variables.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex_age_interaction'] = df['sex'].map({'m': 0, 'f': 1}) * df['age']\n",
+            "rationale": "We want to operationalize the sex of the chimpanzee based on the available data. The currently specified transformations consider the original column \"sex\", transforming sex to binary representation, and creating dummy variables from sex. Another way to consider representing sex could be based on the interaction with other variables, for example, the interaction of sex and age.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex_binary'] = df['sex'].map({'m': 0, 'f': 1})",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf_grp = df.groupby('sex')\ndf = df_grp['age'].mean().reset_index()\ndf.rename(columns={'age': 'avg_age_by_sex'}, inplace=True)\n",
+          "rationale": "The existing transformation does a good job of creating an interaction term between age and sex by first converting the categorical sex variable into a binary variable and then multiplying it with age. However, another way to operationalize the interaction between age and sex could be by grouping by sex and calculating the average age in each group. This would give us an idea of the average age of males and females, which can be considered as an interaction between the two variables.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Sex of chimpanzee",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['sex_age_interaction'] = df['sex'].map({'m': 0, 'f': 1}) * df['age']\n",
+            "rationale": "We want to operationalize the sex of the chimpanzee based on the available data. The currently specified transformations consider the original column \"sex\", transforming sex to binary representation, and creating dummy variables from sex. Another way to consider representing sex could be based on the interaction with other variables, for example, the interaction of sex and age.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex_binary'] = df['sex'].map({'m': 0, 'f': 1})",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df = pd.get_dummies(df, columns=['help'], drop_first=True)",
+            "rationale": "use dummy encoding to encode received help",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['sex_help_interaction'] = df['sex'].map({'m': 0, 'f': 1}) * df['help'].map({\n    'N': 0, 'y': 1})\n",
+            "rationale": "The sex of the chimpanzee is already represented as a binary categorical variable in the dataset. The existing transformations have covered the direct use of the variable, binary encoding, one-hot encoding, and interaction with age. Another potential transformation could be to create an interaction term between sex and whether the chimpanzee received help or not. This might capture the combined influence of sex and receiving help on the nut-cracking efficiency.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['help'], drop_first=True)",
+          "rationale": "use dummy encoding to encode received help",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Sex of chimpanzee",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['sex_age_interaction'] = df['sex'].map({'m': 0, 'f': 1}) * df['age']\n",
+            "rationale": "We want to operationalize the sex of the chimpanzee based on the available data. The currently specified transformations consider the original column \"sex\", transforming sex to binary representation, and creating dummy variables from sex. Another way to consider representing sex could be based on the interaction with other variables, for example, the interaction of sex and age.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex_help_interaction'] = df['sex'].map({'m': 0, 'f': 1}) * df['help'].map({\n    'N': 0, 'y': 1})\n",
+            "rationale": "The sex of the chimpanzee is already represented as a binary categorical variable in the dataset. The existing transformations have covered the direct use of the variable, binary encoding, one-hot encoding, and interaction with age. Another potential transformation could be to create an interaction term between sex and whether the chimpanzee received help or not. This might capture the combined influence of sex and receiving help on the nut-cracking efficiency.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['nuts_per_seconds'] = df['nuts_opened'] / df['seconds']",
+            "rationale": "Measures the nut-cracking efficiency",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['sex_binary'] = df['sex'].map({'m': 0, 'f': 1})",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['nuts_per_seconds'] = df['nuts_opened'] / df['seconds']",
+          "rationale": "Measures the nut-cracking efficiency",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "If received help from another chimpanzee": [
+      {
+        "coneptual_var_str": "If received help from another chimpanzee",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df = df.groupby('chimpanzee').agg(total_nuts_opened=('nuts_opened', 'sum')\n    ).reset_index()\n",
+            "rationale": "The existing transformations calculate the direct count of nuts opened, the efficiency of nut cracking considering the time taken, and the average number of nuts opened by each chimpanzee. Another way to represent the variable could be to calculate the total number of nuts opened by each chimpanzee across all sessions. This would give a cumulative measure of the nut cracking ability of each chimpanzee.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['age_group'] = pd.cut(df['age'], bins=[0, 5, 10, 15, 20], labels=[\n    'young', 'middle', 'old', 'very_old'])\ndf['age_sex_interaction'] = df['age_group'].astype(str) + '_' + df['sex']\n",
+            "rationale": "We want to operationalize the interaction term between age and sex based on the available data. The currently specified transformations consider the mean, standard deviation, median, and proportion of age by sex, as well as the interaction between age, sex, and efficiency. One possible alternative transformation could be to create a categorical variable that represents the interaction between age group and sex. For instance, we could create age groups (e.g., 'young', 'middle', 'old') and then create an interaction term between these age groups and sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 0, 'f': 1})\ndf['adult_female'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations have used various ways to operationalize the interaction term between age and sex. They have considered creating dummy variables for sex, calculating average age by sex, creating an interaction term between age, sex and efficiency, etc. They have also considered binning the age into different groups and calculating the interaction term. Another transformation we could consider is to create a binary variable indicating whether the chimpanzee is an adult female (age >= 12 and sex == 'f').",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df = pd.get_dummies(df, columns=['help'], drop_first=True)",
+            "rationale": "use dummy encoding to encode received help",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['help'], drop_first=True)",
+          "rationale": "use dummy encoding to encode received help",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Hammer types": [
+      {
+        "coneptual_var_str": "Hammer types",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df = df.groupby('chimpanzee').agg(avg_nuts_opened=('nuts_opened', 'mean')\n    ).reset_index()\n",
+            "rationale": "The existing transformations consider the raw count of nuts opened and the efficiency of nut cracking (nuts opened per second). Another way to represent the nuts opened count could be to consider the average number of nuts opened by each individual chimpanzee. This would give us a perspective on the individual efficiency of each chimpanzee in nut cracking.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['hammer'] = df['hammer'].replace({'L': 'O', 'wood': 'O', 'Q': 'O'})\ndf = pd.get_dummies(df, columns=['hammer'], drop_first=True)",
+            "rationale": "classify L,Q and wood as others and then use dummy encoding to encode hammer",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['age_sex_efficiency'] = df['age'] * df['sex'] * df['efficiency']\n",
+            "rationale": "The existing transformations are calculating the interaction between age and sex and also the average age for each sex. However, we can also consider the interaction between age and sex in terms of the nut-cracking efficiency (nuts_opened/seconds). This will operationalize the conceptual variable by considering how the efficiency of nut-cracking varies with age and sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 0, 'f': 1})\ndf['adult_female'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations have used various ways to operationalize the interaction term between age and sex. They have considered creating dummy variables for sex, calculating average age by sex, creating an interaction term between age, sex and efficiency, etc. They have also considered binning the age into different groups and calculating the interaction term. Another transformation we could consider is to create a binary variable indicating whether the chimpanzee is an adult female (age >= 12 and sex == 'f').",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['hammer'] = df['hammer'].replace({'L': 'O', 'wood': 'O', 'Q': 'O'})\ndf = pd.get_dummies(df, columns=['hammer'], drop_first=True)",
+          "rationale": "classify L,Q and wood as others and then use dummy encoding to encode hammer",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Hammer types",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df = pd.get_dummies(df, columns=['hammer'])",
+            "rationale": "use one hot encoding to encode hammer",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df = df.groupby('chimpanzee').agg(avg_nuts_opened=('nuts_opened', 'mean')\n    ).reset_index()\n",
+            "rationale": "The existing transformations consider the raw count of nuts opened and the efficiency of nut cracking (nuts opened per second). Another way to represent the nuts opened count could be to consider the average number of nuts opened by each individual chimpanzee. This would give us a perspective on the individual efficiency of each chimpanzee in nut cracking.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['efficiency'] = df['nuts_opened'] / df['seconds']\ndf['sex'] = df['sex'].map({'m': 1, 'f': 0})\ndf['age_sex_efficiency'] = df['age'] * df['sex'] * df['efficiency']\n",
+            "rationale": "The existing transformations are calculating the interaction between age and sex and also the average age for each sex. However, we can also consider the interaction between age and sex in terms of the nut-cracking efficiency (nuts_opened/seconds). This will operationalize the conceptual variable by considering how the efficiency of nut-cracking varies with age and sex.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['sex'] = df['sex'].map({'m': 0, 'f': 1})\ndf['adult_female'] = np.where((df['age'] >= 12) & (df['sex'] == 1), 1, 0)\n",
+            "rationale": "The existing transformations have used various ways to operationalize the interaction term between age and sex. They have considered creating dummy variables for sex, calculating average age by sex, creating an interaction term between age, sex and efficiency, etc. They have also considered binning the age into different groups and calculating the interaction term. Another transformation we could consider is to create a binary variable indicating whether the chimpanzee is an adult female (age >= 12 and sex == 'f').",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df = pd.get_dummies(df, columns=['hammer'])",
+          "rationale": "use one hot encoding to encode hammer",
+          "is_llm_generated": false
+        }
+      }
+    ]
+  }
+}

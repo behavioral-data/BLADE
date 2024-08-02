@@ -25,7 +25,6 @@ class OpenAITextGenerator(TextGenerator):
         if config.provider == "openai":
             self.client = OpenAI(
                 api_key=self.api_key,
-                api_version=self.config.api_version,
                 organization=self.config.organization,
             )
         else:

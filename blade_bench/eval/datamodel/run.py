@@ -1,6 +1,10 @@
 from enum import Enum
-from typing import Dict, List, Optional, Set, Tuple, Union
+import itertools
+import math
+import random
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
+import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 from blade_bench.eval.datamodel.lm_analysis import EntireAnalysis
@@ -92,6 +96,47 @@ class MetricsAcrossRuns(BaseModel):
     analyses: Optional[List[EntireAnalysis]] = Field(default_factory=list)
     converted_code: Optional[List[str]] = Field(default_factory=list)
     diversity_metrics: Optional[List[DiversityMetric]] = Field(default_factory=list)
+
+    @computed_field
+    @property
+    def total_unique_match_model(self) -> int:
+        return len(self.all_models_match)
+
+    @computed_field
+    @property
+    def total_unique_match_model_cvar(self) -> int:
+        return len(self.all_models_match_cvar)
+
+    @computed_field
+    @property
+    def total_unique_match_vspec(self) -> int:
+        return len(self.all_transforms_match_vspecs)
+
+    @computed_field
+    @property
+    def total_unique_match_gspec(self) -> int:
+        return len(self.all_transforms_match_gspecs)
+
+    @computed_field
+    @property
+    def total_unique_match_cvar(self) -> int:
+        return len(self.all_cvars_match)
+
+    @computed_field
+    @property
+    def avg_num_tspecs2(self) -> float:
+        arr = [x for x in self.num_tspecs2 if x > 0]
+        if len(arr) == 0:
+            return -1
+        return sum(arr) / len(arr)
+
+    @computed_field
+    @property
+    def avg_num_cvars2(self) -> float:
+        arr = [x for x in self.num_cvars2 if x > 0]
+        if len(arr) == 0:
+            return -1
+        return sum(arr) / len(arr)
 
     @computed_field
     @property
@@ -210,7 +255,31 @@ class MetricsAcrossRuns(BaseModel):
             "average_coverage_gspecs": self.average_coverage_gspecs,
             "average_coverage_cvars": self.average_coverage_cvars,
             "status": [str(RunResultModes(s)) for s in self.status],
+            "matched_models": self.matched_models,
+            "matched_models_cvar": self.matched_models_cvar,
+            "matched_cvars": self.matched_cvars,
+            "matched_vspecs": self.matched_vspecs,
+            "matched_gspecs": self.matched_gspecs,
+            "avg_num_tspecs2": self.avg_num_tspecs2,
+            "avg_num_cvars2": self.avg_num_cvars2,
+            "total_unique_match_model": self.total_unique_match_model,
+            "total_unique_match_model_cvar": self.total_unique_match_model_cvar,
+            "total_unique_match_vspec": self.total_unique_match_vspec,
+            "total_unique_match_gspec": self.total_unique_match_gspec,
+            "total_unique_match_cvar": self.total_unique_match_cvar,
         }
+
+    @property
+    def count_generation_failed(self) -> int:
+        return sum(
+            [
+                s
+                in [
+                    RunResultModes.LM_GENERATION_FAILED.value,
+                ]
+                for s in self.status
+            ]
+        )
 
     @computed_field
     @property
@@ -261,6 +330,105 @@ class MetricsAcrossRuns(BaseModel):
     @property
     def average_cvars_matched(self) -> float:
         return sum(self.num_match_cvar2) / max(sum(self.num_cvars2), 1)
+
+    def __sample_until_length(self, items: List[Any], length: int) -> List[Any]:
+        if len(items) >= length:
+            return items
+
+        new_items = (
+            random.sample(items, length - len(items))
+            if length - len(items) < len(items)
+            else random.choices(items, k=length - len(items))
+        )
+        return items + new_items
+
+    def __get_combinations(self, k, data, num_samples=1000):
+        if k > len(data):
+            raise ValueError("k must be less than or equal to the length of the data")
+
+        ntotal = math.comb(len(data), k)
+        if ntotal > num_samples:
+            combinations = self.__direct_sample_combinations(data, k, num_samples)
+        else:
+            combinations = list(itertools.combinations(data, k))
+        return combinations
+
+    @staticmethod
+    def __direct_sample_combinations(iterable, r, sample_size):
+        """
+        Takes a random sample of combinations from an iterable using direct sampling.
+
+        Parameters:
+        iterable (iterable): The input iterable to generate combinations from.
+        r (int): The length of each combination.
+        sample_size (int): The number of combinations to sample.
+
+        Returns:
+        list: A list of sampled combinations.
+        """
+        # Convert the iterable to a list
+        iterable = list(iterable)
+        n = len(iterable)
+
+        sampled_combinations_inds = set()
+        sampled_combinations = []
+        while len(sampled_combinations) < sample_size:
+            # Sample a random combination
+            indices = np.random.choice(n, r, replace=False)
+            if frozenset(indices) in sampled_combinations_inds:
+                continue
+            sampled_combinations_inds.add(frozenset(indices))
+            combination = [iterable[i] for i in indices]
+            sampled_combinations.append(combination)
+
+        return sampled_combinations
+
+    def __calcualte_coverage(
+        self,
+        items: List[List[str]],
+        k: int,
+        denominator: int,
+        use_combinations=False,
+        num_samples=100,
+        include_gen_errors=False,
+    ) -> float:
+        if include_gen_errors:
+            items = items + [[] for _ in range(self.count_generation_failed)]
+
+        if use_combinations:
+            lists = self.__get_combinations(k, items, num_samples=num_samples)
+        else:
+            assert (
+                k <= len(self.status) and len(self.status) % k == 0
+            ), "k must be a factor of the number of runs"
+            matched_specs = self.__sample_until_length(items, len(self.status))
+            lists = [matched_specs[i : i + k] for i in range(0, len(matched_specs), k)]
+        return [len(set.union(*[set(m) for m in l])) / denominator for l in lists]
+
+    def average_coverage_models_k(self, k: int, **kwargs) -> List[float]:
+        return self.__calcualte_coverage(
+            self.matched_models, k, self.num_mspecs1_unique, **kwargs
+        )
+
+    def average_coverage_cvar_models_k(self, k: int, **kwargs) -> List[float]:
+        return self.__calcualte_coverage(
+            self.matched_models_cvar, k, self.num_mspecs1, **kwargs
+        )
+
+    def average_coverage_vspecs_k(self, k: int, **kwargs) -> List[float]:
+        return self.__calcualte_coverage(
+            self.matched_vspecs, k, self.num_tspecs1, **kwargs
+        )
+
+    def average_coverage_gspecs_k(self, k: int, **kwargs) -> List[float]:
+        return self.__calcualte_coverage(
+            self.matched_gspecs, k, self.num_tspecs1, **kwargs
+        )
+
+    def average_coverage_cvars_k(self, k: int, **kwargs) -> List[float]:
+        return self.__calcualte_coverage(
+            self.matched_cvars, k, self.num_cvars1, **kwargs
+        )
 
     @computed_field
     @property

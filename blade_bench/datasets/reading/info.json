@@ -1,0 +1,352 @@
+{
+  "research_questions": [
+    "Does 'Reader View' --- a modified web page layout --- improves reading speed for individuals with dyslexia?"
+  ],
+  "data_desc": {
+    "dataset_description": "This dataset contains information about a [study](https://dl.acm.org/doi/10.1145/3290605.3300754) investigating partipants reading speed when using a modified web page layout with various demographic and device-related characteristics. It includes data on reading and scrolling time, reading speed, device used, dyslexia status, education level, and more.",
+    "fields": [
+      {
+        "column": "uuid",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "fd573d43-4bb4-408c-a8c5-790b562841e6",
+            "2de720d4-ef3b-4064-9437-2886a4fb5d23",
+            "6aa0c48e-1055-44d2-9d58-385715962733"
+          ],
+          "num_unique_values": 428,
+          "semantic_type": "",
+          "description": "Unique identifier for each record"
+        }
+      },
+      {
+        "column": "page_id",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "2-1",
+            "1-2",
+            "2-2"
+          ],
+          "num_unique_values": 6,
+          "semantic_type": "",
+          "description": "Unique identifier for each page"
+        }
+      },
+      {
+        "column": "reader_view",
+        "properties": {
+          "dtype": "number",
+          "std": 0.500097380466402,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Indicates if the reader view was activated (1) or not (0)"
+        }
+      },
+      {
+        "column": "running_time",
+        "properties": {
+          "dtype": "number",
+          "std": 37476.24999567807,
+          "min": 261,
+          "max": 1020358,
+          "samples": [
+            49177,
+            22922,
+            51453
+          ],
+          "num_unique_values": 2529,
+          "semantic_type": "",
+          "description": "How long participants spent on each webpage in milliseconds"
+        }
+      },
+      {
+        "column": "adjusted_running_time",
+        "properties": {
+          "dtype": "number",
+          "std": 35603.51758551534,
+          "min": 261,
+          "max": 1017655,
+          "samples": [
+            53349,
+            37103,
+            45135
+          ],
+          "num_unique_values": 2522,
+          "semantic_type": "",
+          "description": "How long participants spent on each webpage minus scrolling duration in milliseconds"
+        }
+      },
+      {
+        "column": "scrolling_time",
+        "properties": {
+          "dtype": "number",
+          "std": 9967.356627724756,
+          "min": 0,
+          "max": 142992,
+          "samples": [
+            6465,
+            3130,
+            2755
+          ],
+          "num_unique_values": 2233,
+          "semantic_type": "",
+          "description": "Time spent scrolling in milliseconds"
+        }
+      },
+      {
+        "column": "num_words",
+        "properties": {
+          "dtype": "number",
+          "std": 106.44701933940351,
+          "min": 106,
+          "max": 383,
+          "samples": [
+            145,
+            383,
+            166
+          ],
+          "num_unique_values": 6,
+          "semantic_type": "",
+          "description": "Number of words on the page"
+        }
+      },
+      {
+        "column": "correct_rate",
+        "properties": {
+          "dtype": "number",
+          "std": 0.22260766793605438,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            1.0,
+            0.0,
+            0.6666666667
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Rate of correct answers to comprehension questions after reading"
+        }
+      },
+      {
+        "column": "img_width",
+        "properties": {
+          "dtype": "number",
+          "std": 275.28085545032513,
+          "min": 286,
+          "max": 1439,
+          "samples": [
+            1227,
+            1408,
+            1381
+          ],
+          "num_unique_values": 54,
+          "semantic_type": "",
+          "description": "Width of the image on the page"
+        }
+      },
+      {
+        "column": "age",
+        "properties": {
+          "dtype": "number",
+          "std": 12.484290780514087,
+          "min": 0.0,
+          "max": 72.0,
+          "samples": [
+            14.0,
+            29.0,
+            39.0
+          ],
+          "num_unique_values": 55,
+          "semantic_type": "",
+          "description": "Age of the reader"
+        }
+      },
+      {
+        "column": "device",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "smartphone",
+            "tablet",
+            "desktop"
+          ],
+          "num_unique_values": 5,
+          "semantic_type": "",
+          "description": "Device used by the reader in the study"
+        }
+      },
+      {
+        "column": "dyslexia",
+        "properties": {
+          "dtype": "number",
+          "std": 0.5788908628543813,
+          "min": 0.0,
+          "max": 2.0,
+          "samples": [
+            0.0,
+            2.0,
+            1.0
+          ],
+          "num_unique_values": 3,
+          "semantic_type": "",
+          "description": "Dyslexia status of the reader (0 - No Dyslexia, 1 - Dyslexia, 2 - Severe Dyslexia)"
+        }
+      },
+      {
+        "column": "education",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "high school",
+            "college",
+            "pre-high school"
+          ],
+          "num_unique_values": 7,
+          "semantic_type": "",
+          "description": "Education level of the reader"
+        }
+      },
+      {
+        "column": "gender",
+        "properties": {
+          "dtype": "number",
+          "std": 0.5404716854129216,
+          "min": 0.0,
+          "max": 2.0,
+          "samples": [
+            1.0,
+            0.0,
+            2.0
+          ],
+          "num_unique_values": 3,
+          "semantic_type": "",
+          "description": "Gender of the reader (0 - Male, 1 - Female, 2 - Other)"
+        }
+      },
+      {
+        "column": "language",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "Spanish",
+            "Finnish",
+            "English"
+          ],
+          "num_unique_values": 23,
+          "semantic_type": "",
+          "description": "Language of the text"
+        }
+      },
+      {
+        "column": "retake_trial",
+        "properties": {
+          "dtype": "number",
+          "std": 0.1943761164655006,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            1.0,
+            0.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Indicates if the trial was a retake (1) or not (0)"
+        }
+      },
+      {
+        "column": "dyslexia_bin",
+        "properties": {
+          "dtype": "number",
+          "std": 0.38633656308326497,
+          "min": 0.0,
+          "max": 1.0,
+          "samples": [
+            1.0,
+            0.0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Indicates if the reader has dyslexia (1) or not (0)"
+        }
+      },
+      {
+        "column": "english_native",
+        "properties": {
+          "dtype": "category",
+          "samples": [
+            "N",
+            "Y"
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Indicates if the reader is a native English speaker ('Y') or not ('N')"
+        }
+      },
+      {
+        "column": "Flesch_Kincaid",
+        "properties": {
+          "dtype": "number",
+          "std": 1.2661564553121618,
+          "min": 7.638,
+          "max": 11.081,
+          "samples": [
+            8.337,
+            10.485,
+            7.638
+          ],
+          "num_unique_values": 6,
+          "semantic_type": "",
+          "description": "Flesch-Kincaid readability score of the text"
+        }
+      },
+      {
+        "column": "speed",
+        "properties": {
+          "dtype": "number",
+          "std": 1892.034203342554,
+          "min": 9.787206863,
+          "max": 88045.97701,
+          "samples": [
+            186.8431296,
+            103.116407,
+            1153.311718
+          ],
+          "num_unique_values": 2559,
+          "semantic_type": "",
+          "description": ""
+        }
+      }
+    ],
+    "num_rows": 2568,
+    "field_names": [
+      "uuid",
+      "page_id",
+      "reader_view",
+      "running_time",
+      "adjusted_running_time",
+      "scrolling_time",
+      "num_words",
+      "correct_rate",
+      "img_width",
+      "age",
+      "device",
+      "dyslexia",
+      "education",
+      "gender",
+      "language",
+      "retake_trial",
+      "dyslexia_bin",
+      "english_native",
+      "Flesch_Kincaid",
+      "speed"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/reading/data.csv"
+}

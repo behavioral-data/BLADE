@@ -1,0 +1,120 @@
+{
+  "research_questions": [
+    "How many fish on average do visitors takes per hour, when fishing? (i.e., What factors influence the number of fish caught by visitors to a national park and how can we estimate the rate of fish caught per hour?)"
+  ],
+  "data_desc": {
+    "dataset_description": "This dataset contains information about fishing trips made by visitors to a national park. Each row represents a single group visit and includes the number of fish caught, whether or not the group used live bait, whether or not the group had a camper, the number of adults and children in the group, and the total number of hours spent in the park.",
+    "fields": [
+      {
+        "column": "fish_caught",
+        "properties": {
+          "dtype": "number",
+          "std": 11.635028127085569,
+          "min": 0,
+          "max": 149,
+          "samples": [
+            7,
+            8,
+            0
+          ],
+          "num_unique_values": 25,
+          "semantic_type": "",
+          "description": "Number of fish caught during visit"
+        }
+      },
+      {
+        "column": "livebait",
+        "properties": {
+          "dtype": "number",
+          "std": 0.34347620531043754,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Whether or not group used livebait to fish"
+        }
+      },
+      {
+        "column": "camper",
+        "properties": {
+          "dtype": "number",
+          "std": 0.49318243649044374,
+          "min": 0,
+          "max": 1,
+          "samples": [
+            1,
+            0
+          ],
+          "num_unique_values": 2,
+          "semantic_type": "",
+          "description": "Whether or not group had a camper"
+        }
+      },
+      {
+        "column": "persons",
+        "properties": {
+          "dtype": "number",
+          "std": 1.1127302794023335,
+          "min": 1,
+          "max": 4,
+          "samples": [
+            2,
+            3,
+            1
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Number of adults in group"
+        }
+      },
+      {
+        "column": "child",
+        "properties": {
+          "dtype": "number",
+          "std": 0.850315320677167,
+          "min": 0,
+          "max": 3,
+          "samples": [
+            1,
+            3,
+            0
+          ],
+          "num_unique_values": 4,
+          "semantic_type": "",
+          "description": "Number of children in group"
+        }
+      },
+      {
+        "column": "hours",
+        "properties": {
+          "dtype": "number",
+          "std": 9.356304178205217,
+          "min": 0.004,
+          "max": 71.036,
+          "samples": [
+            4.269,
+            0.033,
+            0.486
+          ],
+          "num_unique_values": 240,
+          "semantic_type": "",
+          "description": "Number of hours group spent in park"
+        }
+      }
+    ],
+    "num_rows": 250,
+    "field_names": [
+      "fish_caught",
+      "livebait",
+      "camper",
+      "persons",
+      "child",
+      "hours"
+    ]
+  },
+  "data_path": "/mmfs1/gscratch/bdata/kenqgu/Research/Year3Research/AnalysisAgent/analysis_agent/annotation/data/fish/data.csv"
+}

@@ -1,0 +1,156 @@
+{
+  "mcqs_cvar": [
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: year in which the hurricane occured",
+          "rationale": "Since the time span of the data is large, there might be changes such as improvements in the efficacy of precautionary measures over time. Therefore, it's a good idea to control for this time factor.",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: official categorization of hurricane severity",
+          "rationale": "Stronger hurricane will lead to more death. we need to control this in case it happens we assign female names to stronger hurricanes",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Time elapsed since the hurricane",
+          "rationale": "The time elapsed since the hurricane could impact the accuracy and completeness of the reported data on damages and deaths, as well as the perception of the hurricane's severity.",
+          "is_llm_generated": true
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Time elapsed since the hurricane",
+        "rationale": "The time elapsed since the hurricane could impact the accuracy and completeness of the reported data on damages and deaths, as well as the perception of the hurricane's severity.",
+        "is_llm_generated": true
+      }
+    },
+    {
+      "mc_type": "select_neg",
+      "options": [
+        {
+          "cvar_str": "Control: official categorization of hurricane severity",
+          "rationale": "Stronger hurricane will lead to more death. we need to control this in case it happens we assign female names to stronger hurricanes",
+          "is_llm_generated": false
+        },
+        {
+          "cvar_str": "Control: Source of hurricane data",
+          "rationale": "Different sources might have different methods of collecting and reporting data, which could affect the perceived severity of the hurricane.",
+          "is_llm_generated": true
+        },
+        {
+          "cvar_str": "Control: year in which the hurricane occured",
+          "rationale": "Since the time span of the data is large, there might be changes such as improvements in the efficacy of precautionary measures over time. Therefore, it's a good idea to control for this time factor.",
+          "is_llm_generated": false
+        }
+      ],
+      "correct_answer": {
+        "cvar_str": "Control: Source of hurricane data",
+        "rationale": "Different sources might have different methods of collecting and reporting data, which could affect the perceived severity of the hurricane.",
+        "is_llm_generated": true
+      }
+    }
+  ],
+  "mcqs_transform": {
+    "feminity score of the hurricane names": [
+      {
+        "coneptual_var_str": "feminity score of the hurricane names",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['masfem_combined'] = (9.0 * df['masfem'] + 32.0 * df['masfem_mturk']) / 41",
+            "rationale": "two surveys are based on same scale, we can combine to reduce the noise, also including both will suffer from colinearity anyways ",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df = df[df['alldeaths'] != 1833]\ndf['masfem_avg'] = (df['masfem'] + df['masfem_mturk']) / 2",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['masfem_mean'] = df[['masfem', 'masfem_mturk']].mean(axis=1)",
+            "rationale": "Frankly speaking, either one of the two masfem scores is sufficient because both are averaged scores and are highly correlated to each other. I add this simply because it's ok to do so.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['yearselapsed'] = 2013 - df['year']",
+            "rationale": "derive years elapsed based on year since original has missing",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['yearselapsed'] = 2013 - df['year']",
+          "rationale": "derive years elapsed based on year since original has missing",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "year in which the hurricane occured": [
+      {
+        "coneptual_var_str": "year in which the hurricane occured",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['yearselapsed'] = 2013 - df['year']",
+            "rationale": "derive years elapsed based on year since original has missing",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['masfem_mean'] = df[['masfem', 'masfem_mturk']].mean(axis=1)",
+            "rationale": "Frankly speaking, either one of the two masfem scores is sufficient because both are averaged scores and are highly correlated to each other. I add this simply because it's ok to do so.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['masfem_combined'] = (9.0 * df['masfem'] + 32.0 * df['masfem_mturk']) / 41",
+            "rationale": "two surveys are based on same scale, we can combine to reduce the noise, also including both will suffer from colinearity anyways ",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df = df[df['alldeaths'] != 1833]\ndf['masfem_avg'] = (df['masfem'] + df['masfem_mturk']) / 2",
+            "rationale": "",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['yearselapsed'] = 2013 - df['year']",
+          "rationale": "derive years elapsed based on year since original has missing",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "official categorization of hurricane severity": [
+      {
+        "coneptual_var_str": "official categorization of hurricane severity",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df = df[df['alldeaths'] != 1833]\ndf['category1'] = (df['category'] == 1).astype(float)\ndf['category2'] = (df['category'] == 2).astype(float)\ndf['category3'] = (df['category'] == 3).astype(float)\ndf['category4'] = (df['category'] == 4).astype(float)\ndf['category5'] = (df['category'] == 5).astype(float)",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['yearselapsed'] = 2013 - df['year']",
+            "rationale": "derive years elapsed based on year since original has missing",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df = df[df['alldeaths'] != 1833]\ndf['masfem_avg'] = (df['masfem'] + df['masfem_mturk']) / 2",
+            "rationale": "",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['masfem_mean'] = df[['masfem', 'masfem_mturk']].mean(axis=1)",
+            "rationale": "Frankly speaking, either one of the two masfem scores is sufficient because both are averaged scores and are highly correlated to each other. I add this simply because it's ok to do so.",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df = df[df['alldeaths'] != 1833]\ndf['category1'] = (df['category'] == 1).astype(float)\ndf['category2'] = (df['category'] == 2).astype(float)\ndf['category3'] = (df['category'] == 3).astype(float)\ndf['category4'] = (df['category'] == 4).astype(float)\ndf['category5'] = (df['category'] == 5).astype(float)",
+          "rationale": "",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "number of death resulted from hurricane": []
+  }
+}

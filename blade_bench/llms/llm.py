@@ -201,6 +201,23 @@ class LLMBase:
         json_object = json.loads(json_str, strict=False)
         return json_object
 
+    def match_jsons(self, text: str, parser: BaseOutputParser):
+        matches = re.findall(
+            r"\{.*\}", text.strip(), re.MULTILINE | re.IGNORECASE | re.DOTALL
+        )
+        ret = None
+        for match in matches:
+            json_object = None
+            try:
+                json_object = json.loads(match, strict=False)
+                obj = parser.parse(match)
+                return obj
+            except (OutputParserException, json.JSONDecodeError):
+                if isinstance(json_object, dict) and len(json_object) == 0:
+                    ret = {}
+                continue
+        return ret
+
     def get_pydantic_obj_w_retires(
         self,
         parser: BaseOutputParser,
@@ -213,6 +230,9 @@ class LLMBase:
                 return {}
             return parser.parse(response)
         except (OutputParserException, json.JSONDecodeError) as e:
+            ret = self.match_jsons(response, parser)
+            if ret is not None:
+                return ret
             if retries == 0:
                 raise ValueError(f"Failed to parse the response after retries")
 

@@ -1,0 +1,371 @@
+{
+  "mcqs_cvar": [],
+  "mcqs_transform": {
+    "Specimen origination": [
+      {
+        "coneptual_var_str": "Specimen origination",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['tooth_class']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+            "rationale": "There are 3 tooth classes, so one hot encoding is necessary.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df_genus_group = df.groupby('genus')\ndf['genus_amtl_rate'] = df_genus_group['num_amtl'].transform('sum'\n    ) / df_genus_group['sockets'].transform('sum')\n",
+            "rationale": "The existing transformations consider the direct use of the 'sockets' column and the ratio of number of missing teeth to sockets. Another possible transformation could be to create a new feature that represents the proportion of missing teeth to total sockets for each genus. This could provide a more direct comparison of AMTL rates across genera, which can be useful for the research question.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+            "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['from_specified_regions'] = df['pop'].apply(lambda x: 1 if x in [\n    'Native Californian', 'Alaska', 'Yaghan', 'Fuegian'] else 0)\n",
+            "rationale": "The current transformations operationalize the conceptual variable \"specimen origination\" by grouping the 'pop' column into different classes and then creating dummy variables for these classes. Some of the transformations are redundant as they return the same derived column. One alternative way to operationalize the variable could be by creating a binary column that indicates whether a specimen is from a specific region or not. For example, we can create a binary column that indicates whether a specimen is from 'Native Californian', 'Alaska', 'Yaghan', or 'Fuegian' region.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['from_specified_regions'] = df['pop'].apply(lambda x: 1 if x in [\n    'Native Californian', 'Alaska', 'Yaghan', 'Fuegian'] else 0)\n",
+          "rationale": "The current transformations operationalize the conceptual variable \"specimen origination\" by grouping the 'pop' column into different classes and then creating dummy variables for these classes. Some of the transformations are redundant as they return the same derived column. One alternative way to operationalize the variable could be by creating a binary column that indicates whether a specimen is from a specific region or not. For example, we can create a binary column that indicates whether a specimen is from 'Native Californian', 'Alaska', 'Yaghan', or 'Fuegian' region.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Number of sockets": [
+      {
+        "coneptual_var_str": "Number of sockets",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['remaining_teeth'] = df['sockets'] - df['num_amtl']\n",
+            "rationale": "The existing transformations have made use of the 'sockets' column in various ways, such as creating ratios with other variables, creating group-wise averages and standard deviations, and creating binary variables based on whether the number of sockets is above the average. However, one potential transformation that has not been done yet is to create a variable that represents the difference between the number of sockets and the number of antemortem tooth loss (AMTL). This could be a meaningful variable as it represents the number of remaining teeth in the specimen, which could potentially be a good predictor for the model.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['posterior'] = np.where(df['tooth_class'] == 'Posterior', 1, 0)",
+            "rationale": "Transform category variables into binary variables",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df_genus_group = df.groupby('genus')\ndf['genus_amtl_rate'] = df_genus_group['num_amtl'].transform('sum'\n    ) / df_genus_group['sockets'].transform('sum')\n",
+            "rationale": "The existing transformations consider the direct use of the 'sockets' column and the ratio of number of missing teeth to sockets. Another possible transformation could be to create a new feature that represents the proportion of missing teeth to total sockets for each genus. This could provide a more direct comparison of AMTL rates across genera, which can be useful for the research question.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+            "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['posterior'] = np.where(df['tooth_class'] == 'Posterior', 1, 0)",
+          "rationale": "Transform category variables into binary variables",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Number of sockets",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['tooth_class']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+            "rationale": "There are 3 tooth classes, so one hot encoding is necessary.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+            "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df_genus_group = df.groupby('genus')\ndf['genus_amtl_rate'] = df_genus_group['num_amtl'].transform('sum'\n    ) / df_genus_group['sockets'].transform('sum')\n",
+            "rationale": "The existing transformations consider the direct use of the 'sockets' column and the ratio of number of missing teeth to sockets. Another possible transformation could be to create a new feature that represents the proportion of missing teeth to total sockets for each genus. This could provide a more direct comparison of AMTL rates across genera, which can be useful for the research question.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['remaining_teeth'] = df['sockets'] - df['num_amtl']\n",
+            "rationale": "The existing transformations have made use of the 'sockets' column in various ways, such as creating ratios with other variables, creating group-wise averages and standard deviations, and creating binary variables based on whether the number of sockets is above the average. However, one potential transformation that has not been done yet is to create a variable that represents the difference between the number of sockets and the number of antemortem tooth loss (AMTL). This could be a meaningful variable as it represents the number of remaining teeth in the specimen, which could potentially be a good predictor for the model.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['tooth_class']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+          "rationale": "There are 3 tooth classes, so one hot encoding is necessary.",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Number of sockets",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['remaining_teeth'] = df['sockets'] - df['num_amtl']\n",
+            "rationale": "The existing transformations have made use of the 'sockets' column in various ways, such as creating ratios with other variables, creating group-wise averages and standard deviations, and creating binary variables based on whether the number of sockets is above the average. However, one potential transformation that has not been done yet is to create a variable that represents the difference between the number of sockets and the number of antemortem tooth loss (AMTL). This could be a meaningful variable as it represents the number of remaining teeth in the specimen, which could potentially be a good predictor for the model.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+            "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['num_amtl_01'] = df['num_amtl'].apply(lambda x: 1 if x >= 1 else 0)\ndf = df[df['age'] <= 55]\ndf['gender'] = df['prob_male'].apply(lambda x: 1 if x >= 0.5 else 0)",
+            "rationale": "Convert it to 0 or 1 for logistic regression model\nFilter the outliers of age\nClassify probability higher or equal to 0.5 as male and the rest as female",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df_genus_group = df.groupby('genus')\ndf['genus_amtl_rate'] = df_genus_group['num_amtl'].transform('sum'\n    ) / df_genus_group['sockets'].transform('sum')\n",
+            "rationale": "The existing transformations consider the direct use of the 'sockets' column and the ratio of number of missing teeth to sockets. Another possible transformation could be to create a new feature that represents the proportion of missing teeth to total sockets for each genus. This could provide a more direct comparison of AMTL rates across genera, which can be useful for the research question.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['num_amtl_01'] = df['num_amtl'].apply(lambda x: 1 if x >= 1 else 0)\ndf = df[df['age'] <= 55]\ndf['gender'] = df['prob_male'].apply(lambda x: 1 if x >= 0.5 else 0)",
+          "rationale": "Convert it to 0 or 1 for logistic regression model\nFilter the outliers of age\nClassify probability higher or equal to 0.5 as male and the rest as female",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Age of specimen": [
+      {
+        "coneptual_var_str": "Age of specimen",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df_genus_group = df.groupby('genus')\ndf['genus_amtl_rate'] = df_genus_group['num_amtl'].transform('sum'\n    ) / df_genus_group['sockets'].transform('sum')\n",
+            "rationale": "The existing transformations consider the direct use of the 'sockets' column and the ratio of number of missing teeth to sockets. Another possible transformation could be to create a new feature that represents the proportion of missing teeth to total sockets for each genus. This could provide a more direct comparison of AMTL rates across genera, which can be useful for the research question.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['genus_final'] = [1 if genus == 'Homo sapiens' else 0 for genus in df['genus']]",
+            "rationale": "The research question focuses on comparing AMTL between modern humans (Homo sapiens)  and non-human primate genera (Pan, Pongo, Papio), so we construct this genus_category as the IV.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['normalized_age'] = (df['age'] - df['age'].min()) / (df['age'].max() -\n    df['age'].min())\n",
+            "rationale": "We want to operationalize Age of specimen based on the available data. The currently specified transforms consider using the standard deviation to create an age range, grouping by specimen to get the data at a specimen level, and binning the age into categories amongst other decisions. Another way to consider calculating the age could be based on a normalized age which scales the age between 0 and 1. This could be useful in subsequent analysis where we need all the variables to be on the same scale.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+            "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['normalized_age'] = (df['age'] - df['age'].min()) / (df['age'].max() -\n    df['age'].min())\n",
+          "rationale": "We want to operationalize Age of specimen based on the available data. The currently specified transforms consider using the standard deviation to create an age range, grouping by specimen to get the data at a specimen level, and binning the age into categories amongst other decisions. Another way to consider calculating the age could be based on a normalized age which scales the age between 0 and 1. This could be useful in subsequent analysis where we need all the variables to be on the same scale.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Tooth class type": [
+      {
+        "coneptual_var_str": "Tooth class type",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['posterior'] = np.where(df['tooth_class'] == 'Posterior', 1, 0)",
+            "rationale": "Transform category variables into binary variables",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['genus_final'] = [1 if genus == 'Homo sapiens' else 0 for genus in df['genus']]",
+            "rationale": "The research question focuses on comparing AMTL between modern humans (Homo sapiens)  and non-human primate genera (Pan, Pongo, Papio), so we construct this genus_category as the IV.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df = pd.get_dummies(df, columns=['tooth_class'])",
+            "rationale": "Apply dummy encoding to the tooth class",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['anterior'] = np.where(df['tooth_class'] == 'Anterior', 1, 0)",
+            "rationale": "Change category variable into binary variables",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['genus_final'] = [1 if genus == 'Homo sapiens' else 0 for genus in df['genus']]",
+          "rationale": "The research question focuses on comparing AMTL between modern humans (Homo sapiens)  and non-human primate genera (Pan, Pongo, Papio), so we construct this genus_category as the IV.",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Tooth class type",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['tooth_class']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+            "rationale": "There are 3 tooth classes, so one hot encoding is necessary.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['from_specified_regions'] = df['pop'].apply(lambda x: 1 if x in [\n    'Native Californian', 'Alaska', 'Yaghan', 'Fuegian'] else 0)\n",
+            "rationale": "The current transformations operationalize the conceptual variable \"specimen origination\" by grouping the 'pop' column into different classes and then creating dummy variables for these classes. Some of the transformations are redundant as they return the same derived column. One alternative way to operationalize the variable could be by creating a binary column that indicates whether a specimen is from a specific region or not. For example, we can create a binary column that indicates whether a specimen is from 'Native Californian', 'Alaska', 'Yaghan', or 'Fuegian' region.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['anterior'] = np.where(df['tooth_class'] == 'Anterior', 1, 0)",
+            "rationale": "Change category variable into binary variables",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['posterior'] = np.where(df['tooth_class'] == 'Posterior', 1, 0)",
+            "rationale": "Transform category variables into binary variables",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['from_specified_regions'] = df['pop'].apply(lambda x: 1 if x in [\n    'Native Californian', 'Alaska', 'Yaghan', 'Fuegian'] else 0)\n",
+          "rationale": "The current transformations operationalize the conceptual variable \"specimen origination\" by grouping the 'pop' column into different classes and then creating dummy variables for these classes. Some of the transformations are redundant as they return the same derived column. One alternative way to operationalize the variable could be by creating a binary column that indicates whether a specimen is from a specific region or not. For example, we can create a binary column that indicates whether a specimen is from 'Native Californian', 'Alaska', 'Yaghan', or 'Fuegian' region.",
+          "is_llm_generated": true
+        }
+      },
+      {
+        "coneptual_var_str": "Tooth class type",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df = pd.get_dummies(df, columns=['tooth_class'])",
+            "rationale": "Apply dummy encoding to the tooth class",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+            "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "from sklearn.preprocessing import OneHotEncoder\ncategorical_columns = ['tooth_class']\nencoder = OneHotEncoder(sparse_output=False, drop='first')\none_hot_encoded = encoder.fit_transform(df[categorical_columns])\none_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))\ndf_encoded = pd.concat([df, one_hot_df], axis=1)\ndf = df_encoded.drop(categorical_columns, axis=1)",
+            "rationale": "There are 3 tooth classes, so one hot encoding is necessary.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['anterior'] = np.where(df['tooth_class'] == 'Anterior', 1, 0)",
+            "rationale": "Change category variable into binary variables",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+          "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Gender of specimen": [
+      {
+        "coneptual_var_str": "Gender of specimen",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['num_amtl_01'] = df['num_amtl'].apply(lambda x: 1 if x >= 1 else 0)\ndf = df[df['age'] <= 55]\ndf['gender'] = df['prob_male'].apply(lambda x: 1 if x >= 0.5 else 0)",
+            "rationale": "Convert it to 0 or 1 for logistic regression model\nFilter the outliers of age\nClassify probability higher or equal to 0.5 as male and the rest as female",
+            "is_llm_generated": false
+          },
+          {
+            "code": "def assign_gender(row):\n    if row['num_amtl'] > row['sockets'] / 2:\n        return 'Male'\n    else:\n        return 'Female'\ndf['gender_based_on_amtl'] = df.apply(assign_gender, axis=1)\n",
+            "rationale": "We want to operationalize the gender of the specimen based on the available data. The currently specified transforms consider the probability of being male, genus of the specimen, age and tooth class amongst other factors. Another way to consider calculating the gender could be based on the number of missing teeth in the specimen. We can create a new feature that assigns a gender based on the number of missing teeth, where we can assume that a higher number of missing teeth might indicate a male specimen (assuming males might have been more involved in activities that could lead to tooth loss).",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "def assign_gender(row):\n    if row['num_amtl'] > row['sockets'] / 2:\n        return 'Male'\n    else:\n        return 'Female'\ndf['gender_based_on_amtl'] = df.apply(assign_gender, axis=1)\n",
+          "rationale": "We want to operationalize the gender of the specimen based on the available data. The currently specified transforms consider the probability of being male, genus of the specimen, age and tooth class amongst other factors. Another way to consider calculating the gender could be based on the number of missing teeth in the specimen. We can create a new feature that assigns a gender based on the number of missing teeth, where we can assume that a higher number of missing teeth might indicate a male specimen (assuming males might have been more involved in activities that could lead to tooth loss).",
+          "is_llm_generated": true
+        }
+      }
+    ],
+    "Specimen genus category": [
+      {
+        "coneptual_var_str": "Specimen genus category",
+        "mc_type": "select_neg",
+        "options": [
+          {
+            "code": "df['genus_final'] = [1 if genus == 'Homo sapiens' else 0 for genus in df['genus']]\ndf_grp = df.groupby('specimen')\ndf = df_grp.agg(num_amtl_total=('num_amtl', 'sum'), sockets_total=('sockets', 'sum'), age_specimen=('age', 'first'), stdev_age_specimen=('stdev_age', 'first'), prob_male_specimen=('prob_male', 'first'), genus_final_specimen=('genus_final', 'first')).reset_index()",
+            "rationale": "The research question focuses on comparing AMTL between modern humans (Homo sapiens)  and non-human primate genera (Pan, Pongo, Papio), so we construct this genus_category as the IV.\nAnalyze at the specimen level.",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['genus_final'] = [1 if genus == 'Homo sapiens' else 0 for genus in df['genus']]",
+            "rationale": "The research question focuses on comparing AMTL between modern humans (Homo sapiens)  and non-human primate genera (Pan, Pongo, Papio), so we construct this genus_category as the IV.",
+            "is_llm_generated": false
+          }
+        ],
+        "correct_answer": {
+          "code": "df['genus_final'] = [1 if genus == 'Homo sapiens' else 0 for genus in df['genus']]\ndf_grp = df.groupby('specimen')\ndf = df_grp.agg(num_amtl_total=('num_amtl', 'sum'), sockets_total=('sockets', 'sum'), age_specimen=('age', 'first'), stdev_age_specimen=('stdev_age', 'first'), prob_male_specimen=('prob_male', 'first'), genus_final_specimen=('genus_final', 'first')).reset_index()",
+          "rationale": "The research question focuses on comparing AMTL between modern humans (Homo sapiens)  and non-human primate genera (Pan, Pongo, Papio), so we construct this genus_category as the IV.\nAnalyze at the specimen level.",
+          "is_llm_generated": false
+        }
+      }
+    ],
+    "Degree of tooth loss": [
+      {
+        "coneptual_var_str": "Degree of tooth loss",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['remaining_teeth'] = df['sockets'] - df['num_amtl']\n",
+            "rationale": "The existing transformations have made use of the 'sockets' column in various ways, such as creating ratios with other variables, creating group-wise averages and standard deviations, and creating binary variables based on whether the number of sockets is above the average. However, one potential transformation that has not been done yet is to create a variable that represents the difference between the number of sockets and the number of antemortem tooth loss (AMTL). This could be a meaningful variable as it represents the number of remaining teeth in the specimen, which could potentially be a good predictor for the model.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['num_amtl_final'] = [1 if num_amtl > 0 else 0 for num_amtl in df['num_amtl']]",
+            "rationale": "For logistic regression",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+            "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['from_specified_regions'] = df['pop'].apply(lambda x: 1 if x in [\n    'Native Californian', 'Alaska', 'Yaghan', 'Fuegian'] else 0)\n",
+            "rationale": "The current transformations operationalize the conceptual variable \"specimen origination\" by grouping the 'pop' column into different classes and then creating dummy variables for these classes. Some of the transformations are redundant as they return the same derived column. One alternative way to operationalize the variable could be by creating a binary column that indicates whether a specimen is from a specific region or not. For example, we can create a binary column that indicates whether a specimen is from 'Native Californian', 'Alaska', 'Yaghan', or 'Fuegian' region.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['num_amtl_final'] = [1 if num_amtl > 0 else 0 for num_amtl in df['num_amtl']]",
+          "rationale": "For logistic regression",
+          "is_llm_generated": false
+        }
+      },
+      {
+        "coneptual_var_str": "Degree of tooth loss",
+        "mc_type": "select_pos",
+        "options": [
+          {
+            "code": "df['remaining_teeth'] = df['sockets'] - df['num_amtl']\n",
+            "rationale": "The existing transformations have made use of the 'sockets' column in various ways, such as creating ratios with other variables, creating group-wise averages and standard deviations, and creating binary variables based on whether the number of sockets is above the average. However, one potential transformation that has not been done yet is to create a variable that represents the difference between the number of sockets and the number of antemortem tooth loss (AMTL). This could be a meaningful variable as it represents the number of remaining teeth in the specimen, which could potentially be a good predictor for the model.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['amtl'] = df['num_amtl'] / df['sockets']",
+            "rationale": "To transform the number of amtl into a rate because different specimen have different numbers of teeth. Only comparing the number_amtl cannot show the exact level of amtl",
+            "is_llm_generated": false
+          },
+          {
+            "code": "df['from_specified_regions'] = df['pop'].apply(lambda x: 1 if x in [\n    'Native Californian', 'Alaska', 'Yaghan', 'Fuegian'] else 0)\n",
+            "rationale": "The current transformations operationalize the conceptual variable \"specimen origination\" by grouping the 'pop' column into different classes and then creating dummy variables for these classes. Some of the transformations are redundant as they return the same derived column. One alternative way to operationalize the variable could be by creating a binary column that indicates whether a specimen is from a specific region or not. For example, we can create a binary column that indicates whether a specimen is from 'Native Californian', 'Alaska', 'Yaghan', or 'Fuegian' region.",
+            "is_llm_generated": true
+          },
+          {
+            "code": "df['socket_tooth_ratio'] = df['num_amtl'] / df['sockets']\n",
+            "rationale": "The current transformation directly uses the 'sockets' column from the dataframe. Another way to represent the number of sockets could be to calculate the ratio of the number of missing teeth to the number of sockets for each specimen. This would provide a normalized measure of tooth loss that could be more comparable across different specimens.",
+            "is_llm_generated": true
+          }
+        ],
+        "correct_answer": {
+          "code": "df['amtl'] = df['num_amtl'] / df['sockets']",
+          "rationale": "To transform the number of amtl into a rate because different specimen have different numbers of teeth. Only comparing the number_amtl cannot show the exact level of amtl",
+          "is_llm_generated": false
+        }
+      }
+    ]
+  }
+}

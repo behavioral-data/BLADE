@@ -1,4 +1,7 @@
 import os
+import signal
+import functools
+from .logger import logger
 
 
 def get_root_dir():
@@ -45,3 +48,31 @@ def get_absolute_dir(directory_path):
     if not os.path.isabs(directory_path):
         return os.path.abspath(directory_path)
     return directory_path
+
+
+def timeout(seconds=5, default=None):
+
+    def decorator(func):
+
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+
+            def handle_timeout(signum, frame):
+                raise TimeoutError()
+
+            signal.signal(signal.SIGALRM, handle_timeout)
+            signal.alarm(seconds)
+
+            try:
+                result = func(*args, **kwargs)
+            except TimeoutError:
+                result = default
+            finally:
+                logger.debug(f"Timeout for {func.__name__}, args={args}")
+                signal.alarm(0)
+
+            return result
+
+        return wrapper
+
+    return decorator
