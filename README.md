@@ -121,7 +121,7 @@ python run_get_eval.py --multirun_load_path ./examples/multirun_analyses.json
 ```
 
 ## 🔍 Data Exploration Functions
-To access the dataset and research question we can
+To access the dataset and research question we can:
 ```python
 from blade_bench.data import load_dataset_info, list_datasets, DatasetInfo
 
@@ -131,7 +131,7 @@ rq = dinfo.research_question
 df = dinfo.df
 ```
 
-To explore the ground truth annotations, we can
+To explore the ground truth annotations, we can:
 ```python
 from blade_bench.data import load_ground_truth, AnnotationDBData
 
@@ -143,7 +143,7 @@ print(len(gnd_truth.cv_specs))
 More details about the structure of the ground truth is available in the paper.
 
 ## 🎯 Evaluating a Submission on BLADE
-To evalute your own agent analysis submission for a dataset in BLADE, the LM agent must generate a `json` file that conforms to the schema in [example/submission_schema.json](example/submission_schema.json). An example shown in [example/submission_analyses.json](example/submission_analyses.json). Then specify --submission_load_path when running `run_get_eval.py`.
+To evalute your own agent analysis for a dataset in BLADE, the LM agent must generate a `json` file that conforms to the schema in [example/submission_schema.json](example/submission_schema.json). An example is shown in [example/submission_analyses.json](example/submission_analyses.json). Then, we just need to specify --submission_load_path when running `run_get_eval.py`.
 
 ```bash
 python run_get_eval.py --submission_load_path ./example/submission_analyses.json
