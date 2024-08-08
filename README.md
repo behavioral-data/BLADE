@@ -102,7 +102,7 @@ Options:
 ```
 This will write the results to the folder specified by `output_dir`. After running the script, in the output folder, there will be a `multirun_analyses.json` file which is used for evaluation.
 
-An example is provided in[example/multirun_analyses.json](example/multirun_analyses.json).
+An example is provided in [example/multirun_analyses.json](example/multirun_analyses.json).
 
 ### 4. Evaluating Agent Generated Analyses
 We provide a starter script to evaluate the outputs of `run_gen_analyses.py`. Run `run_get_eval.py` as follows:
