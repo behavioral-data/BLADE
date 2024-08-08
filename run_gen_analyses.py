@@ -24,7 +24,7 @@ from blade_bench.logger import logger, formatter
 from blade_bench.utils import get_absolute_dir
 
 
-def run_agent(
+def run_gen_analysis(
     run_dataset: str,
     num_runs: int,
     use_agent: bool,
@@ -45,9 +45,7 @@ def run_agent(
     llm_eval_config = yaml.safe_load(open(llm_eval_config_path))
 
     if not output_dir:
-        current_time = datetime.datetime.now()
-        time_str = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-        output_dir = f"./outputs/multirun/{run_dataset}_{llm_config['provider']}-{llm_config['model']}_{time_str}"
+        output_dir = f"./outputs/multirun/{llm_config['provider']}-{llm_config['model']}/{run_dataset}"
         if not osp.exists(output_dir):
             os.makedirs(output_dir)
     # remove old file
@@ -118,7 +116,7 @@ def run_agent(
     show_default=True,
 )
 @click.option(
-    "--no_cache_code_reuslts",
+    "--no_cache_code_results",
     "cache_code_results",
     is_flag=True,
     default=True,
@@ -164,7 +162,7 @@ def run_agent(
     default=None,
     help="output directory to store saved analyses",
 )
-def run_agent_click(
+def run_gen_analysis_click(
     run_dataset: str,
     num_runs: int,
     use_agent: bool,
@@ -176,8 +174,20 @@ def run_agent_click(
     llm_provider: str,
     llm_model: str,
 ):
+    """For a given dataset and research question, generate analyses for the dataset using a language model or a basic ReAct agent that interacts with a notebook environment.
 
-    run_agent(
+    Running this generates the following files in output_dir:
+
+    \b
+    - command.sh: A bash script that contains the command used to run this script
+    - config.json: The configuration used to run this experiment
+    - run.log: The log file for the multirun experiment
+    - llm.log: The log file for LM prompts and responses for the experiment
+    - multirun_analyses.json: The analyses generated. **Note**: This file is used in run_get_eval.py to get the evaluation results.
+    - llm_analysis_*.py: The code generated for each run (if it was generated properly) for quick reference
+    """
+
+    run_gen_analysis(
         run_dataset=run_dataset,
         num_runs=num_runs,
         use_agent=use_agent,
@@ -192,4 +202,4 @@ def run_agent_click(
 
 
 if __name__ == "__main__":
-    run_agent_click()
+    run_gen_analysis_click()

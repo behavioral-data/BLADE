@@ -61,12 +61,25 @@ We provide a starter script to run a basic one shot LM or ReACT agent for our be
 ```
 Usage: run_gen_analyses.py [OPTIONS]
 
+  For a given dataset and research question, generate analyses for the dataset
+  using a language model or a basic ReAct agent that interacts with a notebook
+  environment.
+
+  Running this generates the following files in output_dir:
+
+  - command.sh: A bash script that contains the command used to run this script
+  - config.json: The configuration used to run this experiment
+  - run.log: The log file for the multirun experiment
+  - llm.log: The log file for LM prompts and responses for the experiment
+  - multirun_analyses.json: The analyses generated. **Note**: This file is used in run_get_eval.py to get the evaluation results.
+  - llm_analysis_*.py: The code generated for each run (if it was generated properly) for quick reference
+
 Options:
   --run_dataset [fish|boxes|conversation|reading|crofoot|panda_nuts|fertility|hurricane|teachingratings|mortgage|soccer|affairs|amtl|caschools]
                                   Dataset to run  [required]
   -n, --num_runs INTEGER          Number of runs to perform  [default: 10]
   --use_agent                     Whether to use agent or just the base LM
-  --no_cache_code_reuslts         [ONLY used when use_agent=True] Whether to
+  --no_cache_code_results         [ONLY used when use_agent=True] Whether to
                                   cache code results when running code.
   --no_use_data_desc              Whether to use data description in the
                                   prompts for the LM  [default: True]
@@ -96,6 +109,14 @@ We provide a starter script to evaluate the outputs of `run_gen_analyses.py`. Ru
 ```
 Usage: run_get_eval.py [OPTIONS]
 
+  Runs evaluation and saves the results to the output_dir directory. Running
+  this saves the following key files:
+
+  - command.sh: A bash script that contains the command used to run this script
+  - eval_results.json of the EvalResults class
+  - eval_metrics.json of the MetricsAcrossRuns class containing the metrics
+  - llm_history.json of the LLM history class containing the prompt history
+  
 Options:
   --multirun_load_path FILE      [EITHER multirun_load_path or
                                  submission_load_path is REQUIRED] Path to

@@ -16,3 +16,4 @@ run_download_data.py
 blade_bench/construct/** 
 gspread**
 *.sh
+*xlsx

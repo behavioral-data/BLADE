@@ -53,7 +53,7 @@ class TogetherTextGenerator(TextGenerator):
             stop=self.config.textgen_config.stop_sequences or None,
             stream=False,
         )
-        print(chat_completion)
+
         response = TextGenResponse(
             text=[Message(**x.message.model_dump()) for x in chat_completion.choices],
             config=self.config.textgen_config,

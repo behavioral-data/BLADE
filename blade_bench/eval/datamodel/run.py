@@ -244,11 +244,11 @@ class MetricsAcrossRuns(BaseModel):
             "coverage_num_transform_matched_vspecs": self.coverage_num_transform_matched_vspecs,
             "coverage_num_transform_matched_gspecs": self.coverage_num_transform_matched_gspecs,
             "coverage_num_cvars_matched": self.coverage_num_cvars_matched,
-            "average_models_matched": self.average_models_matched,
-            "average_models_matched_cvar": self.average_models_matched_cvar,
-            "average_transforms_matched_vspecs": self.average_transforms_matched_vspecs,
-            "average_transforms_matched_gspecs": self.average_transforms_matched_gspecs,
-            "average_cvars_matched": self.average_cvars_matched,
+            "hit_rate_models_matched": self.hit_rate_models_matched,
+            "hit_rate_models_matched_cvar": self.hit_rate_models_matched_cvar,
+            "hit_rate_transform_vspecs": self.hit_rate_transforms_matched_vspecs,
+            "hit_rate_transforms_matched_gspecs": self.hit_rate_transforms_matched_gspecs,
+            "hit_rate_cvars_matched": self.hit_rate_cvars_matched,
             "average_coverage_models": self.average_coverage_models,
             "average_coverage_cvar_models": self.average_coverage_cvar_models,
             "average_coverage_vspecs": self.average_coverage_vspecs,
@@ -308,27 +308,27 @@ class MetricsAcrossRuns(BaseModel):
 
     @computed_field
     @property
-    def average_models_matched(self) -> float:
+    def hit_rate_models_matched(self) -> float:
         return sum(self.num_match_model) / max(len(self.num_match_model), 1)
 
     @computed_field
     @property
-    def average_models_matched_cvar(self) -> float:
+    def hit_rate_models_matched_cvar(self) -> float:
         return sum(self.num_match_model_cvar) / max(len(self.num_match_model_cvar), 1)
 
     @computed_field
     @property
-    def average_transforms_matched_vspecs(self) -> float:
+    def hit_rate_transforms_matched_vspecs(self) -> float:
         return sum(self.num_match_vspec2) / max(sum(self.num_tspecs2), 1)
 
     @computed_field
     @property
-    def average_transforms_matched_gspecs(self) -> float:
+    def hit_rate_transforms_matched_gspecs(self) -> float:
         return sum(self.num_match_gspec2) / max(sum(self.num_tspecs2), 1)
 
     @computed_field
     @property
-    def average_cvars_matched(self) -> float:
+    def hit_rate_cvars_matched(self) -> float:
         return sum(self.num_match_cvar2) / max(sum(self.num_cvars2), 1)
 
     def __sample_until_length(self, items: List[Any], length: int) -> List[Any]:
@@ -400,7 +400,7 @@ class MetricsAcrossRuns(BaseModel):
         else:
             assert (
                 k <= len(self.status) and len(self.status) % k == 0
-            ), "k must be a factor of the number of runs"
+            ), f"k must be a factor of the number of runs, k={k}, len(status)={len(self.status)}"
             matched_specs = self.__sample_until_length(items, len(self.status))
             lists = [matched_specs[i : i + k] for i in range(0, len(matched_specs), k)]
         return [len(set.union(*[set(m) for m in l])) / denominator for l in lists]

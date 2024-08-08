@@ -109,7 +109,6 @@ def run_eval(
     "--multirun_load_path",
     type=click.Path(exists=True, file_okay=True, dir_okay=False),
     default=None,
-    # default="./example/multirun_analyses.json",
     help="[EITHER multirun_load_path or submission_load_path is REQUIRED] Path to load the multirun analyses.",
 )
 @click.option(
@@ -159,6 +158,16 @@ def run_eval_click(
     diversity_ks: str,
     diversity_n_samples: int,
 ):
+    """
+    Runs evaluation and saves the results to the output_dir directory.
+    Running this saves the following key files:
+
+    \b
+    - command.sh: A bash script that contains the command used to run this script
+    - eval_results.json of the EvalResults class
+    - eval_metrics.json of the MetricsAcrossRuns class containing the metrics
+    - llm_history.json of the LLM history class containing the prompt history
+    """
     assert (
         multirun_load_path or submission_load_path
     ), "Either multirun_load_path or submission_load_path is required."
