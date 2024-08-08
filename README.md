@@ -1,10 +1,9 @@
 
-<div style="display: flex; align-items: center; justify-content: center;">
-    <img src="assets/logo.png" width="40" alt="logo" style="margin-right: 10px;" />
-    <h1 style="margin: 0;">BLADE</h1>
-</div>
-
+<h1 align="center">
+<img src="assets/logo.png" width="100" alt="logo" />
 <br>
+BLADE: Benchmarking Language Model Agents for Data-Driven Science
+</h1>
 
 Dataset and code for ["BLADE: Benchmarking Language Model Agents for Data-Driven Science"]()
 
