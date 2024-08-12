@@ -7,6 +7,8 @@ BLADE: Benchmarking Language Model Agents for Data-Driven Science
 
 Dataset and code for ["BLADE: Benchmarking Language Model Agents for Data-Driven Science"]()
 
+We are working on a hold-out test set. Details soon!
+
 ## 📝 Introduction
 BLADE is a comprehensive benchmark designed to evaluate Language Model (LM) Agents on writing justifiable analyses on real-world scientific research questions from data (e.g., *Are soccer players with a dark skin tone more likely than those with a light skin tone to receive red cards from referees?* from [Silberzahn et al.](https://journals.sagepub.com/doi/10.1177/2515245917747646)). In particular, BLADE evaluates Agents' ability to iteratively integrate scientific domain knowledge, statistical expertise, and data understanding to make nuanced analytical decisions
 
