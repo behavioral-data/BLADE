@@ -51,7 +51,7 @@ def replace_spaces_with_underscore(text: str, max_words=10):
 
 class BaseSpec(BaseModel):
     spec_id: str = Field(default=None, exclude=True)
-    time_stamp: Optional[str] = Field(default=None)
+    time_stamp: Optional[str] = Field(default=None, exclude=True)
 
     def __init__(self, **data):
         if "spec_id" not in data or data["spec_id"] is None:

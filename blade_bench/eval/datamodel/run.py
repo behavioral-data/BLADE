@@ -26,7 +26,7 @@ class RunResultModes(Enum):
 
 
 class SingleRunMetrics(BaseModel):
-    status: RunResultModes
+    dataset_name: str = None
     matched_model: List[str] = Field(default_factory=list)
     matched_model_cvar: List[str] = Field(default_factory=list)
     matched_vspec: List[str] = Field(default_factory=list)
@@ -35,10 +35,12 @@ class SingleRunMetrics(BaseModel):
     matched_gspec2: List[str] = Field(default_factory=list)
     matched_cvar: List[str] = Field(default_factory=list)
     matched_cvar2: List[str] = Field(default_factory=list)
-    num_tspecs2: int
-    num_cvars2: int
-    analysis: Optional[EntireAnalysis] = None
-    converted_code: Optional[str] = None
+    num_tspecs2: int = 0
+    num_cvars2: int = 0
+    num_tspecs1: int = 0
+    num_mspecs1: int = 0
+    num_mspecs1_unique: int = 0
+    num_cvars1: int = 0
 
     @computed_field
     @property
@@ -74,6 +76,31 @@ class SingleRunMetrics(BaseModel):
     @property
     def num_match_cvar(self) -> int:
         return len(self.matched_cvar)
+
+    @computed_field
+    @property
+    def hit_rate_models(self) -> float:
+        return len(self.matched_model) / 1
+
+    @computed_field
+    @property
+    def hit_rate_models_cvar(self) -> float:
+        return len(self.matched_model_cvar) / 1
+
+    @computed_field
+    @property
+    def hit_rate_vspecs(self) -> float:
+        return len(self.matched_vspec2) / max(self.num_tspecs2, 1)
+
+    @computed_field
+    @property
+    def hit_rate_gspecs(self) -> float:
+        return len(self.matched_gspec2) / max(self.num_tspecs2, 1)
+
+    @computed_field
+    @property
+    def hit_rate_cvars(self) -> float:
+        return len(self.matched_cvar2) / max(self.num_cvars2, 1)
 
 
 class MetricsAcrossRuns(BaseModel):
@@ -127,7 +154,7 @@ class MetricsAcrossRuns(BaseModel):
     def avg_num_tspecs2(self) -> float:
         arr = [x for x in self.num_tspecs2 if x > 0]
         if len(arr) == 0:
-            return -1
+            return np.nan
         return sum(arr) / len(arr)
 
     @computed_field
@@ -135,7 +162,7 @@ class MetricsAcrossRuns(BaseModel):
     def avg_num_cvars2(self) -> float:
         arr = [x for x in self.num_cvars2 if x > 0]
         if len(arr) == 0:
-            return -1
+            return np.nan
         return sum(arr) / len(arr)
 
     @computed_field
@@ -213,9 +240,45 @@ class MetricsAcrossRuns(BaseModel):
     def num_match_cvar2(self) -> List[int]:
         return [len(m) for m in self.matched_cvars2]
 
+    @computed_field
+    @property
+    def y_pred_cvars(self) -> List[int]:
+        a = [
+            [1] * len(m) + [0] * (self.num_cvars2[i] - len(m))
+            for i, m in enumerate(self.matched_cvars)
+        ]
+        return [item for sublist in a for item in sublist]
+
+    @computed_field
+    @property
+    def y_pred_models(self) -> List[int]:
+        return [len(m) for i, m in enumerate(self.matched_models)]
+
+    @computed_field
+    @property
+    def y_pred_models_cvar(self) -> List[int]:
+        return [len(m) for i, m in enumerate(self.matched_models_cvar)]
+
+    @computed_field
+    @property
+    def y_pred_vspecs(self) -> List[int]:
+        a = [
+            [1] * len(m) + [0] * (self.num_tspecs2[i] - len(m))
+            for i, m in enumerate(self.matched_vspecs)
+        ]
+        return [item for sublist in a for item in sublist]
+
+    @computed_field
+    @property
+    def y_pred_gspecs(self) -> List[int]:
+        a = [
+            [1] * len(m) + [0] * (self.num_tspecs2[i] - len(m))
+            for i, m in enumerate(self.matched_gspecs)
+        ]
+        return [item for sublist in a for item in sublist]
+
     def __getitem__(self, n: int):
         return SingleRunMetrics(
-            status=self.status[n],
             matched_model=self.matched_models[n],
             matched_model_cvar=self.matched_models_cvar[n],
             matched_vspec=self.matched_vspecs[n],
@@ -226,12 +289,27 @@ class MetricsAcrossRuns(BaseModel):
             matched_cvar2=self.matched_cvars2[n],
             num_tspecs2=self.num_tspecs2[n],
             num_cvars2=self.num_cvars2[n],
-            analysis=self.analyses[n] if self.analyses else None,
-            converted_code=self.converted_code[n] if self.converted_code else None,
+            num_tspecs1=self.num_tspecs1,
+            num_mspecs1=self.num_mspecs1,
+            num_mspecs1_unique=self.num_mspecs1_unique,
+            num_cvars1=self.num_cvars1,
         )
 
     def __len__(self):
-        return len(self.status)
+        return len(self.num_cvars2)
+
+    def get_single_run_metrics(self) -> List[SingleRunMetrics]:
+        ret = [self[i] for i in range(len(self))]
+        empty = [
+            SingleRunMetrics(
+                num_tspecs1=self.num_tspecs1,
+                num_cvars1=self.num_cvars1,
+                num_mspecs1=self.num_mspecs1,
+                num_mspecs1_unique=self.num_mspecs1_unique,
+            )
+            for _ in range(self.count_generation_failed)
+        ]
+        return ret + empty
 
     def get_nth_analysis(self, n: int):
         # TODO
@@ -407,12 +485,12 @@ class MetricsAcrossRuns(BaseModel):
 
     def average_coverage_models_k(self, k: int, **kwargs) -> List[float]:
         return self.__calcualte_coverage(
-            self.matched_models, k, self.num_mspecs1_unique, **kwargs
+            self.matched_models, k, min(self.num_mspecs1_unique, k), **kwargs
         )
 
     def average_coverage_cvar_models_k(self, k: int, **kwargs) -> List[float]:
         return self.__calcualte_coverage(
-            self.matched_models_cvar, k, self.num_mspecs1, **kwargs
+            self.matched_models_cvar, k, min(self.num_mspecs1, k), **kwargs
         )
 
     def average_coverage_vspecs_k(self, k: int, **kwargs) -> List[float]:
