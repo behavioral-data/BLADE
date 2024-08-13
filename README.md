@@ -7,6 +7,8 @@ BLADE: Benchmarking Language Model Agents for Data-Driven Science
 
 Dataset and code for ["BLADE: Benchmarking Language Model Agents for Data-Driven Science"]()
 
+We are working on a hold-out test set. Details soon!
+
 ## 📝 Introduction
 BLADE is a comprehensive benchmark designed to evaluate Language Model (LM) Agents on writing justifiable analyses on real-world scientific research questions from data (e.g., *Are soccer players with a dark skin tone more likely than those with a light skin tone to receive red cards from referees?* from [Silberzahn et al.](https://journals.sagepub.com/doi/10.1177/2515245917747646)). In particular, BLADE evaluates Agents' ability to iteratively integrate scientific domain knowledge, statistical expertise, and data understanding to make nuanced analytical decisions
 
@@ -102,7 +104,7 @@ Options:
 ```
 This will write the results to the folder specified by `output_dir`. After running the script, in the output folder, there will be a `multirun_analyses.json` file which is used for evaluation.
 
-An example is provided in[example/multirun_analyses.json](example/multirun_analyses.json).
+An example is provided in [example/multirun_analyses.json](example/multirun_analyses.json).
 
 ### 4. Evaluating Agent Generated Analyses
 We provide a starter script to evaluate the outputs of `run_gen_analyses.py`. Run `run_get_eval.py` as follows:
