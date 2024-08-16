@@ -12,6 +12,7 @@ outputs/**
 conf
 .cache
 **annotations1.csv**
+**annotations2.csv**
 run_download_data.py
 blade_bench/construct/** 
 gspread**
