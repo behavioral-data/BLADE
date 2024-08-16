@@ -1,6 +1,6 @@
 from typing import Dict, List, Literal, Optional, Set
 import networkx as nx
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from blade_bench.data.annotation import AnnotationDBData
 from blade_bench.data.datamodel.graph import SerialGraphCodeRunInfo
@@ -27,6 +27,7 @@ class ColCvarTransform(BaseModel):
 
 
 class ModelAssociatedCol(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
     model_grp_ind: int
     model_spec: ModelSpec
     dv: List[ColCvarTransform]
@@ -159,6 +160,19 @@ class MCQDatasetSimple(BaseModel):
     def num_transforms(self):
         return sum([len(v) for v in self.mcqs_transform.values()])
 
+    @property
+    def num_mcqs(self):
+        return self.num_cvars + self.num_transforms
+    
+    @property
+    def expected_correct(self):
+        count = 0
+        for mcq in self.mcqs_cvar:
+            count += 1 / len(mcq.options)
+        for k, mcqs in self.mcqs_transform.items():
+            for mcq in mcqs:
+                count += 1 / len(mcq.options)
+        return count
 
 class MultipleChoiceAnswer(BaseModel):
     answer: str  # Literal?

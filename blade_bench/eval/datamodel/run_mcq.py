@@ -9,6 +9,14 @@ class MCQMetrics(BaseModel):
     num_total_cvars: int
 
     @computed_field
+    def num_correct(self) -> int:
+        return self.num_correct_transforms + self.num_correct_cvars
+    
+    @computed_field
+    def num_total(self) -> int:
+        return self.num_total_transforms + self.num_total_cvars
+    
+    @computed_field
     @property
     def transform_accuracy(self) -> float:
         return self.num_correct_transforms / max(self.num_total_transforms, 1)
@@ -29,6 +37,16 @@ class MCQMetrics(BaseModel):
 class MCQMetricsAcrossDatasets(BaseModel):
     dataset_metrics: Dict[str, MCQMetrics]
 
+    @computed_field
+    @property
+    def num_correct(self) -> int:
+        return sum([v.num_correct for v in self.dataset_metrics.values()])
+    
+    @computed_field
+    @property
+    def num_total(self) -> int:
+        return sum([v.num_total for v in self.dataset_metrics.values()])
+    
     @computed_field
     @property
     def num_datasets(self) -> int:

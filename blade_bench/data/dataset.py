@@ -4,10 +4,12 @@ import os.path as osp
 from typing import Any, Dict, List, Optional
 import pandas as pd
 from pydantic import BaseModel, ConfigDict
+from blade_bench.data.annotation import get_annotation_data_from_df
 from blade_bench.utils import (
     get_dataset_info_path,
     get_datasets_dir,
     get_dataset_csv_path,
+    get_dataset_annotations_path,
 )
 
 
@@ -79,3 +81,30 @@ def load_dataset_info(dataset: str, load_df=False):
         df = pd.read_csv(df_path)
         dinfo.df = df
     return dinfo
+
+
+def gen_datasets_jsonl():
+    ret = []
+    for dataset in list_datasets():
+        dinfo = load_dataset_info(dataset)
+        annotation_path = get_dataset_annotations_path(dataset)
+        df = pd.read_csv(annotation_path)
+        adata = get_annotation_data_from_df(df)
+
+        ret.append(
+            {
+                "dataset": dataset,
+                "research_question": dinfo.research_questions[0],
+                "dinfo": dinfo.model_dump_json(),
+                "model_specs": json.dumps(
+                    {k: v.model_dump_json() for k, v in adata.m_specs.items()}
+                ),
+                "transform_specs": json.dumps(
+                    {k: v.model_dump_json() for k, v in adata.transform_specs.items()}
+                ),
+                "cv_specs": json.dumps(
+                    {k: v.model_dump_json() for k, v in adata.cv_specs.items()}
+                ),
+            }
+        )
+    return ret

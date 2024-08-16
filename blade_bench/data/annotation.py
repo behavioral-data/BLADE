@@ -17,7 +17,9 @@ from blade_bench.data.datamodel import (
     ModelSpec,
     TransformSpec,
 )
+from blade_bench.data.datamodel.graph import SerialGraphCodeRunInfo
 from blade_bench.data.datamodel.specs import BaseSpec, Branch
+from blade_bench.data.process.transforms.graph_paths import GraphPaths
 from blade_bench.parse_code import process_groupby_code
 from .datamodel.transforms import TransformDatasetState
 from .process import AnnotationDataTransforms
@@ -36,7 +38,7 @@ class AnnotationDBData(BaseModel):
     transform_specs: Dict[str, TransformSpec]
     cv_specs: Dict[str, ConceptualVarSpec]
     m_specs: Dict[str, ModelSpec]
-    nx_g: nx.DiGraph = None
+    nx_g: nx.DiGraph = Field(default=None, exclude=True)
     df: Optional[pd.DataFrame] = None  # analysis dataset_df
     annotator: Optional[str] = None
     _state_data: Optional[TransformDatasetState] = None
@@ -44,6 +46,60 @@ class AnnotationDBData(BaseModel):
     def model_post_init(self, __context: Any) -> None:
         if self.nx_g is None:
             self.nx_g = self.build_graph_from_specs()
+
+    @property
+    def num_unique_code_paths(self):
+        def min_path_cover_dag(dag: nx.DiGraph) -> int:
+            n = len(dag.nodes)
+
+            # Create a bipartite graph
+            bipartite_graph = nx.DiGraph()
+
+            for u in dag.nodes:
+                bipartite_graph.add_node(f"{u}_1")
+                bipartite_graph.add_node(f"{u}_2")
+
+            for u, v in dag.edges:
+                bipartite_graph.add_edge(f"{u}_1", f"{v}_2")
+
+            # Find maximum matching
+            max_matching = nx.bipartite.maximum_matching(
+                bipartite_graph, top_nodes=[f"{u}_1" for u in dag.nodes]
+            )
+
+            # Calculate minimum path cover
+            min_path_cover = n - len(max_matching) // 2
+            return min_path_cover
+
+        leaf_specs = [
+            self.transform_specs[node]
+            for node in self.nx_g.nodes
+            if self.nx_g.out_degree(node) == 0
+            and node in self.transform_specs
+            and node != ROOT_SPEC_ID
+        ]
+
+        gp = GraphPaths(self.transform_specs)
+        serial_graphs_run_info: List[SerialGraphCodeRunInfo] = []
+        for leaf_spec in leaf_specs:
+            serial_graphs_run_info.extend(
+                gp.get_graphs_from_current_spec(
+                    leaf_spec, remove_leaf_node=False, ret_partial=True
+                )
+            )
+        return len(serial_graphs_run_info), min_path_cover_dag(self.nx_g)
+
+    @computed_field
+    @property
+    def num_model_specs(self) -> int:
+        return len(self.m_specs)
+
+    def max_cols_for_cvar(self, k=10) -> List[str]:
+        ret = []
+        for cvar in self.cv_specs.values():
+            if (len(cvar.final_columns_orig) + len(cvar.final_columns_derived)) > k:
+                ret.append(str(cvar))
+        return ret
 
     @computed_field
     @property

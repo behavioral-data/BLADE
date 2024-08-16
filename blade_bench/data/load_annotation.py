@@ -1,17 +1,23 @@
 import asyncio
+import json
 import os.path as osp
 
 import pandas as pd
 from blade_bench.data.annotation import AnnotationDBData, get_annotation_data_from_df
+from blade_bench.data.datamodel.mcq import MCQDatasetSimple
 from blade_bench.utils import (
     get_dataset_dir,
     get_dataset_annotations_path,
     get_dataset_csv_path,
+    get_dataset_mcq_path,
 )
 import nest_asyncio
 
 GROUND_TRUTH_FNAME = "annotations.pkl"
 
+def load_mcq_dataset(dataset_name: str) -> MCQDatasetSimple:
+    mcq_path = get_dataset_mcq_path(dataset_name)
+    return MCQDatasetSimple(**json.load(open(mcq_path)))
 
 def load_ground_truth(
     dataset_name: str, execute_output_dir: str = ".", load_from_pkl: bool = True
@@ -39,5 +45,6 @@ def load_ground_truth(
 
 
 if __name__ == "__main__":
-    adata = load_ground_truth("hurricane", ".", load_from_pkl=False)
+    adata = load_ground_truth("panda_nuts", ".", load_from_pkl=False)
     print("here")
+    
