@@ -10,7 +10,7 @@ from blade_bench.llms.datamodel import TextGenResponse
 
 from blade_bench.llms.datamodel.gen_config import TogetherGenConfig
 from blade_bench.llms.datamodel.usage import UsageData
-from blade_bench.llms.utils import num_tokens_from_messages
+from blade_bench.llms.utils import backoff_hdlr, num_tokens_from_messages
 
 from .datamodel import Message
 
@@ -29,7 +29,11 @@ class TogetherTextGenerator(TextGenerator):
             )
         self.client = Together(api_key=self.api_key)
 
-    @backoff.on_exception(backoff.expo, (RateLimitError))
+    @backoff.on_exception(
+        backoff.expo,
+        (RateLimitError),
+        on_backoff=backoff_hdlr,
+    )
     def generate_core(self, messages: List[dict] | str, **kwargs) -> TextGenResponse:
         prompt_tokens = num_tokens_from_messages(messages)
         max_tokens = max(

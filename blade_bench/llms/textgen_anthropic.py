@@ -3,6 +3,8 @@ from typing import List
 import backoff
 import anthropic
 
+from blade_bench.llms.utils import backoff_hdlr
+
 from .datamodel import AnthropicGenConfig, TextGenResponse, Message, UsageData
 from .base import TextGenerator
 
@@ -26,7 +28,9 @@ class AnthropicTextGenerator(TextGenerator):
         self.max_tokens = config.max_tokens if config.max_tokens else 4096
 
     @backoff.on_exception(
-        backoff.expo, (anthropic.RateLimitError, anthropic.APITimeoutError)
+        backoff.expo,
+        (anthropic.RateLimitError, anthropic.APITimeoutError),
+        on_backoff=backoff_hdlr,
     )
     def generate_core(self, messages: List[dict], **kwargs) -> TextGenResponse:
 

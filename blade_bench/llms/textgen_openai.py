@@ -5,7 +5,7 @@ import openai
 from openai import AzureOpenAI, OpenAI
 
 
-from .utils import num_tokens_from_messages
+from .utils import backoff_hdlr, num_tokens_from_messages
 from .datamodel import OpenAIGenConfig, TextGenResponse, Message, UsageData
 from .base import TextGenerator
 
@@ -36,7 +36,11 @@ class OpenAITextGenerator(TextGenerator):
                 azure_deployment=self.config.deployment,
             )
 
-    @backoff.on_exception(backoff.expo, (openai.RateLimitError, openai.APITimeoutError))
+    @backoff.on_exception(
+        backoff.expo,
+        (openai.RateLimitError, openai.APITimeoutError),
+        on_backoff=backoff_hdlr,
+    )
     def generate_core(
         self, messages: Union[List[dict], str], **kwargs
     ) -> TextGenResponse:

@@ -8,6 +8,7 @@ from blade_bench.llms.base import TextGenerator
 from blade_bench.llms.datamodel import TextGenResponse
 from blade_bench.llms.datamodel.gen_config import GroqGenConfig
 from blade_bench.llms.datamodel.usage import UsageData
+from blade_bench.llms.utils import backoff_hdlr
 
 from .datamodel import Message
 
@@ -28,7 +29,11 @@ class GroqTextGenerator(TextGenerator):
             api_key=self.api_key,
         )
 
-    @backoff.on_exception(backoff.expo, (groq.RateLimitError))
+    @backoff.on_exception(
+        backoff.expo,
+        (groq.RateLimitError),
+        on_backoff=backoff_hdlr,
+    )
     def generate_core(self, messages: List[dict] | str, **kwargs) -> TextGenResponse:
         chat_completion = self.client.chat.completions.create(
             messages=messages,

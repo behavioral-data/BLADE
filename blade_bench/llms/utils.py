@@ -10,7 +10,19 @@ import platform
 import tiktoken
 from .datamodel import Message
 
-logger = logging.getLogger(__name__)
+from blade_bench.logger import logger
+
+
+def backoff_hdlr(details):
+    logger.warning(
+        str(type(details["exception"]))
+        + "\n"
+        + str(details["exception"])
+        + "\n\n"
+        + "Backing off {wait:0.1f} seconds after {tries} tries calling function {target}".format(
+            **details
+        )
+    )
 
 
 def num_tokens_from_messages(
