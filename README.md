@@ -5,7 +5,7 @@
 BLADE: Benchmarking Language Model Agents for Data-Driven Science
 </h1>
 
-Dataset and code for ["BLADE: Benchmarking Language Model Agents for Data-Driven Science"]()
+Dataset and code for ["BLADE: Benchmarking Language Model Agents for Data-Driven Science"](https://arxiv.org/abs/2408.09667)
 
 We are working on a hold-out test set. Details soon!
 
@@ -170,14 +170,16 @@ To evalute your own agent analysis for a dataset in BLADE, the LM agent must gen
 python run_get_eval.py --submission_load_path ./example/submission_analyses.json
 ```
 
-## Contributing
-
-TODO
-
 ## Citation
 
 If you use our dataset or models in your research, please cite us as follows:
 
 ```bibtex
-
+@article{gu2024bladebenchmarkinglanguagemodel,
+      title={BLADE: Benchmarking Language Model Agents for Data-Driven Science}, 
+      author={Ken Gu and Ruoxi Shang and Ruien Jiang and Keying Kuang and Richard-John Lin and Donghe Lyu and Yue Mao and Youran Pan and Teng Wu and Jiaqian Yu and Yikun Zhang and Tianmai M. Zhang and Lanyi Zhu and Mike A. Merrill and Jeffrey Heer and Tim Althoff},
+      year={2024},
+      journal = {arXiv},
+      url={https://arxiv.org/abs/2408.09667}, 
+}
 ```
