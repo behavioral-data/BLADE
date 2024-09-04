@@ -60,6 +60,7 @@ class Evaluator:
             llm_history=self.llm_history,
             use_code_cache=use_code_cache,
             output_dir=output_dir,
+            timeout=10,
         )
         self.matcher: SubmissionMatch = SubmissionMatch(
             submission.dataset_name,

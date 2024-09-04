@@ -44,6 +44,7 @@ class AnnotationDataTransforms:
         run_nb: bool = True,
         save_path: str = ".",
         data_columns: List[str] = None,
+        timeout: int = 10,
     ):
         if dataset_path is not None:
             df = pd.read_csv(dataset_path)
@@ -53,6 +54,7 @@ class AnnotationDataTransforms:
         else:
             raise ValueError("Either dataset_path or data_columns must be provided")
 
+        self.timeout = timeout
         self.id_to_spec = id_to_spec
         self.nx_g = nx_g if nx_g is not None else self.build_graph_from_specs()
         if run_nb:
@@ -357,7 +359,7 @@ class AnnotationDataTransforms:
         Add graph hashes to the graph_hash_and_graphs dict
         """
 
-        @timeout(seconds=3, default=False)
+        @timeout(seconds=self.timeout, default=False)
         def is_isomorphic(g, subgraph):
             return nx.is_isomorphic(
                 g,

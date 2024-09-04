@@ -56,6 +56,7 @@ class Convert:
         text_gen: TextGenerator = None,
         use_code_cache: bool = True,
         output_dir: str = ".",
+        timeout: int = 10,
     ):
         self.data_path = get_dataset_csv_path(run_dataset)
         self.run_dataset = run_dataset
@@ -66,7 +67,10 @@ class Convert:
         self.dinfo: DatasetInfo = load_dataset_info(run_dataset)
         self.__init_llms(llm_config, llm_history, text_gen)
         self.annotation = AnnotationDataTransforms(
-            dataset_path=self.data_path, save_path=output_dir, run_nb=False
+            dataset_path=self.data_path,
+            save_path=output_dir,
+            run_nb=False,
+            timeout=timeout,
         )
         self.transform_executor = TransformObjExecutor(
             data_path=self.data_path,

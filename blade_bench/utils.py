@@ -1,7 +1,8 @@
 import os
 import signal
 import functools
-from .logger import logger
+
+from blade_bench.logger import logger
 
 
 def get_root_dir():
@@ -50,7 +51,7 @@ def get_absolute_dir(directory_path):
     return directory_path
 
 
-def timeout(seconds=5, default=None):
+def timeout(seconds=10, default=None):
 
     def decorator(func):
 
@@ -58,6 +59,7 @@ def timeout(seconds=5, default=None):
         def wrapper(*args, **kwargs):
 
             def handle_timeout(signum, frame):
+                logger.debug(f"Timeout triggered for {func.__name__}")
                 raise TimeoutError()
 
             signal.signal(signal.SIGALRM, handle_timeout)
@@ -65,10 +67,11 @@ def timeout(seconds=5, default=None):
 
             try:
                 result = func(*args, **kwargs)
-            except TimeoutError:
+            except TimeoutError as e:
+                logger.debug(f"Timeout occured: {str(e)}")
                 result = default
             finally:
-                logger.debug(f"Timeout for {func.__name__}, args={args}")
+                # logger.debug(f"Clearing alarm for {func.__name__}")
                 signal.alarm(0)
 
             return result
@@ -76,3 +79,19 @@ def timeout(seconds=5, default=None):
         return wrapper
 
     return decorator
+
+
+if __name__ == "__main__":
+    import time
+
+    @timeout(seconds=10, default="Timed Out!")
+    def long_running_function():
+        time.sleep(12)  # Simulate long-running task
+        return "Completed"
+
+    result = long_running_function()
+    r2 = long_running_function()
+    r3 = long_running_function()
+    r4 = long_running_function()
+
+    print(result)

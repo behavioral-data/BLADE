@@ -183,7 +183,7 @@ class AnnotationDBData(BaseModel):
         return nx_g
 
     async def get_state_data(
-        self, data_path: str, save_path: str = "."
+        self, data_path: str, save_path: str = ".", timeout: int = 10
     ) -> TransformDatasetState:
         # TODO need to test this method
         if self._state_data is None:
@@ -194,6 +194,7 @@ class AnnotationDBData(BaseModel):
                 id_to_spec=self.transform_specs,
                 nx_g=nx_g,
                 save_path=save_path,
+                timeout=timeout,
             )
             state_data: TransformDatasetState = await annotate.build_state_data(
                 save_ts=True
