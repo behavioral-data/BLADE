@@ -1,9 +1,10 @@
 [tool.poetry]
-name = "BLADE"
-version = "0.1.0"
-description = ""
+name = "blade-bench"
+version = "0.1.1"
+description = "Dataset and code for 'BLADE: Benchmarking Language Model Agents for Data-Driven Science'(https://arxiv.org/abs/2408.09667)"
 authors = ["Ken Gu <kenqgu@cs.washington.edu>"]
 readme = "README.md"
+repository = "https://github.com/behavioral-data/BLADE"
 packages = [
     { include = "blade_bench" },
 ]
