@@ -6,6 +6,7 @@ BLADE: Benchmarking Language Model Agents for Data-Driven Science
 
 ![PyPI - Version](https://img.shields.io/pypi/v/blade-bench)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/blade-bench)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fblade-bench.github.io%2F&up_message=online&style=flat)
 
 Dataset and code for ["BLADE: Benchmarking Language Model Agents for Data-Driven Science"](https://arxiv.org/abs/2408.09667)
 
