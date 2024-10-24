@@ -6,7 +6,8 @@ BLADE: Benchmarking Language Model Agents for Data-Driven Science
 
 ![PyPI - Version](https://img.shields.io/pypi/v/blade-bench)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/blade-bench)
-![Website](https://img.shields.io/website?url=https%3A%2F%2Fblade-bench.github.io%2F&up_message=online&style=flat)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fblade-bench.github.io%2F&up_message=online&style=flat)](https://blade-bench.github.io/) [![License](https://img.shields.io/badge/Code%20License-Apache%202.0-red.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Data License](https://img.shields.io/badge/Data%20License-ODC%20Attribution%20%28ODC--By%29-lightblue.svg)](https://opendatacommons.org/licenses/by/)
 
 Dataset and code for ["BLADE: Benchmarking Language Model Agents for Data-Driven Science"](https://arxiv.org/abs/2408.09667)
 
@@ -208,3 +209,17 @@ If you use our dataset or models in your research, please cite us as follows:
       url={https://arxiv.org/abs/2408.09667},
 }
 ```
+
+## License
+
+### Code License
+
+The code in this repository is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). You are free to use, distribute, and modify the code under the terms of the Apache License.
+
+Please see the code[LICENSE](./LICENSE) file for more details.
+
+### Data License
+
+The data in this repository is licensed under the [Open Data Commons Attribution License (ODC-By) v1.0](https://opendatacommons.org/licenses/by/1-0/). You are free to share, modify, and use the data, provided that you give appropriate attribution.
+
+Please see the data [LICENSE](./blade_bench/datasets/LICENSE) file for more details.

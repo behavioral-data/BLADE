@@ -18,3 +18,4 @@ blade_bench/construct/**
 gspread**
 *.sh
 *xlsx
+dist
